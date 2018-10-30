@@ -1,0 +1,50 @@
+baseURL = ""
+
+canonifyurls = true
+DefaultContentLanguage = "current"
+languageCode = "en-us"
+relativeURLs = true
+
+title = "pgAudit Analyze - PostgreSQL pgAudit Analyzer"
+theme = "crunchy"
+#themesdir = "themes/"
+pygmentsCodeFences = true
+pygmentsStyle = "monokailight"
+publishDir = ""
+
+defaultContentLanguage = "current"
+defaultContentLanguageInSubdir= true
+enableMissingTranslationPlaceholders = true
+
+[Languages]
+[Languages.current]
+title = "pgAudit Analyze - PostgreSQL pgAudit Analyzer"
+weight = 1
+languageName = "current"
+
+[params]
+showVisitedLinks = false # default is false
+themeStyle = "flex" # "original" or "flex" # default "flex"
+themeVariant = "" # choose theme variant "green", "gold" , "gray", "blue" (default)
+ordersectionsby = "weight" # ordersectionsby = "title"
+disableHomeIcon = false # default is false
+disableSearch = false # default is false
+disableNavChevron = false # set true to hide next/prev chevron, default is false
+highlightClientSide = false # set true to use highlight.pack.js instead of the default hugo chroma highlighter
+menushortcutsnewtab = false # set true to open shortcuts links to a new tab/window
+enableGitInfo = true
+
+[outputs]
+home = [ "HTML", "RSS", "JSON"]
+
+[[menu.shortcuts]]
+pre = "<h3>More</h3>"
+name = "<i class='fa fa-github'></i> <label>Github repo</label>"
+identifier = "ds"
+url = "https://github.com/pgaudit/pgaudit_analyze"
+weight = 10
+
+[[menu.shortcuts]]
+name = "<i class='fa fa-file'></i> <label>License</label>"
+url = "https://github.com/pgaudit/pgaudit_analyze/blob/master/LICENSE"
+weight = 22
