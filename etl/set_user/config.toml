@@ -6,7 +6,7 @@ languageCode = "en-us"
 relativeURLs = true
 
 title = "pgAudit - PostgreSQL set_user Extension Module"
-theme = "crunchy"
+theme = "crunchy-hugo-theme"
 #themesdir = "themes/"
 pygmentsCodeFences = true
 pygmentsStyle = "monokailight"

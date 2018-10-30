@@ -6,7 +6,7 @@ languageCode = "en-us"
 relativeURLs = true
 
 title = "pgBackRest - Reliable PostgreSQL Backup & Restore"
-theme = "crunchy"
+theme = "crunchy-hugo-theme"
 #themesdir = "themes/"
 pygmentsCodeFences = true
 pygmentsStyle = "monokailight"

@@ -6,7 +6,7 @@ languageCode = "en-us"
 relativeURLs = true
 
 title = "PostGIS - Spatial and Geographic Objects for PostgreSQL"
-theme = "crunchy"
+theme = "crunchy-hugo-theme"
 #themesdir = "themes/"
 pygmentsCodeFences = true
 pygmentsStyle = "monokailight"
