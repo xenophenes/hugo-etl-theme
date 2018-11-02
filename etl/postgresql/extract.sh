@@ -13,12 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source ${ETL_PATH?}/etl/common/common.sh
-source var.sh
+set -e
+source ${ETL_PATH}/etl/common/common.sh
+source postgresql_var.sh
 
-mkdir -p ${BUILD_ROOT?} ${BUILD?} ${TMP?}
-tar -xzf ${SRC?}/${REPO?}/postgreSQL_${POSTGRES_VERSION?}.tar.gz -C ${TMP?}
+mkdir -p ${BUILD_ROOT} ${BUILD} ${TMP}
+tar -xzf ${SRC}/${REPO}/postgreSQL_${POSTGRES_VERSION}.tar.gz -C ${TMP}
 
 # HTML versions of the documentation need to be built
-(cd ${TMP?} && ./configure && make html)
-cp -r ${TMP?}/doc/src/sgml/html/* ${BUILD?}/
+(cd ${TMP} && ./configure && make html)
+cp -r ${TMP}/doc/src/sgml/html/* ${BUILD}/

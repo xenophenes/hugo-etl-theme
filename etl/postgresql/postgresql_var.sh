@@ -13,9 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-REPO="backrest"
-DIR="${ETL?}/${REPO?}"
-DST="${DIR?}/dst"
-CONTENT="${DST?}/content"
-BUILD_ROOT="${DIR?}/build"
-BUILD="${BUILD_ROOT?}/${REPO?}_${BACKREST_VERSION?}/doc/output/html"
+set -e
+source ${ETL_PATH}/etl/common/common.sh
+source postgresql_var.sh
+
+echo_begin ${REPO}
+
+source ${DIR}/extract.sh
+source ${DIR}/transform.sh
+source ${DIR}/load.sh
+
+echo_end ${REPO}

@@ -13,14 +13,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source ${ETL_PATH?}/etl/common/common.sh
-source var.sh
+set -e
+source ${ETL_PATH}/etl/common/common.sh
+source pgaudit_var.sh
 
 # Template doesn't exist, copy it
-cp -r ${TEMPLATE?} ${DST?}
+cp -r ${TEMPLATE} ${DST}
 
 # Config file needs to be specific, copy it
-yes | cp -f ${DIR?}/config.toml ${DST?}
+yes | cp -f ${DIR}/config.toml ${DST}
 
 # Move files to destination directory
-cp ${BUILD?}/README.md ${CONTENT?}/_index.md
+cp ${BUILD}/README.md ${CONTENT}/_index.md
+
+# Get the name of the page
+TITLE=$(head -n 1 ${CONTENT}/_index.md)
+
+# Substitute beginning of side pages
+sed -i "1s;^;---\ntitle: 'pgAudit - Open Source PostgreSQL Audit Logging'\ndraft: false\ntoc: true\n\n---\n\n;" ${CONTENT}/_index.md

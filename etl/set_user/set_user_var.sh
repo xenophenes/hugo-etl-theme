@@ -14,8 +14,8 @@
 # limitations under the License.
 
 REPO="set_user"
-DIR="${ETL?}/${REPO?}"
-DST="${DIR?}/dst"
-CONTENT="${DST?}/content"
-BUILD_ROOT="${DIR?}/build"
-BUILD="${BUILD_ROOT?}/${REPO?}_${SET_USER_VERSION?}"
+DIR="${ETL}/${REPO}"
+DST="${DIR}/dst"
+CONTENT="${DST}/content"
+BUILD_ROOT="${DIR}/build"
+BUILD="${BUILD_ROOT}/${REPO}_${SET_USER_VERSION}"

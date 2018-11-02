@@ -14,9 +14,9 @@
 # limitations under the License.
 
 REPO="postgresql"
-DIR="${ETL?}/${REPO?}"
-DST="${DIR?}/dst"
-CONTENT="${DST?}/content"
-BUILD_ROOT="${DIR?}/build"
-BUILD="${BUILD_ROOT?}/${REPO?}_${POSTGRES_VERSION?}"
-TMP="/tmp/${REPO?}_${POSTGRES_VERSION?}"
+DIR="${ETL}/${REPO}"
+DST="${DIR}/dst"
+CONTENT="${DST}/content"
+BUILD_ROOT="${DIR}/build"
+BUILD="${BUILD_ROOT}/${REPO}_${POSTGRES_VERSION}"
+TMP="/tmp/${REPO}_${POSTGRES_VERSION}"

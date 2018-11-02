@@ -13,14 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source ${ETL_PATH?}/etl/common/common.sh
-source var.sh
+set -e
+source ${ETL_PATH}/etl/common/common.sh
+source set_user_var.sh
 
 # Template doesn't exist, copy it
-cp -r ${TEMPLATE?} ${DST?}
+cp -r ${TEMPLATE} ${DST}
 
 # Config file needs to be specific, copy it
-yes | cp -f ${DIR?}/config.toml ${DST?}
+yes | cp -f ${DIR}/config.toml ${DST}
 
 # Move files to destination directory
-cp ${BUILD?}/README.md ${CONTENT?}/_index.md
+cp ${BUILD}/README.md ${CONTENT}/_index.md

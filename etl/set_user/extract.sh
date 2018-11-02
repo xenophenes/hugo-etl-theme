@@ -13,8 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source ${ETL_PATH?}/etl/common/common.sh
-source var.sh
+set -e
+source ${ETL_PATH}/etl/common/common.sh
+source set_user_var.sh
 
-mkdir -p ${BUILD_ROOT?}
-tar -xzf ${SRC?}/${REPO?}/${REPO?}_${SET_USER_VERSION?}.tar.gz -C ${BUILD_ROOT?}
+mkdir -p ${BUILD_ROOT}
+tar -xzf ${SRC}/${REPO}/${REPO}_${SET_USER_VERSION}.tar.gz -C ${BUILD_ROOT}

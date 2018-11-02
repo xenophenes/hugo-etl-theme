@@ -13,10 +13,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-REPO="pgjdbc"
-DIR="${ETL?}/${REPO?}"
-DST="${DIR?}/dst"
-JEKYLL="${DIR?}/jekyll"
-CONTENT="${DST?}/content"
-BUILD_ROOT="${DIR?}/build"
-BUILD="${BUILD_ROOT?}/${REPO?}_${PGJDBC_VERSION?}"
+REPO="backrest"
+DIR="${ETL}/${REPO}"
+DST="${DIR}/dst"
+CONTENT="${DST}/content"
+BUILD_ROOT="${DIR}/build"
+BUILD="${BUILD_ROOT}/${REPO}_${BACKREST_VERSION}/doc/output/html"

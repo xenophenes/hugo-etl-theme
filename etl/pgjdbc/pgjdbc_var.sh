@@ -13,13 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source ${ETL_PATH?}/etl/common/common.sh
-source var.sh
-
-echo_begin ${REPO?}
-
-source ${DIR?}/extract.sh
-source ${DIR?}/transform.sh
-source ${DIR?}/load.sh
-
-echo_end ${REPO?}
+REPO="pgjdbc"
+DIR="${ETL}/${REPO}"
+DST="${DIR}/dst"
+JEKYLL="${DIR}/jekyll"
+CONTENT="${DST}/content"
+BUILD_ROOT="${DIR}/build"
+BUILD="${BUILD_ROOT}/${REPO}_${PGJDBC_VERSION}"

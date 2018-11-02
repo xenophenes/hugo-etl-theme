@@ -14,8 +14,8 @@
 # limitations under the License.
 
 REPO="pgaudit"
-DIR="${ETL?}/${REPO?}"
-DST="${DIR?}/dst"
-CONTENT="${DST?}/content"
-BUILD_ROOT="${DIR?}/build"
-BUILD="${BUILD_ROOT?}/${REPO?}_${PGAUDIT_VERSION?}"
+DIR="${ETL}/${REPO}"
+DST="${DIR}/dst"
+CONTENT="${DST}/content"
+BUILD_ROOT="${DIR}/build"
+BUILD="${BUILD_ROOT}/${REPO}_${PGAUDIT_VERSION}"

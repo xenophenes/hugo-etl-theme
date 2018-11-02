@@ -13,21 +13,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source ${ETL_PATH?}/etl/common/common.sh
-source var.sh
+set -e
+source ${ETL_PATH}/etl/common/common.sh
+source backrest_var.sh
 
 # Template doesn't exist, copy it
-cp -r ${TEMPLATE?} ${DST?}
+cp -r ${TEMPLATE} ${DST}
 
 # Config file needs to be specific, copy it
-yes | cp -f ${DIR?}/config.toml ${DST?}
+yes | cp -f ${DIR}/config.toml ${DST}
 
 # Remove unnecessary files
-rm ${BUILD?}/default.css
-rm ${BUILD?}/index.html
+rm ${BUILD}/default.css
+rm ${BUILD}/index.html
 
 # All source files aren't already in Markdown, so convert it
-for f in $(find ${BUILD?} -name '*.html')
+for f in $(find ${BUILD} -name '*.html')
 do
   # Clean up content
   cleanup_backrest ${f}
@@ -35,36 +36,36 @@ do
   pandoc -f html -t markdown $f -o $f
 done
 
-find ${BUILD?} -name "*.html" -exec rename .html .md {} +
+find ${BUILD} -name "*.html" -exec rename .html .md {} +
 
 # Move files to destination directory
-mv ${ETL?}/${REPO?}/build/${REPO?}_${BACKREST_VERSION?}/README.md ${CONTENT?}/_index.md
-mkdir -p ${DST?}/static/images
-mv ${BUILD?}/*.png ${DST?}/static/images
-cp -r ${BUILD?}/* ${CONTENT?}/
+mv ${ETL}/${REPO}/build/${REPO}_${BACKREST_VERSION}/README.md ${CONTENT}/_index.md
+mkdir -p ${DST}/static/images
+mv ${BUILD}/*.png ${DST}/static/images
+cp -r ${BUILD}/* ${CONTENT}/
 
-sed -i "1s;^;---\ntitle: 'pgBackRest - Reliable PostgreSQL Backup and Restore'\ndraft: false\n---\n\n;" ${CONTENT?}/_index.md
+sed -i "1s;^;---\ntitle: 'pgBackRest - Reliable PostgreSQL Backup and Restore'\ndraft: false\n---\n\n;" ${CONTENT}/_index.md
 
-for f in $(find ${CONTENT?} -name '*.md' ! -name _index.md)
+for f in $(find ${CONTENT} -name '*.md' ! -name _index.md)
 do
   # Get the name of the page
   TITLE=$(head -n 1 ${f} | sed "s/pgBackRest //g")
   # Delete redundant header
   sed -i '1d' ${f}
   # Substitute beginning
-  sed -i "1s;^;---\ntitle: '${TITLE?}'\ndraft: false\n---\n\n;" ${f}
+  sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\n---\n\n;" ${f}
 done
 
 # Each file needs to be in its own folder
-for f in $(find ${CONTENT?} -name '*.md' ! -name _index.md ! -name index.md)
+for f in $(find ${CONTENT} -name '*.md' ! -name _index.md ! -name index.md)
 do
   FILE=$(basename "$f" | cut -f 1 -d '.')
-  mkdir -p ${CONTENT?}/${FILE?}
-  mv ${f} ${CONTENT?}/${FILE?}
+  mkdir -p ${CONTENT}/${FILE}
+  mv ${f} ${CONTENT}/${FILE}
 done
 
 # Need _index.md for each directory of content
-for d in `find ${CONTENT?} -type d`
+for d in `find ${CONTENT} -type d`
 do
   NAME=$(echo ${d##*/})
 

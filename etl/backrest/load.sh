@@ -13,11 +13,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source ${ETL_PATH?}/etl/common/common.sh
-source var.sh
+set -e
+source ${ETL_PATH}/etl/common/common.sh
+source backrest_var.sh
 
-hugo --source=${DST?} --destination=${DOCS?}/${REPO?}
+hugo --source=${DST} --destination=${DOCS}/${REPO}
 
-rm -rf ${BUILD_ROOT?} ${DST?}
+rm -rf ${BUILD_ROOT} ${DST}
 
 

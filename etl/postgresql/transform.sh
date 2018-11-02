@@ -13,43 +13,44 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source ${ETL_PATH?}/etl/common/common.sh
-source var.sh
+set -e
+source ${ETL_PATH}/etl/common/common.sh
+source postgresql_var.sh
 
 # Template doesn't exist, copy it
-cp -r ${TEMPLATE?} ${DST?}
+cp -r ${TEMPLATE} ${DST}
 
 # Config file needs to be specific, copy it
-yes | cp -f ${DIR?}/config.toml ${DST?}
+yes | cp -f ${DIR}/config.toml ${DST}
 
 # Remove unnecessary files
-rm ${BUILD?}/stylesheet.css
+rm ${BUILD}/stylesheet.css
 
 # All source files aren't already in Markdown, so convert it
-for f in $(find ${BUILD?} -name '*.html')
+for f in $(find ${BUILD} -name '*.html')
 do
   pandoc -f html -t markdown $f -o $f
 done
 
-find ${BUILD?} -name "*.html" -exec rename .html .md {} +
+find ${BUILD} -name "*.html" -exec rename .html .md {} +
 
 # Move files to destination directory
-cp ${BUILD?}/index.md ${CONTENT?}/_index.md
-cp -r ${BUILD?}/*.md ${CONTENT?}/
+cp ${BUILD}/index.md ${CONTENT}/_index.md
+cp -r ${BUILD}/*.md ${CONTENT}/
 
-for f in $(find ${CONTENT?} -name '*.md' ! -name '_index.md')
+for f in $(find ${CONTENT} -name '*.md' ! -name '_index.md')
 do
   # Get the name of the page
   TITLE=$(head -n 1 ${f})
   # Clean up content
   cleanup_postgres "${f}"
   # Substitute beginning
-  sed -i "1s;^;---\ntitle: '${TITLE?}'\ndraft: false\nhidden: true\n---\n\n;" ${f}
+  sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\nhidden: true\n---\n\n;" ${f}
 done
 
 # Get the name of the page
-TITLE=$(head -n 1 ${CONTENT?}/_index.md)
+TITLE=$(head -n 1 ${CONTENT}/_index.md)
 # Clean up content
-cleanup_postgres "${CONTENT?}/_index.md"
+cleanup_postgres "${CONTENT}/_index.md"
 # Substitute beginning
-sed -i "1s;^;---\ntitle: '${TITLE?}'\ndraft: false\n---\n\n;" ${CONTENT?}/_index.md
+sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\n---\n\n;" ${CONTENT}/_index.md

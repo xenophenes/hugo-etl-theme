@@ -13,13 +13,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-source ${ETL_PATH?}/etl/common/common.sh
-source var.sh
+set -e
+source ${ETL_PATH}/etl/common/common.sh
+source set_user_var.sh
 
-echo_begin ${REPO?}
+echo_begin ${REPO}
 
-source ${DIR?}/extract.sh
-source ${DIR?}/transform.sh
-source ${DIR?}/load.sh
+source ${DIR}/extract.sh
+source ${DIR}/transform.sh
+source ${DIR}/load.sh
 
-echo_end ${REPO?}
+echo_end ${REPO}
