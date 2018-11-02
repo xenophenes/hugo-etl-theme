@@ -74,11 +74,6 @@ function cleanup_postgres {
     sed -i 's/]](images/]](\/images/g' ${1}
 }
 
-function cleanup_postgis {
-    # This is used specifically within the PostGIS documentation on the side pages.
-    sed -Ei 's/<div class="toc">.*?<\/div>//g' ${1}
-}
-
 function cleanup_pgjdbc {
     # This is specific to the pgJDBC documentation.
     # Remove all instances of text within brackets starting with a ., indicating a HTML class
@@ -91,8 +86,18 @@ function cleanup_backrest {
     # This is specific to the pgBackRest documentation.
     # Removes everything between the tags <div class="page-menu">ARBITRARY CONTENT HERE</div>
     sed -Ei 's/<div class="page-menu">.*?<\/div><\/div><\/div>//g' ${1}
-    # Replaces section[1-3]-header with h[2-4] tags
-    sed -Ei 's/<div class="section1-header"><div class="section1-number">(.*?)<\/div><div class="section1-title">(.*?)<\/div><\/div>/<h2>\1 - \2<\/h2>/g' ${1}
-    sed -Ei 's/<div class="section2-header"><div class="section2-number">(.*?)<\/div><div class="section2-title">(.*?)<\/div><\/div>/<h3>\1 - \2<\/h3>/g' ${1}
-    sed -Ei 's/<div class="section3-header"><div class="section3-number">(.*?)<\/div><div class="section3-title">(.*?)<\/div><\/div>/<h4>\1 - \2<\/h4>/g' ${1}
+    # Removes everything between <span> tags to make it easier for subsequent sed matching.
+    sed -Ei 's/<span class="[^"]*">([^>]*)<\/span>/\1/g' ${1}
+    # Replaces section[1-3]-header with h[2-4] tags, and puts in-line with section[1-3]-number
+    sed -Ei 's/<div class="section1-number">([^>]*)<\/div><div class="section1-title">([^>]*)<\/div>/<h2>\1 - \2<\/h2>/g' ${1}
+    sed -Ei 's/<div class="section2-number">([^>]*)<\/div><div class="section2-title">([^>]*)<\/div>/<h3>\1 - \2<\/h3>/g' ${1}
+    sed -Ei 's/<div class="section3-number">([^>]*)<\/div><div class="section3-title">([^>]*)<\/div>/<h4>\1 - \2<\/h4>/g' ${1}
+    # The release page needs separate header substitutions, due to the lack of section[1-3]-number
+    if [[ ${1} == *"release.html"* ]]
+    then
+      # Replaces section[1-3]-header with h[2-4] tags
+      sed -Ei 's/<div class="section1-title">([^>]*)<\/div>/<h2>\1<\/h2>/g' ${1}
+      sed -Ei 's/<div class="section2-title">([^>]*)<\/div>/<h3>\1<\/h3>/g' ${1}
+      sed -Ei 's/<div class="section3-title">([^>]*)<\/div>/<h4>\1<\/h4>/g' ${1}
+    fi
 }
