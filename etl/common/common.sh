@@ -74,12 +74,26 @@ function cleanup_postgres {
     sed -i 's/]](images/]](\/images/g' ${1}
 }
 
-function cleanup_pgjdbc {
+function cleanup_pgjdbc_md {
     # This is specific to the pgJDBC documentation.
     # Remove all instances of text within brackets starting with a ., indicating a HTML class
-    sed -i "s/[{.][^)]*[}]//g" ${1}
+    sed -i "s/[{#][^)]*[}]//g" ${1}
     # All links need to be relative, not absolute
     sed -i "s/.html//g" ${1}
+    # All images need to default to the root directory
+    sed -i 's/\/media\/img/\/images\/img/g' ${1}
+    sed -i 's/media\/img/\/images\/img/g' ${1}
+}
+
+function cleanup_pgjdbc_html {
+    # Remove header information
+    sed -i '0,/<!-- pgHeaderContainer -->/d' ${1}
+    # Replace h1 instances with h2
+    sed -Ei 's/<h1 id="txtFrontFeatureHeading">([^>]*)<\/h1>/<h2>\1<\/h2>/g' ${1}
+    # Replace image headers with real headers
+    sed -i 's/<img src="media\/img\/hdr\/hdr_latestreleases\.png" alt="Latest Releases" width="120" height="10">/Latest Releases/g' ${1}
+    sed -i 's/<img src="media\/img\/hdr\/hdr_shortcuts\.png" alt="Shortcuts" width="85" height="10">/Shortcuts/g' ${1}
+    sed -i 's/<img src="media\/img\/hdr\/hdr_supportus\.png" alt="Support Us" width="81" height="10">/Support Us/g' ${1}
 }
 
 function cleanup_backrest {

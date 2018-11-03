@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -e
+# set -e
 source ${ETL_PATH}/etl/common/common.sh
 source postgis_var.sh
 
@@ -48,12 +48,13 @@ find ${BUILD} -name "*.html" -exec rename .html .md {} +
 cp ${BUILD}/index.md ${CONTENT}/_index.md
 cp -r ${BUILD}/* ${CONTENT}/
 
-for f in $(find ${CONTENT} -name '*.md' ! -name '_index.md')
+for f in $(find ${CONTENT} -name '*.md')
 do
   # Get the name of the page
   TITLE=$(head -n 1 ${f})
   # Clean up content
   cleanup_postgres "${f}"
+  # Check if it's the index page
   if [[ ${f} == *"_index.md"* ]]
   then
     # Substitute beginning of Index page

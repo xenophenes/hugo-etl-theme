@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -e
+# set -e
 source ${ETL_PATH}/etl/common/common.sh
 source postgresql_var.sh
 
@@ -38,19 +38,19 @@ find ${BUILD} -name "*.html" -exec rename .html .md {} +
 cp ${BUILD}/index.md ${CONTENT}/_index.md
 cp -r ${BUILD}/*.md ${CONTENT}/
 
-for f in $(find ${CONTENT} -name '*.md' ! -name '_index.md')
+for f in $(find ${CONTENT} -name '*.md')
 do
   # Get the name of the page
   TITLE=$(head -n 1 ${f})
   # Clean up content
   cleanup_postgres "${f}"
-  # Substitute beginning
-  sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\nhidden: true\n---\n\n;" ${f}
+  # Check if it's the index page
+  if [[ ${f} == *"_index.md"* ]]
+  then
+    # Substitute beginning of Index page
+    sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\ntoc: false\n---\n\n;" ${f}
+  else
+    # Substitute beginning of side pages
+    sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\nhidden: true\ntoc: true\n\n---\n\n;" ${f}
+  fi
 done
-
-# Get the name of the page
-TITLE=$(head -n 1 ${CONTENT}/_index.md)
-# Clean up content
-cleanup_postgres "${CONTENT}/_index.md"
-# Substitute beginning
-sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\n---\n\n;" ${CONTENT}/_index.md

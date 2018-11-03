@@ -13,14 +13,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-set -e
-source ${ETL_PATH}/etl/common/common.sh
-source postgresql_var.sh
-
-echo_begin ${REPO}
-
-source ${DIR}/extract.sh
-source ${DIR}/transform.sh
-source ${DIR}/load.sh
-
-echo_end ${REPO}
+REPO="postgresql"
+DIR="${ETL?}/${REPO?}"
+DST="${DIR?}/dst"
+CONTENT="${DST?}/content"
+BUILD_ROOT="${DIR?}/build"
+BUILD="${BUILD_ROOT?}/${REPO?}_${POSTGRES_VERSION?}"
+TMP="/tmp/${REPO?}_${POSTGRES_VERSION?}"
