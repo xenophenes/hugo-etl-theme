@@ -18,7 +18,7 @@ source ${ETL_PATH}/etl/common/common.sh
 source postgresql_var.sh
 
 mkdir -p ${BUILD_ROOT} ${BUILD} ${TMP}
-tar -xzf ${SRC}/${REPO}/postgreSQL_${POSTGRES_VERSION}.tar.gz -C ${TMP}
+tar -xzf ${SRC}/${REPO}/postgreSQL_${POSTGRESQL_VERSION}.tar.gz -C ${TMP}
 
 # HTML versions of the documentation need to be built
 (cd ${TMP} && ./configure && make html)

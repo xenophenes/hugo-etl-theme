@@ -13,18 +13,6 @@
 # limitations under the License.
 
 #====================================================
-# Define project versions.
-#====================================================
-
-POSTGRES_VERSION="11_0"
-POSTGIS_VERSION="2_3_7"
-BACKREST_VERSION="2_06"
-PGJDBC_VERSION="42_2_5"
-PGAUDIT_VERSION="1_3_0"
-PGAUDIT_ANALYZE_VERSION="1_0_7"
-SET_USER_VERSION="1_6_1"
-
-#====================================================
 # Define folder locations referenced in scripts.
 #====================================================
 
@@ -38,13 +26,21 @@ ETL="${ETL_PATH}/etl"
 # General purpose / informational functions
 #====================================================
 
+RED="\033[0;31m"
+GREEN="\033[0;32m"
+YELLOW="\033[0;33m"
+RESET="\033[0m"
+
+function echo_err() {
+    echo -e "${RED?}$(date) ERROR: ${1?}${RESET?}"
+}
+
 function echo_info() {
-    # Defining the terminal color Green.
-    GREEN="\033[0;32m"
-    # Defining the terminal color White.
-    RESET="\033[0m"
-    # Echo a green-colored terminal string selected by the user with the date/time.
-    echo -e "${GREEN}$(date) INFO: ${1}${RESET}"
+    echo -e "${GREEN?}$(date) INFO: ${1?}${RESET?}"
+}
+
+function echo_warn() {
+    echo -e "${YELLOW?}$(date) WARN: ${1?}${RESET?}"
 }
 
 function echo_begin {
