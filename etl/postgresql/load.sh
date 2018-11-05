@@ -17,8 +17,6 @@ set -e
 source ${ETL_PATH}/etl/common/common.sh
 source postgresql_var.sh
 
-hugo --source=${DST} --destination=${DOCS}/${REPO}
+hugo --source=${DST} --destination=${DOCS}/${REPO}_${POSTGRESQL_VERSION}
 
 rm -rf ${BUILD_ROOT} ${DST}
-
-

@@ -17,6 +17,6 @@ set -e
 source ${ETL_PATH}/etl/common/common.sh
 source pgjdbc_var.sh
 
-hugo --source=${DST} --destination=${DOCS}/${REPO}
+hugo --source=${DST} --destination=${DOCS}/${REPO}_${PGJDBC_VERSION}
 
 rm -rf ${BUILD_ROOT} ${DST} ${JEKYLL}

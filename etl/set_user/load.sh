@@ -17,6 +17,6 @@ set -e
 source ${ETL_PATH}/etl/common/common.sh
 source set_user_var.sh
 
-hugo --source=${DST} --destination=${DOCS}/${REPO}
+hugo --source=${DST} --destination=${DOCS}/${REPO}_${SET_USER_VERSION}
 
 rm -rf ${BUILD_ROOT} ${DST}
