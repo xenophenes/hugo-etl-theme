@@ -61,6 +61,7 @@ if [ "$1" == 'pgaudit' ]; then
     remove_project ${PROJECT_NAME} ${PGAUDIT_VERSION}
 
     # Run the conversion script
+    mkdir -p ${ETL_PATH}/docs
     cd ${ETL}/${PROJECT_NAME} && ./run.sh
 
     # Collect generated PDF's
@@ -77,6 +78,7 @@ elif [ "$1" == 'pgaudit_analyze' ]; then
     remove_project ${PROJECT_NAME} ${PGAUDIT_ANALYZE_VERSION}
 
     # Run the conversion script
+    mkdir -p ${ETL_PATH}/docs
     cd ${ETL}/${PROJECT_NAME} && ./run.sh
 
     # Collect generated PDF's
@@ -93,6 +95,7 @@ elif [ "$1" == 'set_user' ]; then
     remove_project ${PROJECT_NAME} ${SET_USER_VERSION}
 
     # Run the conversion script
+    mkdir -p ${ETL_PATH}/docs
     cd ${ETL}/${PROJECT_NAME} && ./run.sh
 
     # Collect generated PDF's
@@ -109,6 +112,7 @@ elif [ "$1" == 'backrest' ]; then
     remove_project ${PROJECT_NAME} ${BACKREST_VERSION}
 
     # Run the conversion script
+    mkdir -p ${ETL_PATH}/docs
     cd ${ETL}/${PROJECT_NAME} && ./run.sh
 
     # Collect generated PDF's
@@ -125,6 +129,7 @@ elif [ "$1" == 'postgis' ]; then
     remove_project ${PROJECT_NAME} ${POSTGIS_VERSION}
 
     # Run the conversion script
+    mkdir -p ${ETL_PATH}/docs
     cd ${ETL}/${PROJECT_NAME} && ./run.sh
 
     # Collect generated PDF's
@@ -141,6 +146,7 @@ elif [ "$1" == 'postgresql' ]; then
     remove_project ${PROJECT_NAME} ${POSTGRESQL_VERSION}
 
     # Run the conversion script
+    mkdir -p ${ETL_PATH}/docs
     cd ${ETL}/${PROJECT_NAME} && ./run.sh
 
     # Collect generated PDF's
