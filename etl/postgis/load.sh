@@ -25,6 +25,8 @@ done
 
 pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/*.md -o ${DST}/static/pdf/${REPO}.pdf
 
+rm ${DST}/static/pdf/*.md
+
 hugo --source=${DST} --destination=${POSTGIS_DOCS}
 
 rm -rf ${BUILD_ROOT} ${DST}

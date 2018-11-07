@@ -26,6 +26,8 @@ done
 
 pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/*.md -o ${DST}/static/pdf/${REPO}.pdf
 
+rm ${DST}/static/pdf/*.md
+
 hugo --source=${DST} --destination=${SET_USER_DOCS}
 
 rm -rf ${BUILD_ROOT} ${DST}

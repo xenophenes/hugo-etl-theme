@@ -26,6 +26,8 @@ done
 
 pandoc --toc --latex-engine=xelatex website/static/pdf/*.md -o website/static/pdf/pgjdbc.pdf
 
+# rm ${DST}/static/pdf/*.md
+
 # hugo --source=${DST} --destination=${PGAUDIT_ANALYZE_DOCS}
 
 # rm -rf ${BUILD_ROOT} ${DST}
