@@ -63,6 +63,10 @@ if [ "$1" == 'pgaudit' ]; then
     # Run the conversion script
     cd ${ETL}/${PROJECT_NAME} && ./run.sh
 
+    # Collect generated PDF's
+    mkdir -p ${ETL_PATH}/pdf/${PROJECT_NAME}
+    cp ${DOCS}/${PROJECT_NAME}_${PGAUDIT_VERSION}/pdf/${PROJECT_NAME}.pdf ${ETL_PATH}/pdf/${PROJECT_NAME}/${PROJECT_NAME}_${PGAUDIT_VERSION}.pdf
+
 elif [ "$1" == 'pgaudit_analyze' ]; then
 
     # Parameter setup
@@ -70,10 +74,14 @@ elif [ "$1" == 'pgaudit_analyze' ]; then
     export PGAUDIT_ANALYZE_VERSION=$(echo $2 | sed 's/\./_/g')
 
     # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PGAUDIT_VERSION}
+    remove_project ${PROJECT_NAME} ${PGAUDIT_ANALYZE_VERSION}
 
     # Run the conversion script
     cd ${ETL}/${PROJECT_NAME} && ./run.sh
+
+    # Collect generated PDF's
+    mkdir -p ${ETL_PATH}/pdf/${PROJECT_NAME}
+    cp ${DOCS}/${PROJECT_NAME}_${PGAUDIT_ANALYZE_VERSION}/pdf/${PROJECT_NAME}.pdf ${ETL_PATH}/pdf/${PROJECT_NAME}/${PROJECT_NAME}_${PGAUDIT_ANALYZE_VERSION}.pdf
 
 elif [ "$1" == 'set_user' ]; then
 
@@ -82,10 +90,14 @@ elif [ "$1" == 'set_user' ]; then
     export SET_USER_VERSION=$(echo $2 | sed 's/\./_/g')
 
     # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PGAUDIT_VERSION}
+    remove_project ${PROJECT_NAME} ${SET_USER_VERSION}
 
     # Run the conversion script
     cd ${ETL}/${PROJECT_NAME} && ./run.sh
+
+    # Collect generated PDF's
+    mkdir -p ${ETL_PATH}/pdf/${PROJECT_NAME}
+    cp ${DOCS}/${PROJECT_NAME}_${SET_USER_VERSION}/pdf/${PROJECT_NAME}.pdf ${ETL_PATH}/pdf/${PROJECT_NAME}/${PROJECT_NAME}_${SET_USER_VERSION}.pdf
 
 elif [ "$1" == 'backrest' ]; then
 
@@ -94,10 +106,14 @@ elif [ "$1" == 'backrest' ]; then
     export BACKREST_VERSION=$(echo $2 | sed 's/\./_/g')
 
     # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PGAUDIT_VERSION}
+    remove_project ${PROJECT_NAME} ${BACKREST_VERSION}
 
     # Run the conversion script
     cd ${ETL}/${PROJECT_NAME} && ./run.sh
+
+    # Collect generated PDF's
+    mkdir -p ${ETL_PATH}/pdf/${PROJECT_NAME}
+    cp ${DOCS}/${PROJECT_NAME}_${BACKREST_VERSION}/pdf/${PROJECT_NAME}.pdf ${ETL_PATH}/pdf/${PROJECT_NAME}/${PROJECT_NAME}_${BACKREST_VERSION}.pdf
 
 elif [ "$1" == 'postgis' ]; then
 
@@ -106,10 +122,14 @@ elif [ "$1" == 'postgis' ]; then
     export POSTGIS_VERSION=$(echo $2 | sed 's/\./_/g')
 
     # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PGAUDIT_VERSION}
+    remove_project ${PROJECT_NAME} ${POSTGIS_VERSION}
 
     # Run the conversion script
     cd ${ETL}/${PROJECT_NAME} && ./run.sh
+
+    # Collect generated PDF's
+    mkdir -p ${ETL_PATH}/pdf/${PROJECT_NAME}
+    cp ${DOCS}/${PROJECT_NAME}_${POSTGIS_VERSION}/pdf/${PROJECT_NAME}.pdf ${ETL_PATH}/pdf/${PROJECT_NAME}/${PROJECT_NAME}_${POSTGIS_VERSION}.pdf
 
 elif [ "$1" == 'postgresql' ]; then
 
@@ -118,10 +138,14 @@ elif [ "$1" == 'postgresql' ]; then
     export POSTGRESQL_VERSION=$(echo $2 | sed 's/\./_/g')
 
     # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PGAUDIT_VERSION}
+    remove_project ${PROJECT_NAME} ${POSTGRESQL_VERSION}
 
     # Run the conversion script
     cd ${ETL}/${PROJECT_NAME} && ./run.sh
+
+    # Collect generated PDF's
+    mkdir -p ${ETL_PATH}/pdf/${PROJECT_NAME}
+    cp ${DOCS}/${PROJECT_NAME}_${POSTGRESQL_VERSION}/pdf/${PROJECT_NAME}.pdf ${ETL_PATH}/pdf/${PROJECT_NAME}/${PROJECT_NAME}_${POSTGRESQL_VERSION}.pdf
 
 else
     usage
