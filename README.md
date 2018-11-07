@@ -78,6 +78,8 @@ found [here](https://www.postgresql.org/docs/current/static/docguide.html). Any 
 building PostgreSQL documentation from source will need to be fulfilled before the scripts for the
 PostgreSQL project will run successfully.
 
+A final requirement is to ensure `pandoc` is installed prior to running the scripts, along with the `dblatex` package.
+
 When you're ready to build out the documentation, the you'll want to use the `conversion.sh` script
 contained in the root directory.
 
