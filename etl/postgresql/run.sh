@@ -13,10 +13,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-REPO="set_user"
-DIR="${ETL}/${REPO}"
-DST="${DIR}/dst"
-CONTENT="${DST}/content"
-BUILD_ROOT="${DIR}/build"
-BUILD="${BUILD_ROOT}/${REPO}_${SET_USER_VERSION}"
-SET_USER_DOCS="${DOCS}/${REPO}_${SET_USER_VERSION}"
+source ${ETL_PATH}/etl/common/common.sh
+source postgresql_var.sh
+
+echo_begin ${REPO}
+
+source ${DIR}/extract.sh
+source ${DIR}/transform.sh
+source ${DIR}/load.sh
+
+echo_end ${REPO}

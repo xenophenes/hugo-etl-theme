@@ -17,6 +17,11 @@ set -e
 source ${ETL_PATH}/etl/common/common.sh
 source postgresql_var.sh
 
-hugo --source=${DST} --destination=${DOCS}/${REPO}_${POSTGRESQL_VERSION}
+mkdir -p ${DST}/static/pdf
+
+(cd ${TMP}/doc/src/sgml/ && make postgres-US.pdf)
+cp -r ${TMP}/doc/src/sgml/postgres-US.pdf ${DST}/static/pdf/${REPO}.pdf
+
+hugo --source=${DST} --destination=${POSTGRESQL_DOCS}
 
 rm -rf ${BUILD_ROOT} ${DST}

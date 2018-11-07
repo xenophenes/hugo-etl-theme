@@ -25,3 +25,15 @@ yes | cp -f ${DIR}/config.toml ${DST}
 
 # Move files to destination directory
 cp ${BUILD}/README.md ${CONTENT}/_index.md
+
+# Generate PDF files
+for f in $(find ${CONTENT} -name '*.md')
+do
+  # Get the file name without the path
+  file=$(basename -- "$f")
+  # Convert Markdown to PDF
+  pandoc ${CONTENT}/${file%.*}.md -o ${CONTENT}/${file%.*}.pdf
+  # Hugo needs files to be in a folder
+  mkdir ${CONTENT}/${file%.*}.files
+  mv ${CONTENT}/${file%.*}.pdf ${CONTENT}/${file%.*}.files/
+done

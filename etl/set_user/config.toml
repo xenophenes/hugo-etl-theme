@@ -45,6 +45,11 @@ url = "https://github.com/pgaudit/set_user"
 weight = 10
 
 [[menu.shortcuts]]
+name = "<i class='fa fa-book'></i> <label>PDF Documentation</label>"
+url = "/pdf/set_user.pdf"
+weight = 20
+
+[[menu.shortcuts]]
 name = "<i class='fa fa-file'></i> <label>License</label>"
 url = "https://github.com/pgaudit/set_user/blob/master/LICENSE"
-weight = 22
+weight = 30

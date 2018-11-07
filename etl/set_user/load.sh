@@ -17,6 +17,15 @@ set -e
 source ${ETL_PATH}/etl/common/common.sh
 source set_user_var.sh
 
-hugo --source=${DST} --destination=${DOCS}/${REPO}_${SET_USER_VERSION}
+mkdir -p ${DST}/static/pdf
+
+for f in $(find ${CONTENT} -name '*.md')
+do
+  cp $f ${DST}/static/pdf
+done
+
+pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/*.md -o ${DST}/static/pdf/${REPO}.pdf
+
+hugo --source=${DST} --destination=${SET_USER_DOCS}
 
 rm -rf ${BUILD_ROOT} ${DST}

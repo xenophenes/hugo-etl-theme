@@ -45,6 +45,11 @@ url = "https://github.com/pgaudit/pgaudit_analyze"
 weight = 10
 
 [[menu.shortcuts]]
+name = "<i class='fa fa-book'></i> <label>PDF Documentation</label>"
+url = "/pdf/pgaudit_analyze.pdf"
+weight = 20
+
+[[menu.shortcuts]]
 name = "<i class='fa fa-file'></i> <label>License</label>"
 url = "https://github.com/pgaudit/pgaudit_analyze/blob/master/LICENSE"
-weight = 22
+weight = 30

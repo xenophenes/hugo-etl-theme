@@ -46,7 +46,6 @@ function usage {
 #====================
 # 2) Install projects
 #====================
-set -e
 
 if [ "$#" -ne 2 ]; then
     usage
