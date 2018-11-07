@@ -31,15 +31,3 @@ TITLE=$(head -n 1 ${CONTENT}/_index.md)
 
 # Substitute beginning of side pages
 sed -i "1s;^;---\ntitle: 'pgAudit - Open Source PostgreSQL Audit Logging'\ndraft: false\ntoc: true\n\n---\n\n;" ${CONTENT}/_index.md
-
-# Generate PDF files
-for f in $(find ${CONTENT} -name '*.md')
-do
-  # Get the file name without the path
-  file=$(basename -- "$f")
-  # Convert Markdown to PDF
-  pandoc ${CONTENT}/${file%.*}.md -o ${CONTENT}/${file%.*}.pdf
-  # Hugo needs files to be in a folder
-  mkdir ${CONTENT}/${file%.*}.files
-  mv ${CONTENT}/${file%.*}.pdf ${CONTENT}/${file%.*}.files/
-done
