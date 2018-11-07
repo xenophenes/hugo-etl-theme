@@ -9,7 +9,6 @@ on the following projects:
 * backrest
 * postgresql
 * postgis
-* pgjdbc
 
 It is important to note that naming conventions for any created project folders within each of the
 repository directories (as mentioned below under Structure) must follow the spelling as written above.
@@ -21,11 +20,12 @@ files that can be hosted on a webserver.
 
 ## Structure
 
-The following folders are contained within this repository:
+The following folders are contained within this repository when everything is built out:
 
 * /etl
 * /docs
 * /src
+* /pdf
 
 ### /etl
 
@@ -57,19 +57,55 @@ the following fashion (as an example):
 
 and so on.
 
+### /pdf
+
+The **pdf** folder is where all generated PDF's of the documentation are collected. There are folders
+that are created for each project, with the respective PDF files being renamed to include the version.
+
+These PDF files are generated using `pandoc`, and include a table of contents for ease of use.
+
 ## Requirements
 
 You will need to set the following variable in `.bashrc` for the project scripts to correctly find
 file paths:
 
 ```sh
-export ETL_PATH=/path/to/repostory
+export ETL_PATH=/path/to/repository
 ```
 
 Additionally, the PostgreSQL documentation is generated from SGML into HTML using the instructions
 found [here](https://www.postgresql.org/docs/current/static/docguide.html). Any requirements for
 building PostgreSQL documentation from source will need to be fulfilled before the scripts for the
 PostgreSQL project will run successfully.
+
+When you're ready to build out the documentation, the you'll want to use the `conversion.sh` script
+contained in the root directory.
+
+Usage of the script:
+
+```sh
+$ ./conversion.sh
+
+Usage: $ ./conversion.sh <project_name> <project_version>
+
+Available project names:
+
+- pgaudit
+- pgaudit_analyze
+- set_user
+- backrest
+- postgis
+- postgresql
+
+Available project versions:
+
+- pgaudit: 1.0.6 | 1.1.1 | 1.2.0 | 1.3.0
+- pgaudit_analyze: 1.0.7
+- set_user: 1.6.1
+- backrest: 1.28 | 1.29 | 2.00 | 2.01 | 2.02 | 2.03 | 2.04
+- postgis: 2.2.7 | 2.3.7 | 2.4.5
+- postgresql: 9.3.24 | 9.4.19 | 9.5.14 | 9.6.10 | 10.5 | 11.0
+```
 
 ## Testing
 
