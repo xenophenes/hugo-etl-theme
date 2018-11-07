@@ -17,6 +17,15 @@ set -e
 source ${ETL_PATH}/etl/common/common.sh
 source pgjdbc_var.sh
 
-hugo --source=${DST} --destination=${DOCS}/${REPO}_${PGJDBC_VERSION}
+mkdir -p website/static/pdf
 
-rm -rf ${BUILD_ROOT} ${DST} ${JEKYLL}
+for f in $(find website/content -name '*.md')
+do
+  cp $f website/static/pdf
+done
+
+pandoc --toc --latex-engine=xelatex website/static/pdf/*.md -o website/static/pdf/pgjdbc.pdf
+
+# hugo --source=${DST} --destination=${PGAUDIT_ANALYZE_DOCS}
+
+# rm -rf ${BUILD_ROOT} ${DST}

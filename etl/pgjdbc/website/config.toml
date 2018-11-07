@@ -45,6 +45,11 @@ url = "https://github.com/pgjdbc/pgjdbc"
 weight = 10
 
 [[menu.shortcuts]]
+name = "<i class='fa fa-book'></i> <label>PDF Documentation</label>"
+url = "/pdf/pgjdbc.pdf"
+weight = 20
+
+[[menu.shortcuts]]
 name = "<i class='fa fa-file'></i> <label>License</label>"
 url = "https://github.com/pgjdbc/pgjdbc/blob/master/LICENSE"
-weight = 22
+weight = 30
