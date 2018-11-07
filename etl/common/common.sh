@@ -58,56 +58,56 @@ function echo_end {
 function cleanup_postgres {
     # This is used for the PostgreSQL and PostGIS documentation.
     # Remove all instances of text within brackets starting with a ., indicating a HTML class
-    sed -i "s/{\.[^)]*}//g" ${1}
+    sed -i "" "s/{\.[^)]*}//g" ${1}
     # All links need to be relative, not absolute
-    sed -i "s/.html//g" ${1}
+    sed -i "" "s/.html//g" ${1}
     # Remove footer content
     sed -zi 's/\* \* \* \* \*\n\n  ---.*\n[^\n]\+\n[^\n]\+\n  ---.*\n\n//g' ${1}
     # Remove header content by removing everything including / before the first occurrence
     # of * * * * *
-    sed -i '0,/^\* \* \* \* \*$/d' ${1}
+    sed -i "" '0,/^\* \* \* \* \*$/d' ${1}
     # All images need to default to the root directory
-    sed -i 's/]](images/]](\/images/g' ${1}
+    sed -i "" 's/]](images/]](\/images/g' ${1}
 }
 
 function cleanup_pgjdbc_md {
     # This is specific to the pgJDBC documentation.
     # Remove all instances of text within brackets starting with a ., indicating a HTML class
-    sed -i "s/[{#][^)]*[}]//g" ${1}
+    sed -i "" "s/[{#][^)]*[}]//g" ${1}
     # All links need to be relative, not absolute
-    sed -i "s/.html//g" ${1}
+    sed -i "" "s/.html//g" ${1}
     # All images need to default to the root directory
-    sed -i 's/\/media\/img/\/images\/img/g' ${1}
-    sed -i 's/media\/img/\/images\/img/g' ${1}
+    sed -i "" 's/\/media\/img/\/images\/img/g' ${1}
+    sed -i "" 's/media\/img/\/images\/img/g' ${1}
 }
 
 function cleanup_pgjdbc_html {
     # Remove header information
-    sed -i '0,/<!-- pgHeaderContainer -->/d' ${1}
+    sed -i "" '0,/<!-- pgHeaderContainer -->/d' ${1}
     # Replace h1 instances with h2
-    sed -Ei 's/<h1 id="txtFrontFeatureHeading">([^>]*)<\/h1>/<h2>\1<\/h2>/g' ${1}
+    sed -Ei "" 's/<h1 id="txtFrontFeatureHeading">([^>]*)<\/h1>/<h2>\1<\/h2>/g' ${1}
     # Replace image headers with real headers
-    sed -i 's/<img src="media\/img\/hdr\/hdr_latestreleases\.png" alt="Latest Releases" width="120" height="10">/Latest Releases/g' ${1}
-    sed -i 's/<img src="media\/img\/hdr\/hdr_shortcuts\.png" alt="Shortcuts" width="85" height="10">/Shortcuts/g' ${1}
-    sed -i 's/<img src="media\/img\/hdr\/hdr_supportus\.png" alt="Support Us" width="81" height="10">/Support Us/g' ${1}
+    sed -i "" 's/<img src="media\/img\/hdr\/hdr_latestreleases\.png" alt="Latest Releases" width="120" height="10">/Latest Releases/g' ${1}
+    sed -i "" 's/<img src="media\/img\/hdr\/hdr_shortcuts\.png" alt="Shortcuts" width="85" height="10">/Shortcuts/g' ${1}
+    sed -i "" 's/<img src="media\/img\/hdr\/hdr_supportus\.png" alt="Support Us" width="81" height="10">/Support Us/g' ${1}
 }
 
 function cleanup_backrest {
     # This is specific to the pgBackRest documentation.
     # Removes everything between the tags <div class="page-menu">ARBITRARY CONTENT HERE</div>
-    sed -Ei 's/<div class="page-menu">.*?<\/div><\/div><\/div>//g' ${1}
+    sed -Ei "" 's/<div class="page-menu">.*?<\/div><\/div><\/div>//g' ${1}
     # Removes everything between <span> tags to make it easier for subsequent sed matching.
-    sed -Ei 's/<span class="[^"]*">([^>]*)<\/span>/\1/g' ${1}
+    sed -Ei "" 's/<span class="[^"]*">([^>]*)<\/span>/\1/g' ${1}
     # Replaces section[1-3]-header with h[2-4] tags, and puts in-line with section[1-3]-number
-    sed -Ei 's/<div class="section1-number">([^>]*)<\/div><div class="section1-title">([^>]*)<\/div>/<h2>\1 - \2<\/h2>/g' ${1}
-    sed -Ei 's/<div class="section2-number">([^>]*)<\/div><div class="section2-title">([^>]*)<\/div>/<h3>\1 - \2<\/h3>/g' ${1}
-    sed -Ei 's/<div class="section3-number">([^>]*)<\/div><div class="section3-title">([^>]*)<\/div>/<h4>\1 - \2<\/h4>/g' ${1}
+    sed -Ei "" 's/<div class="section1-number">([^>]*)<\/div><div class="section1-title">([^>]*)<\/div>/<h2>\1 - \2<\/h2>/g' ${1}
+    sed -Ei "" 's/<div class="section2-number">([^>]*)<\/div><div class="section2-title">([^>]*)<\/div>/<h3>\1 - \2<\/h3>/g' ${1}
+    sed -Ei "" 's/<div class="section3-number">([^>]*)<\/div><div class="section3-title">([^>]*)<\/div>/<h4>\1 - \2<\/h4>/g' ${1}
     # The release page needs separate header substitutions, due to the lack of section[1-3]-number
     if [[ ${1} == *"release.html"* ]]
     then
       # Replaces section[1-3]-header with h[2-4] tags
-      sed -Ei 's/<div class="section1-title">([^>]*)<\/div>/<h2>\1<\/h2>/g' ${1}
-      sed -Ei 's/<div class="section2-title">([^>]*)<\/div>/<h3>\1<\/h3>/g' ${1}
-      sed -Ei 's/<div class="section3-title">([^>]*)<\/div>/<h4>\1<\/h4>/g' ${1}
+      sed -Ei "" 's/<div class="section1-title">([^>]*)<\/div>/<h2>\1<\/h2>/g' ${1}
+      sed -Ei "" 's/<div class="section2-title">([^>]*)<\/div>/<h3>\1<\/h3>/g' ${1}
+      sed -Ei "" 's/<div class="section3-title">([^>]*)<\/div>/<h4>\1<\/h4>/g' ${1}
     fi
 }

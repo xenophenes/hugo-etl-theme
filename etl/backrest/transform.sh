@@ -44,16 +44,16 @@ mkdir -p ${DST}/static/images
 mv ${BUILD}/*.png ${DST}/static/images
 cp -r ${BUILD}/* ${CONTENT}/
 
-sed -i "1s;^;---\ntitle: 'pgBackRest - Reliable PostgreSQL Backup and Restore'\ndraft: false\n---\n\n;" ${CONTENT}/_index.md
+sed -i "" "1s;^;---\ntitle: 'pgBackRest - Reliable PostgreSQL Backup and Restore'\ndraft: false\n---\n\n;" ${CONTENT}/_index.md
 
 for f in $(find ${CONTENT} -name '*.md' ! -name _index.md)
 do
   # Get the name of the page
   TITLE=$(head -n 1 ${f} | sed "s/pgBackRest //g")
   # Delete redundant header
-  sed -i '1d' ${f}
+  sed -i "" '1d' ${f}
   # Substitute beginning
-  sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\n---\n\n;" ${f}
+  sed -i "" "1s;^;---\ntitle: '${TITLE}'\ndraft: false\n---\n\n;" ${f}
 done
 
 # Each file needs to be in its own folder

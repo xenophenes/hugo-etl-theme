@@ -33,7 +33,7 @@ do
   if [[ ${f} != *"index.html"* ]]
   then
     # Remove manually entered TOC if not the Index page
-    sed -Ei 's/<div class="toc">.*?<\/div>//g' "${f}"
+    sed -Ei "" 's/<div class="toc">.*?<\/div>//g' "${f}"
   fi
   # Convert from ISO-8859-1 to UTF-8 so pandoc can parse the content
   iconv -f ISO-8859-1 -t UTF-8 $f -o $f
@@ -57,9 +57,9 @@ do
   if [[ ${f} == *"_index.md"* ]]
   then
     # Substitute beginning of Index page
-    sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\ntoc: false\n---\n\n;" ${f}
+    sed -i "" "1s;^;---\ntitle: '${TITLE}'\ndraft: false\ntoc: false\n---\n\n;" ${f}
   else
     # Substitute beginning of side pages
-    sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\nhidden: true\ntoc: true\n\n---\n\n;" ${f}
+    sed -i "" "1s;^;---\ntitle: '${TITLE}'\ndraft: false\nhidden: true\ntoc: true\n\n---\n\n;" ${f}
   fi
 done
