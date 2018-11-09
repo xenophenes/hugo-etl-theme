@@ -48,9 +48,9 @@ do
   if [[ ${f} == *"_index.md"* ]]
   then
     # Substitute beginning of Index page
-    sed -i "" "1s;^;---\ntitle: '${TITLE}'\ndraft: false\ntoc: false\n---\n\n;" ${f}
+    sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\ntoc: false\n---\n\n;" ${f}
   else
     # Substitute beginning of side pages
-    sed -i "" "1s;^;---\ntitle: '${TITLE}'\ndraft: false\nhidden: true\ntoc: true\n\n---\n\n;" ${f}
+    sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\nhidden: true\ntoc: true\n\n---\n\n;" ${f}
   fi
 done

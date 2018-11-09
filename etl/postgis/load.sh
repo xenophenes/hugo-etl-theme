@@ -16,17 +16,48 @@
 source ${ETL_PATH}/etl/common/common.sh
 source postgis_var.sh
 
-mkdir -p ${DST}/static/pdf
+#==============
+# 1) Functions
+#==============
 
-for f in $(find ${CONTENT} -name '*.md')
-do
-  cp $f ${DST}/static/pdf
-done
+function create_pdf {
+    mkdir -p ${DST}/static/pdf
+    mkdir -p ${ETL_PATH}/pdf/${REPO}
 
-pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/*.md -o ${DST}/static/pdf/${REPO}.pdf
+    for f in $(find ${CONTENT} -name '*.md')
+    do
+      cp $f ${DST}/static/pdf
+    done
 
-rm ${DST}/static/pdf/*.md
+    pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/*.md -o ${DST}/static/pdf/${REPO}.pdf
+}
 
-hugo --source=${DST} --destination=${POSTGIS_DOCS}
+#====================
+# 2) Generate docs
+#====================
+
+if [ "$1" == '--no-html' ]; then
+
+    create_pdf
+
+    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGIS_VERSION}.pdf
+
+elif [ "$1" == '--no-pdf' ]; then
+
+    hugo --source=${DST} --destination=${POSTGIS_DOCS}
+
+elif [ "$1" == '--all' ]; then
+
+    create_pdf
+
+    rm ${DST}/static/pdf/*.md
+
+    hugo --source=${DST} --destination=${POSTGIS_DOCS}
+
+    cp ${DOCS}/${REPO}_${POSTGIS_VERSION}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGIS_VERSION}.pdf
+
+fi
 
 rm -rf ${BUILD_ROOT} ${DST}
+
+echo_end ${REPO}

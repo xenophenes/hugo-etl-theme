@@ -20,6 +20,3 @@ echo_begin ${REPO}
 
 source ${DIR}/extract.sh
 source ${DIR}/transform.sh
-source ${DIR}/load.sh
-
-echo_end ${REPO}

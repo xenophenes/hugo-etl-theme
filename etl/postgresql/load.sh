@@ -17,11 +17,41 @@ set -e
 source ${ETL_PATH}/etl/common/common.sh
 source postgresql_var.sh
 
-mkdir -p ${DST}/static/pdf
+#==============
+# 1) Functions
+#==============
 
-(cd ${TMP}/doc/src/sgml/ && make postgres-US.pdf)
-cp -r ${TMP}/doc/src/sgml/postgres-US.pdf ${DST}/static/pdf/${REPO}.pdf
+function create_pdf {
+    mkdir -p ${DST}/static/pdf
+    mkdir -p ${ETL_PATH}/pdf/${REPO}
 
-hugo --source=${DST} --destination=${POSTGRESQL_DOCS}
+    (cd ${TMP}/doc/src/sgml/ && make postgres-US.pdf)
+}
+
+#====================
+# 2) Generate docs
+#====================
+
+if [ "$1" == '--no-html' ]; then
+
+    create_pdf
+
+    cp ${TMP}/doc/src/sgml/postgres-US.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGRESQL_VERSION}.pdf
+
+elif [ "$1" == '--no-pdf' ]; then
+
+    hugo --source=${DST} --destination=${POSTGRESQL_DOCS}
+
+elif [ "$1" == '--all' ]; then
+
+    create_pdf
+
+    hugo --source=${DST} --destination=${POSTGRESQL_DOCS}
+
+    cp ${TMP}/doc/src/sgml/postgres-US.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGRESQL_VERSION}.pdf
+
+fi
 
 rm -rf ${BUILD_ROOT} ${DST}
+
+echo_end ${REPO}

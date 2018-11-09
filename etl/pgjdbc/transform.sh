@@ -62,10 +62,10 @@ do
   if [[ ${f} == *"/dst/content/index.md"* ]]
   then
     # Substitute beginning of Index page
-    sed -i "" "1s;^;---\ntitle: 'PostgreSQL JDBC Driver'\ndraft: false\n---\n\n# PostgreSQL JDBC Driver\n\n;" ${f}
+    sed -i "1s;^;---\ntitle: 'PostgreSQL JDBC Driver'\ndraft: false\n---\n\n# PostgreSQL JDBC Driver\n\n;" ${f}
   else
     # Substitute beginning of side pages
-    sed -i "" "1s;^;---\ntitle: '${TITLE^}'\ndraft: false\n---\n\n;" ${f}
+    sed -i "1s;^;---\ntitle: '${TITLE^}'\ndraft: false\n---\n\n;" ${f}
   fi
 done
 

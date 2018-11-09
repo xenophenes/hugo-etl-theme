@@ -21,7 +21,7 @@ function remove_project {
 
 function usage {
     echo ""
-    echo "Usage: $ ./conversion.sh <project_name> <project_version>"
+    echo "Usage: $ ./conversion.sh [project_name] [project_version] [flags]"
     echo ""
     echo "Available project names:"
     echo ""
@@ -39,15 +39,29 @@ function usage {
     echo "- set_user: 1.6.1"
     echo "- backrest: 1.28 | 1.29 | 2.00 | 2.01 | 2.02 | 2.03 | 2.04"
     echo "- postgis: 2.2.7 | 2.3.7 | 2.4.5"
-    echo "- postgresql: 9.3.24 | 9.4.19 | 9.5.14 | 9.6.10 | 10.5 | 11.0"
+    echo "- | postgresql: 9.3.24 | 9.4.19 | 9.5.14 | 9.6.10 | 10.5 | 11.0"
+    echo ""
+    echo "Available flags:  --no-html || --no-pdf || --all"
     exit 1
+}
+
+function run_script {
+    # Run the conversion script
+    mkdir -p ${ETL_PATH}/docs
+    cd ${ETL}/${PROJECT_NAME} && ./run.sh
+}
+
+function generate_docs {
+    # Run load.sh for that project and pass in the flag
+    cd ${ETL}/${PROJECT_NAME} && ./load.sh ${1}
 }
 
 #====================
 # 2) Install projects
 #====================
 
-if [ "$#" -ne 2 ]; then
+if [ "$#" -ne 3 ]; then
+    echo_err "Invalid number of flags."
     usage
 fi
 
@@ -60,13 +74,11 @@ if [ "$1" == 'pgaudit' ]; then
     # Clean up build artifacts
     remove_project ${PROJECT_NAME} ${PGAUDIT_VERSION}
 
-    # Run the conversion script
-    mkdir -p ${ETL_PATH}/docs
-    cd ${ETL}/${PROJECT_NAME} && ./run.sh
+    # Run the extract and transform scripts
+    run_script
 
-    # Collect generated PDF's
-    mkdir -p ${ETL_PATH}/pdf/${PROJECT_NAME}
-    cp ${DOCS}/${PROJECT_NAME}_${PGAUDIT_VERSION}/pdf/${PROJECT_NAME}.pdf ${ETL_PATH}/pdf/${PROJECT_NAME}/${PROJECT_NAME}_${PGAUDIT_VERSION}.pdf
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3} ${PGAUDIT_VERSION}
 
 elif [ "$1" == 'pgaudit_analyze' ]; then
 
@@ -77,13 +89,11 @@ elif [ "$1" == 'pgaudit_analyze' ]; then
     # Clean up build artifacts
     remove_project ${PROJECT_NAME} ${PGAUDIT_ANALYZE_VERSION}
 
-    # Run the conversion script
-    mkdir -p ${ETL_PATH}/docs
-    cd ${ETL}/${PROJECT_NAME} && ./run.sh
+    # Run the extract and transform scripts
+    run_script
 
-    # Collect generated PDF's
-    mkdir -p ${ETL_PATH}/pdf/${PROJECT_NAME}
-    cp ${DOCS}/${PROJECT_NAME}_${PGAUDIT_ANALYZE_VERSION}/pdf/${PROJECT_NAME}.pdf ${ETL_PATH}/pdf/${PROJECT_NAME}/${PROJECT_NAME}_${PGAUDIT_ANALYZE_VERSION}.pdf
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3} ${PGAUDIT_ANALYZE_VERSION}
 
 elif [ "$1" == 'set_user' ]; then
 
@@ -94,13 +104,11 @@ elif [ "$1" == 'set_user' ]; then
     # Clean up build artifacts
     remove_project ${PROJECT_NAME} ${SET_USER_VERSION}
 
-    # Run the conversion script
-    mkdir -p ${ETL_PATH}/docs
-    cd ${ETL}/${PROJECT_NAME} && ./run.sh
+    # Run the extract and transform scripts
+    run_script
 
-    # Collect generated PDF's
-    mkdir -p ${ETL_PATH}/pdf/${PROJECT_NAME}
-    cp ${DOCS}/${PROJECT_NAME}_${SET_USER_VERSION}/pdf/${PROJECT_NAME}.pdf ${ETL_PATH}/pdf/${PROJECT_NAME}/${PROJECT_NAME}_${SET_USER_VERSION}.pdf
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3} ${SET_USER_VERSION}
 
 elif [ "$1" == 'backrest' ]; then
 
@@ -111,13 +119,11 @@ elif [ "$1" == 'backrest' ]; then
     # Clean up build artifacts
     remove_project ${PROJECT_NAME} ${BACKREST_VERSION}
 
-    # Run the conversion script
-    mkdir -p ${ETL_PATH}/docs
-    cd ${ETL}/${PROJECT_NAME} && ./run.sh
+    # Run the extract and transform scripts
+    run_script
 
-    # Collect generated PDF's
-    mkdir -p ${ETL_PATH}/pdf/${PROJECT_NAME}
-    cp ${DOCS}/${PROJECT_NAME}_${BACKREST_VERSION}/pdf/${PROJECT_NAME}.pdf ${ETL_PATH}/pdf/${PROJECT_NAME}/${PROJECT_NAME}_${BACKREST_VERSION}.pdf
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3} ${BACKREST_VERSION}
 
 elif [ "$1" == 'postgis' ]; then
 
@@ -128,13 +134,11 @@ elif [ "$1" == 'postgis' ]; then
     # Clean up build artifacts
     remove_project ${PROJECT_NAME} ${POSTGIS_VERSION}
 
-    # Run the conversion script
-    mkdir -p ${ETL_PATH}/docs
-    cd ${ETL}/${PROJECT_NAME} && ./run.sh
+    # Run the extract and transform scripts
+    run_script
 
-    # Collect generated PDF's
-    mkdir -p ${ETL_PATH}/pdf/${PROJECT_NAME}
-    cp ${DOCS}/${PROJECT_NAME}_${POSTGIS_VERSION}/pdf/${PROJECT_NAME}.pdf ${ETL_PATH}/pdf/${PROJECT_NAME}/${PROJECT_NAME}_${POSTGIS_VERSION}.pdf
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3} ${POSTGIS_VERSION}
 
 elif [ "$1" == 'postgresql' ]; then
 
@@ -145,13 +149,11 @@ elif [ "$1" == 'postgresql' ]; then
     # Clean up build artifacts
     remove_project ${PROJECT_NAME} ${POSTGRESQL_VERSION}
 
-    # Run the conversion script
-    mkdir -p ${ETL_PATH}/docs
-    cd ${ETL}/${PROJECT_NAME} && ./run.sh
+    # Run the extract and transform scripts
+    run_script
 
-    # Collect generated PDF's
-    mkdir -p ${ETL_PATH}/pdf/${PROJECT_NAME}
-    cp ${DOCS}/${PROJECT_NAME}_${POSTGRESQL_VERSION}/pdf/${PROJECT_NAME}.pdf ${ETL_PATH}/pdf/${PROJECT_NAME}/${PROJECT_NAME}_${POSTGRESQL_VERSION}.pdf
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3} ${POSTGRESQL_VERSION}
 
 else
     usage

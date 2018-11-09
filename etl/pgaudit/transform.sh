@@ -30,4 +30,4 @@ cp ${BUILD}/README.md ${CONTENT}/_index.md
 TITLE=$(head -n 1 ${CONTENT}/_index.md)
 
 # Substitute beginning of side pages
-sed -i "" "1s;^;---\ntitle: 'pgAudit - Open Source PostgreSQL Audit Logging'\ndraft: false\ntoc: true\n\n---\n\n;" ${CONTENT}/_index.md
+sed -i "1s;^;---\ntitle: 'pgAudit - Open Source PostgreSQL Audit Logging'\ndraft: false\ntoc: true\n\n---\n\n;" ${CONTENT}/_index.md
