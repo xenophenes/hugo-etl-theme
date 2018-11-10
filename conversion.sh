@@ -4,9 +4,14 @@
 # 0) Sources
 #==============
 
-source etl/common/common.sh
+if [[ $(pwd) == *"priv-all-portal-docs"* ]]; then
+    export ETL_PATH=$(echo $(pwd))
+else
+    echo "Error-- $0 must be called from inside the priv-all-portal-docs directory"
+    exit 1
+fi
 
-# TODO: set ETL_PATH here
+source etl/common/common.sh
 
 #==============
 # 1) Functions
