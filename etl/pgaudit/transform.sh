@@ -26,8 +26,5 @@ yes | cp -f ${DIR}/config.toml ${DST}
 # Move files to destination directory
 cp ${BUILD}/README.md ${CONTENT}/_index.md
 
-# Get the name of the page
-TITLE=$(head -n 1 ${CONTENT}/_index.md)
-
-# Substitute beginning of side pages
+# Substitute beginning
 sed -i "1s;^;---\ntitle: 'pgAudit - Open Source PostgreSQL Audit Logging'\ndraft: false\ntoc: true\n\n---\n\n;" ${CONTENT}/_index.md

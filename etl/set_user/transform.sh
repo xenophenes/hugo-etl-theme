@@ -25,3 +25,6 @@ yes | cp -f ${DIR}/config.toml ${DST}
 
 # Move files to destination directory
 cp ${BUILD}/README.md ${CONTENT}/_index.md
+
+# Substitute beginning
+sed -i "1s;^;---\ntitle: 'PostgreSQL set_user Extension Module'\ndraft: false\ntoc: true\n\n---\n\n;" ${CONTENT}/_index.md
