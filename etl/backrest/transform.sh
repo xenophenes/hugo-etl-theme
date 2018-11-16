@@ -24,19 +24,7 @@ cp -r ${TEMPLATE} ${DST}
 yes | cp -f ${DIR}/config.toml ${DST}
 
 # Remove unnecessary files
-rm ${BUILD}/default.css
-rm ${BUILD}/index.html
-
-# All source files aren't already in Markdown, so convert it
-for f in $(find ${BUILD} -name '*.html')
-do
-  # Clean up content
-  cleanup_backrest ${f}
-  # Convert to Markdown
-  pandoc -f html -t markdown $f -o $f
-done
-
-find ${BUILD} -name "*.html" -exec rename .html .md {} +
+rm ${BUILD}/default.css ${BUILD}/index.html
 
 # Move files to destination directory
 mv ${ETL}/${REPO}/build/${REPO}_${BACKREST_VERSION}/README.md ${CONTENT}/_index.md
@@ -44,33 +32,34 @@ mkdir -p ${DST}/static/images
 mv ${BUILD}/*.png ${DST}/static/images
 cp -r ${BUILD}/* ${CONTENT}/
 
-sed -i "1s;^;---\ntitle: 'pgBackRest - Reliable PostgreSQL Backup and Restore'\ndraft: false\n---\n\n;" ${CONTENT}/_index.md
-
-for f in $(find ${CONTENT} -name '*.md' ! -name _index.md)
+# Process the HTML files
+for f in $(find ${CONTENT} -name '*.html' ! -name '*index.md')
 do
+  # Clean up the files
+  python ${ETL}/common/common.py $f ${REPO}
+  rm $f
+  mv /tmp/document.modified $f
   # Get the name of the page
-  TITLE=$(head -n 1 ${f} | sed "s/pgBackRest //g")
+  TITLE=$(head -n 1 ${f} | sed "s/pgBackRest //g" | sed "s/&amp;/+/g")
   # Delete redundant header
   sed -i '1d' ${f}
   # Substitute beginning
   sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\n---\n\n;" ${f}
-done
-
-# Each file needs to be in its own folder
-for f in $(find ${CONTENT} -name '*.md' ! -name _index.md ! -name index.md)
-do
+  # Each file needs to be in its own folder
   FILE=$(basename "$f" | cut -f 1 -d '.')
   mkdir -p ${CONTENT}/${FILE}
   mv ${f} ${CONTENT}/${FILE}
 done
 
-# Need _index.md for each directory of content
+sed -i "1s;^;---\ntitle: 'pgBackRest - Reliable PostgreSQL Backup and Restore'\ndraft: false\n---\n\n;" ${CONTENT}/_index.md
+
+# Need _index.html for each directory of content
 for d in `find ${CONTENT} -type d`
 do
   NAME=$(echo ${d##*/})
 
-  # Does index.md already exist?
-  if [[ -f ${d}/${NAME}.md ]]; then
-    mv ${d}/${NAME}.md ${d}/_index.md
+  # Does index.html already exist?
+  if [[ -f ${d}/${NAME}.html ]]; then
+    mv ${d}/${NAME}.html ${d}/_index.html
   fi
 done
