@@ -1,4 +1,5 @@
 #!/bin/bash
+#=========================================================================
 # Copyright 2018 Crunchy Data Solutions, Inc.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -11,10 +12,11 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#=========================================================================
 
-#====================================================
-# Define folder locations referenced in scripts.
-#====================================================
+#===============================================
+# Define folder locations
+#===============================================
 
 THEME="${ETL_PATH}/etl/template/themes/crunchy"
 TEMPLATE="${ETL_PATH}/etl/template"
@@ -22,9 +24,9 @@ DOCS="${ETL_PATH}/docs"
 SRC="${ETL_PATH}/src"
 ETL="${ETL_PATH}/etl"
 
-#====================================================
-# General purpose / informational functions
-#====================================================
+#===============================================
+# General purpose & informational functions
+#===============================================
 
 RED="\033[0;31m"
 GREEN="\033[0;32m"
@@ -51,9 +53,9 @@ function echo_end {
     echo_info "ETL process for ${1} complete."
 }
 
-#====================================================
+#===============================================
 # Cleanup functions
-#====================================================
+#===============================================
 
 function cleanup_postgres {
     # This is used for the PostgreSQL and PostGIS documentation.

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#=========================================================================
 # Copyright 2018 Crunchy Data Solutions, Inc.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,19 +12,26 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#=========================================================================
 
-set -e
 source ${ETL_PATH}/etl/common/common.sh
 source pgaudit_var.sh
 
-# Template doesn't exist, copy it
-cp -r ${TEMPLATE} ${DST}
+#===============================================
+# Set up the destination structure
+#===============================================
 
-# Config file needs to be specific, copy it
+cp -r ${TEMPLATE} ${DST}
 yes | cp -f ${DIR}/config.toml ${DST}
 
+#===============================================
 # Move files to destination directory
+#===============================================
+
 cp ${BUILD}/README.md ${CONTENT}/_index.md
 
-# Substitute beginning
+#===============================================
+# Process the HTML files
+#===============================================
+
 sed -i "1s;^;---\ntitle: 'pgAudit - Open Source PostgreSQL Audit Logging'\ndraft: false\ntoc: true\n\n---\n\n;" ${CONTENT}/_index.md

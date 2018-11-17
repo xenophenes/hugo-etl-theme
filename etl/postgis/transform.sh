@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#=========================================================================
 # Copyright 2018 Crunchy Data Solutions, Inc.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,23 +12,34 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#=========================================================================
 
 source ${ETL_PATH}/etl/common/common.sh
 source postgis_var.sh
 
-# Template doesn't exist, copy it
-cp -r ${TEMPLATE} ${DST}
+#===============================================
+# Set up the destination structure
+#===============================================
 
-# Config file needs to be specific, copy it
+cp -r ${TEMPLATE} ${DST}
 yes | cp -f ${DIR}/config.toml ${DST}
 
-# Move media folders
+#===============================================
+# Move files to destination directory
+#===============================================
+
 mkdir -p ${DST}/static/images
 cp ${BUILD}/images/* ${DST}/static/images/
 rm -rf ${BUILD}/images
 
-# All source files aren't already in Markdown, so convert it
-for f in $(find ${BUILD} -name '*.html')
+cp ${BUILD}/index.html ${CONTENT}/_index.html
+cp -r ${BUILD}/* ${CONTENT}/
+
+#===============================================
+# Process the HTML files
+#===============================================
+
+for f in $(find ${CONTENT} -name '*.html')
 do
   if [[ ${f} != *"index.html"* ]]
   then
@@ -41,25 +52,25 @@ do
   pandoc -f html -t markdown $f -o $f
 done
 
-find ${BUILD} -name "*.html" -exec rename .html .md {} +
-
-# Move files to destination directory
-cp ${BUILD}/index.md ${CONTENT}/_index.md
-cp -r ${BUILD}/* ${CONTENT}/
+find ${CONTENT} -name "*.html" -exec rename .html .md {} +
 
 for f in $(find ${CONTENT} -name '*.md')
 do
   # Get the name of the page
   TITLE=$(head -n 1 ${f})
+
   # Clean up content
   cleanup_postgres "${f}"
+
   # Check if it's the index page
   if [[ ${f} == *"_index.md"* ]]
   then
     # Substitute beginning of Index page
     sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\ntoc: false\n---\n\n;" ${f}
+
   else
     # Substitute beginning of side pages
     sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\nhidden: true\ntoc: true\n\n---\n\n;" ${f}
+    
   fi
 done

@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#=========================================================================
 # Copyright 2018 Crunchy Data Solutions, Inc.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,53 +12,51 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#=========================================================================
 
-set -e
 source ${ETL_PATH}/etl/common/common.sh
 source backrest_var.sh
 
-# Template doesn't exist, copy it
-cp -r ${TEMPLATE} ${DST}
+#===============================================
+# Set up the destination structure
+#===============================================
 
-# Config file needs to be specific, copy it
+cp -r ${TEMPLATE} ${DST}
 yes | cp -f ${DIR}/config.toml ${DST}
 
-# Remove unnecessary files
-rm ${BUILD}/default.css ${BUILD}/index.html
-
+#===============================================
 # Move files to destination directory
-mv ${ETL}/${REPO}/build/${REPO}_${BACKREST_VERSION}/README.md ${CONTENT}/_index.md
+#===============================================
+
+rm ${BUILD}/default.css ${BUILD}/index.html
 mkdir -p ${DST}/static/images
 mv ${BUILD}/*.png ${DST}/static/images
+mv ${ETL}/${REPO}/build/${REPO}_${BACKREST_VERSION}/README.md ${CONTENT}/_index.md
 cp -r ${BUILD}/* ${CONTENT}/
 
+#===============================================
 # Process the HTML files
+#===============================================
+
 for f in $(find ${CONTENT} -name '*.html' ! -name '*index.md')
 do
-  # Clean up the files
+  # Process & clean up the files
   python ${ETL}/common/common.py $f ${REPO}
-  rm $f
-  mv /tmp/document.modified $f
-  # Get the name of the page
-  TITLE=$(head -n 1 ${f} | sed "s/pgBackRest //g" | sed "s/&amp;/+/g")
-  # Delete redundant header
-  sed -i '1d' ${f}
-  # Substitute beginning
-  sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\n---\n\n;" ${f}
-  # Each file needs to be in its own folder
+  rm $f && mv /tmp/document.modified $f
+
+  # Place each file into its own folder
   FILE=$(basename "$f" | cut -f 1 -d '.')
   mkdir -p ${CONTENT}/${FILE}
   mv ${f} ${CONTENT}/${FILE}
 done
 
-sed -i "1s;^;---\ntitle: 'pgBackRest - Reliable PostgreSQL Backup and Restore'\ndraft: false\n---\n\n;" ${CONTENT}/_index.md
-
+#===============================================
 # Need _index.html for each directory of content
+#===============================================
+
 for d in `find ${CONTENT} -type d`
 do
   NAME=$(echo ${d##*/})
-
-  # Does index.html already exist?
   if [[ -f ${d}/${NAME}.html ]]; then
     mv ${d}/${NAME}.html ${d}/_index.html
   fi

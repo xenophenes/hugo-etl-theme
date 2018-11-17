@@ -1,5 +1,5 @@
-#!/bin/bash 
-
+#!/bin/bash
+#=========================================================================
 # Copyright 2018 Crunchy Data Solutions, Inc.
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,14 +12,21 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+#=========================================================================
 
-# set -e
 source ${ETL_PATH}/etl/common/common.sh
 source postgresql_var.sh
+
+#===============================================
+# Extract the files from /src/
+#===============================================
 
 mkdir -p ${BUILD_ROOT} ${BUILD} ${TMP}
 tar -xzf ${SRC}/${REPO}/postgreSQL_${POSTGRESQL_VERSION}.tar.gz -C ${TMP}
 
-# HTML versions of the documentation need to be built
+#===============================================
+# Build HTML from source
+#===============================================
+
 (cd ${TMP} && ./configure && make html)
 cp -r ${TMP}/doc/src/sgml/html/* ${BUILD}/
