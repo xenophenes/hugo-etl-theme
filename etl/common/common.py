@@ -41,12 +41,15 @@ def cleanup_backrest(filename):
     pageTitle = pageTitle.replace("pgBackRest", "")
     pageTitle = pageTitle.replace("&", "+")
 
-    soup.body.insert(0, """
+    soup.body.insert(0,
+"""
 ---
 title: %s
 draft: false
 ---
-    """ % pageTitle)
+
+
+""" % pageTitle)
 
     soup.html.unwrap()
     soup.body.unwrap()
@@ -87,6 +90,49 @@ draft: false
         tag.decompose()
 
     for tag in soup.findAll(attrs={'class':'page-footer'}):
+        tag.decompose()
+
+    f = open("/tmp/document.modified", "w")
+    f.write(soup.prettify(formatter="html5"))
+    f.close()
+
+def cleanup_postgis(filename):
+    fh = open(filename, "r")
+
+    soup = BeautifulSoup(fh, 'html.parser')
+
+    pageTitle = soup.title.get_text()
+
+    if "_index.html" in filename:
+        soup.body.insert(0,
+"""
+---
+title: %s
+draft: false
+---
+
+
+""" % pageTitle)
+    else:
+        soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+hidden: true
+---
+
+
+""" % pageTitle)
+
+    soup.html.unwrap()
+    soup.body.unwrap()
+    soup.head.decompose()
+
+    for tag in soup.findAll(attrs={'class':'navheader'}):
+        tag.decompose()
+
+    for tag in soup.findAll(attrs={'class':'navfooter'}):
         tag.decompose()
 
     f = open("/tmp/document.modified", "w")

@@ -30,10 +30,7 @@ yes | cp -f ${DIR}/config.toml ${DST}
 
 mkdir -p ${DST}/static/images
 cp ${BUILD}/images/* ${DST}/static/images/
-rm -rf ${BUILD}/images
-
-cp ${BUILD}/index.html ${CONTENT}/_index.html
-cp -r ${BUILD}/* ${CONTENT}/
+cp ${BUILD}/postgis.html ${CONTENT}/_index.html
 
 #===============================================
 # Process the HTML files
@@ -41,36 +38,26 @@ cp -r ${BUILD}/* ${CONTENT}/
 
 for f in $(find ${CONTENT} -name '*.html')
 do
-  if [[ ${f} != *"index.html"* ]]
-  then
-    # Remove manually entered TOC if not the Index page
-    sed -Ei 's/<div class="toc">.*?<\/div>//g' "${f}"
-  fi
-  # Convert from ISO-8859-1 to UTF-8 so pandoc can parse the content
-  iconv -f ISO-8859-1 -t UTF-8 $f -o $f
-  # Convert HTML to Markdown
-  pandoc -f html -t markdown $f -o $f
+  # Process & clean up the files
+  python ${ETL}/common/common.py $f ${REPO}
+  rm $f && mv /tmp/document.modified $f
 done
 
-find ${CONTENT} -name "*.html" -exec rename .html .md {} +
+#===============================================
+# Needs unique style processing for headers
+#===============================================
 
-for f in $(find ${CONTENT} -name '*.md')
-do
-  # Get the name of the page
-  TITLE=$(head -n 1 ${f})
+printf "
+nav#TableOfContents div.h1 {
+    display: block !important;
+}
 
-  # Clean up content
-  cleanup_postgres "${f}"
+nav#TableOfContents div.h2, nav#TableOfContents div.h3, nav#TableOfContents div.h4 {
+    display: none !important;
+}
 
-  # Check if it's the index page
-  if [[ ${f} == *"_index.md"* ]]
-  then
-    # Substitute beginning of Index page
-    sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\ntoc: false\n---\n\n;" ${f}
-
-  else
-    # Substitute beginning of side pages
-    sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\nhidden: true\ntoc: true\n\n---\n\n;" ${f}
-    
-  fi
-done
+nav#TableOfContents div.h1, aside b {
+    list-style: none;
+    margin: 0.5rem 0px 0.5rem 20px;
+    padding-left: 1rem;
+}" >> ${DST}/themes/crunchy-hugo-theme/static/css/custom.css
