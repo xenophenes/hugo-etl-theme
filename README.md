@@ -66,19 +66,17 @@ These PDF files are generated using `pandoc`, and include a table of contents fo
 
 ## Requirements
 
-You will need to set the following variable in `.bashrc` for the project scripts to correctly find
-file paths:
-
-```sh
-export ETL_PATH=/path/to/repository
-```
-
-Additionally, the PostgreSQL documentation is generated from SGML into HTML using the instructions
+The PostgreSQL documentation is generated from SGML into HTML using the instructions
 found [here](https://www.postgresql.org/docs/current/static/docguide.html). Any requirements for
 building PostgreSQL documentation from source will need to be fulfilled before the scripts for the
 PostgreSQL project will run successfully.
 
-A final requirement is to ensure `pandoc` is installed prior to running the scripts, along with the `dblatex` package.
+The PostGIS documentation is generated from source. Any requirements for building PostGIS from source 
+will need to be fulfilled before the scripts for the PostGIS project will run successfully. This 
+additionally applies to ensuring the `dblatex` package is installed for PDF generation.
+
+Finally, [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) is used for processing 
+the data files, as is explained in more detail below. The minimum required version of BeautifulSoup is 4.4.0.
 
 When you're ready to build out the documentation, the you'll want to use the `conversion.sh` script
 contained in the root directory.
@@ -107,7 +105,16 @@ Available project versions:
 - backrest: 1.28 | 1.29 | 2.00 | 2.01 | 2.02 | 2.03 | 2.04
 - postgis: 2.2.7 | 2.3.7 | 2.4.5
 - postgresql: 9.3.24 | 9.4.19 | 9.5.14 | 9.6.10 | 10.5 | 11.0
+
+Available flags:  --no-html || --no-pdf || --all
 ```
+
+## Design Standards
+
+Within this project, you'll find the following design standards to be true:
+
+1) All file manipulation and system administration tasks are accomplished using Bash.
+2) All data reading and processing is done using Python, and more specifcially, [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/). 
 
 ## Testing
 
