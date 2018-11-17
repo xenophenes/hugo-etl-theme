@@ -25,12 +25,7 @@ function create_pdf {
     mkdir -p ${DST}/static/pdf
     mkdir -p ${ETL_PATH}/pdf/${REPO}
 
-    for f in $(find ${CONTENT} -name '*.md')
-    do
-      cp $f ${DST}/static/pdf
-    done
-
-    pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/*.md -o ${DST}/static/pdf/${REPO}.pdf
+    (cd ${TMP}/doc && make pdf)
 }
 
 #===============================================
@@ -41,7 +36,7 @@ if [ "$1" == '--no-html' ]; then
 
     create_pdf
 
-    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGIS_VERSION}.pdf
+    cp ${TMP}/doc/postgis-*.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGIS_VERSION}.pdf
 
 elif [ "$1" == '--no-pdf' ]; then
 
@@ -55,7 +50,7 @@ elif [ "$1" == '--all' ]; then
 
     hugo --source=${DST} --destination=${POSTGIS_DOCS}
 
-    cp ${DOCS}/${REPO}_${POSTGIS_VERSION}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGIS_VERSION}.pdf
+    cp ${TMP}/doc/postgis-*.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGIS_VERSION}.pdf
 
 fi
 
