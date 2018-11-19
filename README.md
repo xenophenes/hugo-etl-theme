@@ -78,6 +78,8 @@ additionally applies to ensuring the `dblatex` package is installed for PDF gene
 Finally, [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) is used for processing 
 the data files, as is explained in more detail below. The minimum required version of BeautifulSoup is 4.4.0.
 
+The version of Hugo used to test this project is v0.40. There is a known error with v0.51 that is being worked through currently.
+
 When you're ready to build out the documentation, the you'll want to use the `conversion.sh` script
 contained in the root directory.
 
