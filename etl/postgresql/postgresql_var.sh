@@ -15,10 +15,10 @@
 #=========================================================================
 
 REPO="postgresql"
-DIR="${ETL?}/${REPO?}"
-DST="${DIR?}/dst"
-CONTENT="${DST?}/content"
-BUILD_ROOT="${DIR?}/build"
-BUILD="${BUILD_ROOT?}/${REPO?}_${POSTGRESQL_VERSION?}"
-TMP="/tmp/${REPO?}_${POSTGRESQL_VERSION?}"
+DIR="${ETL}/${REPO}"
+DST="${DIR}/dst"
+CONTENT="${DST}/content"
+BUILD_ROOT="${DIR}/build"
+BUILD="${BUILD_ROOT}/${REPO}_${POSTGRESQL_VERSION}"
+TMP="/tmp/${REPO}_${POSTGRESQL_VERSION}"
 POSTGRESQL_DOCS="${DOCS}/${REPO}_${POSTGRESQL_VERSION}"

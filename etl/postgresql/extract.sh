@@ -22,11 +22,11 @@ source postgresql_var.sh
 #===============================================
 
 mkdir -p ${BUILD_ROOT} ${BUILD} ${TMP}
-tar -xzf ${SRC}/${REPO}/postgreSQL_${POSTGRESQL_VERSION}.tar.gz -C ${TMP}
+tar -xzf ${SRC}/${REPO}/*_${POSTGRESQL_VERSION}.tar.gz -C ${TMP}
 
 #===============================================
 # Build HTML from source
 #===============================================
 
-(cd ${TMP} && ./configure && make html)
-cp -r ${TMP}/doc/src/sgml/html/* ${BUILD}/
+(cd ${TMP}/*_${POSTGRESQL_VERSION} && ./configure && make html)
+cp -r ${TMP}/*_${POSTGRESQL_VERSION}/doc/src/sgml/html/* ${BUILD}/
