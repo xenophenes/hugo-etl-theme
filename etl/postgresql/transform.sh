@@ -28,7 +28,6 @@ yes | cp -f ${DIR}/config.toml ${DST}
 # Move files to destination directory
 #===============================================
 
-rm ${BUILD}/stylesheet.css
 cp ${BUILD}/index.html ${CONTENT}/_index.html
 cp -r ${BUILD}/*.html ${CONTENT}/
 
@@ -38,28 +37,7 @@ cp -r ${BUILD}/*.html ${CONTENT}/
 
 for f in $(find ${CONTENT} -name '*.html')
 do
-  pandoc -f html -t markdown $f -o $f
-done
-
-find ${CONTENT} -name "*.html" -exec rename .html .md {} +
-
-for f in $(find ${CONTENT} -name '*.md')
-do
-  # Get the name of the page
-  TITLE=$(head -n 1 ${f})
-
-  # Clean up content
-  cleanup_postgres "${f}"
-
-  # Check if it's the index page
-  if [[ ${f} == *"_index.md"* ]]
-  then
-    # Substitute beginning of Index page
-    sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\ntoc: false\n---\n\n;" ${f}
-
-  else
-    # Substitute beginning of side pages
-    sed -i "1s;^;---\ntitle: '${TITLE}'\ndraft: false\nhidden: true\ntoc: true\n\n---\n\n;" ${f}
-    
-  fi
+  # Process & clean up the files
+  python ${ETL}/common/common.py $f ${REPO}
+  rm $f && mv /tmp/document.modified $f
 done

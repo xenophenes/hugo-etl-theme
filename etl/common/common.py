@@ -17,9 +17,11 @@
 # 1) Imports
 #===============================================
 
+import bs4
+import sys
+import HTMLParser
 from bs4 import BeautifulSoup
 from bs4 import Doctype
-import sys
 
 #===============================================
 # 2) Variables
@@ -31,6 +33,10 @@ cleanup = sys.argv[2]
 #===============================================
 # 3) Functions
 #===============================================
+
+#==================
+# 3.1 pgBackRest
+#==================
 
 def cleanup_backrest(filename):
     fh = open(filename, "r")
@@ -96,6 +102,10 @@ draft: false
     f.write(soup.prettify(formatter="html5"))
     f.close()
 
+#==================
+# 3.2 PostGIS
+#==================
+
 def cleanup_postgis(filename):
     fh = open(filename, "r")
 
@@ -107,7 +117,7 @@ def cleanup_postgis(filename):
         soup.body.insert(0,
 """
 ---
-title: %s
+title: "%s"
 draft: false
 ---
 
@@ -138,6 +148,88 @@ hidden: true
     f = open("/tmp/document.modified", "w")
     f.write(soup.prettify(formatter="html5"))
     f.close()
+
+#==================
+# 3.3 PostgreSQL
+#==================
+
+def cleanup_postgresql(filename):
+    fh = open(filename, "r")
+
+    soup = BeautifulSoup(fh, 'html.parser')
+
+    pageTitle = soup.title.get_text()
+
+    if "_index.html" in filename:
+        soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+---
+
+
+""" % pageTitle)
+    else:
+        soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+hidden: true
+---
+
+
+""" % pageTitle)
+
+    soup.html.unwrap()
+    soup.body.unwrap()
+    soup.head.decompose()
+
+    for tag in soup:
+        if isinstance(tag, bs4.element.ProcessingInstruction):
+            tag.extract()
+
+    for tag in soup.contents:
+        if isinstance(tag, Doctype):
+            tag.extract()
+
+    for tag in soup.findAll(attrs={'class':'navheader'}):
+        tag.decompose()
+
+    for tag in soup.findAll(attrs={'class':'navfooter'}):
+        tag.decompose()
+
+    for tag in soup.findAll(attrs={'class':'navfooter'}):
+        tag.decompose()
+
+    for tag in soup.findAll('h2', {'class': 'title'}):
+        tag.name = "h1"
+
+    for tag in soup.findAll('h3', {'class': 'title'}):
+        if tag.contents[0] != "Tip":
+            tag.name = "h2"
+
+    for tag in soup.findAll("div"):
+        tag.replaceWithChildren()
+
+    f = open("/tmp/document.modified", "w")
+    f.write(soup.prettify(formatter="html5"))
+    f.close()
+
+    with open("/tmp/document.modified", "r") as file:
+      filedata = file.read()
+
+    filedata = filedata.replace("&nbsp;", " ")
+    filedata = filedata.replace("&ldquo;", '"')
+    filedata = filedata.replace("&rdquo;", '"')
+    filedata = filedata.replace("&amp;", "&")
+    filedata = filedata.replace("&mdash;", "-")
+    filedata = filedata.replace("&lt;", "<")
+    filedata = filedata.replace("&gt;", ">")
+
+    with open("/tmp/document.modified", "w") as file:
+      file.write(filedata)
 
 #===============================================
 # 4) Parsing
