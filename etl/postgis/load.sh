@@ -26,6 +26,9 @@ function create_pdf {
     mkdir -p ${ETL_PATH}/pdf/${REPO}
 
     (cd ${TMP}/doc && make pdf)
+
+    cp ${TMP}/doc/postgis-*.pdf ${DST}/static/pdf/${REPO}.pdf
+    cp ${TMP}/doc/postgis-*.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGIS_VERSION}.pdf
 }
 
 #===============================================
@@ -36,8 +39,6 @@ if [ "$1" == '--no-html' ]; then
 
     create_pdf
 
-    cp ${TMP}/doc/postgis-*.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGIS_VERSION}.pdf
-
 elif [ "$1" == '--no-pdf' ]; then
 
     hugo --source=${DST} --destination=${POSTGIS_DOCS}
@@ -47,8 +48,6 @@ elif [ "$1" == '--all' ]; then
     create_pdf
 
     hugo --source=${DST} --destination=${POSTGIS_DOCS}
-
-    cp ${TMP}/doc/postgis-*.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGIS_VERSION}.pdf
 
 fi
 

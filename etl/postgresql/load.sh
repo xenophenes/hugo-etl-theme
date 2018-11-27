@@ -26,6 +26,9 @@ function create_pdf {
     mkdir -p ${ETL_PATH}/pdf/${REPO}
 
     (cd ${TMP}/*_${POSTGRESQL_VERSION}/doc/src/sgml/ && make postgres-US.pdf)
+
+    cp ${TMP}/*_${POSTGRESQL_VERSION}/doc/src/sgml/postgres-US.pdf ${DST}/static/pdf/${REPO}.pdf
+    cp ${TMP}/*_${POSTGRESQL_VERSION}/doc/src/sgml/postgres-US.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGRESQL_VERSION}.pdf
 }
 
 #===============================================
@@ -36,8 +39,6 @@ if [ "$1" == '--no-html' ]; then
 
     create_pdf
 
-    cp ${TMP}/*_${POSTGRESQL_VERSION}/doc/src/sgml/postgres-US.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGRESQL_VERSION}.pdf
-
 elif [ "$1" == '--no-pdf' ]; then
 
     hugo --source=${DST} --destination=${POSTGRESQL_DOCS}
@@ -47,8 +48,6 @@ elif [ "$1" == '--all' ]; then
     create_pdf
 
     hugo --source=${DST} --destination=${POSTGRESQL_DOCS}
-
-    cp ${TMP}/*_${POSTGRESQL_VERSION}/doc/src/sgml/postgres-US.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGRESQL_VERSION}.pdf
 
 fi
 
