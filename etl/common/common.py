@@ -19,9 +19,15 @@
 
 import bs4
 import sys
-import HTMLParser
 from bs4 import BeautifulSoup
 from bs4 import Doctype
+
+try:
+    # Python 2.6-2.7 
+    from HTMLParser import HTMLParser
+except ImportError:
+    # Python 3
+    from html.parser import HTMLParser
 
 #===============================================
 # 2) Variables
@@ -205,7 +211,7 @@ def cleanup_postgresql(filename):
 
     for tag in soup.findAll(attrs={'class':'navfooter'}):
         tag.decompose()
-        
+
     for tag in soup.findAll('h2', {'class': 'title'}):
         tag.name = "h1"
 
