@@ -55,7 +55,7 @@ elif [ "$1" == '--all' ]; then
 
     hugo --source=${DST} --destination=${BACKREST_DOCS}
 
-    cp ${DOCS}/${REPO}_${BACKREST_VERSION}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${BACKREST_VERSION}.pdf
+    cp ${BACKREST_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${BACKREST_VERSION}.pdf
 
 fi
 
