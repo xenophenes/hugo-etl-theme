@@ -23,7 +23,7 @@ from bs4 import BeautifulSoup
 from bs4 import Doctype
 
 try:
-    # Python 2.6-2.7 
+    # Python 2.6-2.7
     from HTMLParser import HTMLParser
 except ImportError:
     # Python 3
@@ -169,25 +169,25 @@ def cleanup_postgresql(filename):
 
         if "_index.html" in filename:
             soup.body.insert(0,
-    """
-    ---
-    title: "%s"
-    draft: false
-    ---
+"""
+---
+title: "%s"
+draft: false
+---
 
 
-    """ % pageTitle)
+""" % pageTitle)
         else:
             soup.body.insert(0,
-    """
-    ---
-    title: "%s"
-    draft: false
-    hidden: true
-    ---
+"""
+---
+title: "%s"
+draft: false
+hidden: true
+---
 
 
-    """ % pageTitle)
+""" % pageTitle)
     except AttributeError:
         pass
 
@@ -210,6 +210,9 @@ def cleanup_postgresql(filename):
         tag.decompose()
 
     for tag in soup.findAll(attrs={'class':'navfooter'}):
+        tag.decompose()
+
+    for tag in soup.findAll('h1'):
         tag.decompose()
 
     for tag in soup.findAll('h2', {'class': 'title'}):
