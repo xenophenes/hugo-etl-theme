@@ -158,29 +158,32 @@ def cleanup_postgresql(filename):
 
     soup = BeautifulSoup(fh, 'html.parser')
 
-    pageTitle = soup.title.get_text()
+    try:
+        pageTitle = soup.title.get_text()
 
-    if "_index.html" in filename:
-        soup.body.insert(0,
-"""
----
-title: "%s"
-draft: false
----
-
-
-""" % pageTitle)
-    else:
-        soup.body.insert(0,
-"""
----
-title: "%s"
-draft: false
-hidden: true
----
+        if "_index.html" in filename:
+            soup.body.insert(0,
+    """
+    ---
+    title: "%s"
+    draft: false
+    ---
 
 
-""" % pageTitle)
+    """ % pageTitle)
+        else:
+            soup.body.insert(0,
+    """
+    ---
+    title: "%s"
+    draft: false
+    hidden: true
+    ---
+
+
+    """ % pageTitle)
+    except AttributeError:
+        pass
 
     soup.html.unwrap()
     soup.body.unwrap()
@@ -202,7 +205,7 @@ hidden: true
 
     for tag in soup.findAll(attrs={'class':'navfooter'}):
         tag.decompose()
-
+        
     for tag in soup.findAll('h2', {'class': 'title'}):
         tag.name = "h1"
 

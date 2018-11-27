@@ -4,6 +4,7 @@ canonifyurls = true
 DefaultContentLanguage = "current"
 languageCode = "en-us"
 uglyURLs = true
+relativeURLs = true
 
 title = "PostgreSQL: The World's Most Advanced Open Source Relational Database"
 theme = "crunchy-hugo-theme"
