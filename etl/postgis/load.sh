@@ -46,8 +46,6 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    rm ${DST}/static/pdf/*.md
-
     hugo --source=${DST} --destination=${POSTGIS_DOCS}
 
     cp ${TMP}/doc/postgis-*.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGIS_VERSION}.pdf
