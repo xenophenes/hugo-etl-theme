@@ -243,6 +243,78 @@ hidden: true
     with open("/tmp/document.modified", "w") as file:
       file.write(filedata)
 
+#==================
+# 3.4 Patroni
+#==================
+
+def cleanup_patroni(filename):
+    fh = open(filename, "r")
+
+    soup = BeautifulSoup(fh, 'html.parser')
+
+    pageTitle = soup.title.get_text()
+
+    soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+---
+
+
+""" % pageTitle)
+
+    soup.html.unwrap()
+    soup.body.unwrap()
+    soup.head.decompose()
+    soup.footer.decompose()
+
+    for tag in soup.contents:
+        if isinstance(tag, Doctype):
+            tag.extract()
+
+    for tag in soup.findAll("script"):
+        tag.decompose()
+
+    for tag in soup.findAll(attrs={'role':'search'}):
+        tag.decompose()
+
+    for tag in soup.findAll(attrs={'role':'navigation'}):
+        tag.decompose()
+
+    for tag in soup.findAll('nav', {'class': 'wy-nav-side'}):
+        tag.decompose()
+
+    for tag in soup.findAll('nav', {'class': 'wy-nav-top'}):
+        tag.decompose()
+
+    for tag in soup.findAll('a', {'class': 'headerlink'}):
+        tag.decompose()
+
+    for tag in soup.findAll("cite"):
+        tag.name = "code"
+
+    f = open("/tmp/document.modified", "w")
+    f.write(soup.prettify(formatter="html5"))
+    f.close()
+
+    with open("/tmp/document.modified", "r") as file:
+        filedata = file.read()
+
+    filedata = filedata.replace("&nbsp;", " ")
+    filedata = filedata.replace("&ldquo;", '"')
+    filedata = filedata.replace("&rdquo;", '"')
+    filedata = filedata.replace("&amp;", "&")
+    filedata = filedata.replace("&mdash;", "-")
+    filedata = filedata.replace("&lt;", "<")
+    filedata = filedata.replace("&gt;", ">")
+
+    with open("/tmp/document.modified", "w") as file:
+        file.write(filedata)
+
+    with open("/tmp/document.modified", "a") as file:
+        file.write("<p>&copy; Copyright 2015 Compose, Zalando SE</p>")
+
 #===============================================
 # 4) Parsing
 #===============================================
@@ -253,5 +325,7 @@ elif cleanup == "postgis":
     cleanup_postgis(filename)
 elif cleanup == "postgresql":
     cleanup_postgresql(filename)
+elif cleanup == "patroni":
+    cleanup_patroni(filename)
 else:
     print ("There is no cleanup function for that project.")

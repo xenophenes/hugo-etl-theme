@@ -9,6 +9,7 @@ on the following projects:
 * backrest
 * postgresql
 * postgis
+* patroni
 
 It is important to note that naming conventions for any created project folders within each of the
 repository directories (as mentioned below under Structure) must follow the spelling as written above.
@@ -71,14 +72,14 @@ found [here](https://www.postgresql.org/docs/current/static/docguide.html). Any 
 building PostgreSQL documentation from source will need to be fulfilled before the scripts for the
 PostgreSQL project will run successfully.
 
-The PostGIS documentation is generated from source. Any requirements for building PostGIS from source 
-will need to be fulfilled before the scripts for the PostGIS project will run successfully. This 
+The PostGIS documentation is generated from source. Any requirements for building PostGIS from source
+will need to be fulfilled before the scripts for the PostGIS project will run successfully. This
 additionally applies to ensuring the `dblatex` package is installed for PDF generation.
 
-Finally, [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) is used for processing 
+Finally, [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) is used for processing
 the data files, as is explained in more detail below. The minimum required version of BeautifulSoup is 4.4.0.
 
-The version of Hugo used to test this project is v0.40. There is a known error with v0.51 that is being worked through currently.
+The version of Hugo used to test this project is v0.40. There is a known error with v0.51 that is being worked through.
 
 When you're ready to build out the documentation, the you'll want to use the `conversion.sh` script
 contained in the root directory.
@@ -88,27 +89,29 @@ Usage of the script:
 ```sh
 $ ./conversion.sh
 
-Usage: $ ./conversion.sh <project_name> <project_version>
+Usage: $ ./conversion.sh [project_name] [project_version] [flags]
 
 Available project names:
 
-- pgaudit
-- pgaudit_analyze
-- set_user
-- backrest
-- postgis
-- postgresql
+   pgaudit
+   pgaudit_analyze
+   set_user
+   backrest
+   postgis
+   postgresql
+   patroni
 
 Available project versions:
 
-- pgaudit: 1.0.6 | 1.1.1 | 1.2.0 | 1.3.0
-- pgaudit_analyze: 1.0.7
-- set_user: 1.6.1
-- backrest: 1.28 | 1.29 | 2.00 | 2.01 | 2.02 | 2.03 | 2.04
-- postgis: 2.2.7 | 2.3.7 | 2.4.5
-- postgresql: 9.3.24 | 9.4.19 | 9.5.14 | 9.6.10 | 10.5 | 11.0
+   All project versions available to be converted.
+   Ensure the version number takes the format X.X.X, using periods as separators.
 
-Available flags:  --no-html || --no-pdf || --all
+Available flags:
+
+   --no-html
+   --no-pdf
+   --all
+
 ```
 
 ## Design Standards
@@ -116,7 +119,7 @@ Available flags:  --no-html || --no-pdf || --all
 Within this project, you'll find the following design standards to be true:
 
 1) All file manipulation and system administration tasks are accomplished using Bash.
-2) All data reading and processing is done using Python, and more specifcially, [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/). 
+2) All data reading and processing is done using Python, and more specifcially, [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/).
 
 ## Testing
 

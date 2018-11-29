@@ -36,6 +36,7 @@ function usage {
     echo "   backrest"
     echo "   postgis"
     echo "   postgresql"
+    echo "   patroni"
     echo ""
     echo "Available project versions:"
     echo ""
@@ -160,6 +161,21 @@ elif [ "$1" == 'postgresql' ]; then
 
     # Generate the documentation, choosing whether HTML, PDF, or both should be generated
     generate_docs ${3} ${POSTGRESQL_VERSION}
+
+elif [ "$1" == 'patroni' ]; then
+
+    # Parameter setup
+    export PROJECT_NAME=$1
+    export PATRONI_VERSION=$(echo $2 | sed 's/\./_/g')
+
+    # Clean up build artifacts
+    remove_project ${PROJECT_NAME} ${PATRONI_VERSION}
+
+    # Run the extract and transform scripts
+    run_script
+
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3} ${PATRONI_VERSION}
 
 else
     usage
