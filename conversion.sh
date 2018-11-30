@@ -85,7 +85,7 @@ if [ "$1" == 'pgaudit' ]; then
     run_script
 
     # Generate the documentation, choosing whether HTML, PDF, or both should be generated
-    generate_docs ${3} ${PGAUDIT_VERSION}
+    generate_docs ${3}
 
 elif [ "$1" == 'pgaudit_analyze' ]; then
 
@@ -100,7 +100,7 @@ elif [ "$1" == 'pgaudit_analyze' ]; then
     run_script
 
     # Generate the documentation, choosing whether HTML, PDF, or both should be generated
-    generate_docs ${3} ${PGAUDIT_ANALYZE_VERSION}
+    generate_docs ${3}
 
 elif [ "$1" == 'set_user' ]; then
 
@@ -115,7 +115,7 @@ elif [ "$1" == 'set_user' ]; then
     run_script
 
     # Generate the documentation, choosing whether HTML, PDF, or both should be generated
-    generate_docs ${3} ${SET_USER_VERSION}
+    generate_docs ${3}
 
 elif [ "$1" == 'backrest' ]; then
 
@@ -130,7 +130,7 @@ elif [ "$1" == 'backrest' ]; then
     run_script
 
     # Generate the documentation, choosing whether HTML, PDF, or both should be generated
-    generate_docs ${3} ${BACKREST_VERSION}
+    generate_docs ${3}
 
 elif [ "$1" == 'postgis' ]; then
 
@@ -145,7 +145,7 @@ elif [ "$1" == 'postgis' ]; then
     run_script
 
     # Generate the documentation, choosing whether HTML, PDF, or both should be generated
-    generate_docs ${3} ${POSTGIS_VERSION}
+    generate_docs ${3}
 
 elif [ "$1" == 'postgresql' ]; then
 
@@ -160,7 +160,7 @@ elif [ "$1" == 'postgresql' ]; then
     run_script
 
     # Generate the documentation, choosing whether HTML, PDF, or both should be generated
-    generate_docs ${3} ${POSTGRESQL_VERSION}
+    generate_docs ${3}
 
 elif [ "$1" == 'patroni' ]; then
 
@@ -175,7 +175,7 @@ elif [ "$1" == 'patroni' ]; then
     run_script
 
     # Generate the documentation, choosing whether HTML, PDF, or both should be generated
-    generate_docs ${3} ${PATRONI_VERSION}
+    generate_docs ${3}
 
 else
     usage
