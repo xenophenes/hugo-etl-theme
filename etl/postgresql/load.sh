@@ -22,8 +22,7 @@ source postgresql_var.sh
 #===============================================
 
 function create_pdf {
-    mkdir -p ${DST}/static/pdf
-    mkdir -p ${ETL_PATH}/pdf/${REPO}
+    mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
     (cd ${TMP}/*_${POSTGRESQL_VERSION}/doc/src/sgml/ && make postgres-US.pdf)
 

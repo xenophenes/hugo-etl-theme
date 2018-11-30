@@ -22,8 +22,7 @@ source pgaudit_analyze_var.sh
 #===============================================
 
 function create_pdf {
-    mkdir -p ${DST}/static/pdf
-    mkdir -p ${ETL_PATH}/pdf/${REPO}
+    mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
     for f in $(find ${CONTENT} -name '*.md')
     do

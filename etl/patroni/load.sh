@@ -22,8 +22,7 @@ source patroni_var.sh
 #===============================================
 
 function create_pdf {
-    mkdir -p ${DST}/static/pdf
-    mkdir -p ${ETL_PATH}/pdf/${REPO}
+    mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
     sphinx-build -Q -b latex ${BUILD_PDF}/docs ${BUILD_PDF}/docs
     (cd ${BUILD_PDF}/docs && pdflatex Patroni.tex)
@@ -54,6 +53,6 @@ elif [ "$1" == '--all' ]; then
 
 fi
 
-#rm -rf ${BUILD_ROOT} ${DST}
+rm -rf ${BUILD_ROOT} ${DST}
 
 echo_end ${REPO}

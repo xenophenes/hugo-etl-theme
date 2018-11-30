@@ -22,15 +22,15 @@ source backrest_var.sh
 #===============================================
 
 function create_pdf {
-    mkdir -p ${DST}/static/pdf
-    mkdir -p ${ETL_PATH}/pdf/${REPO}
+    mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
-    for f in $(find ${CONTENT} -name '*.md')
-    do
-      cp $f ${DST}/static/pdf
-    done
+    mv ${BUILD_PDF}/_index.md ${BUILD_PDF}/1.md
+    mv ${BUILD_PDF}/user-guide.html ${BUILD_PDF}/2.html
+    mv ${BUILD_PDF}/command.html ${BUILD_PDF}/3.html
+    mv ${BUILD_PDF}/configuration.html ${BUILD_PDF}/4.html
+    mv ${BUILD_PDF}/release.html ${BUILD_PDF}/5.html
 
-    pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/*.md -o ${DST}/static/pdf/${REPO}.pdf
+    pandoc --toc --latex-engine=xelatex ${BUILD_PDF}/* -o ${DST}/static/pdf/${REPO}.pdf
 }
 
 #===============================================
@@ -50,8 +50,6 @@ elif [ "$1" == '--no-pdf' ]; then
 elif [ "$1" == '--all' ]; then
 
     create_pdf
-
-    rm ${DST}/static/pdf/*.md
 
     hugo --source=${DST} --destination=${BACKREST_DOCS}
 
