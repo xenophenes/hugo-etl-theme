@@ -44,7 +44,7 @@ if [ "$1" == '--no-html' ]; then
 
 elif [ "$1" == '--no-pdf' ]; then
 
-    hugo --source=${DST} --destination=${PGAUDIT_DOCS}
+    hugo --source=${DST} --destination=${PGAUDIT_DOCS} --baseURL="/${REPO}/${PGAUDIT_VERSION}"
 
 elif [ "$1" == '--all' ]; then
 
@@ -52,7 +52,7 @@ elif [ "$1" == '--all' ]; then
 
     rm ${DST}/static/pdf/*.md
 
-    hugo --source=${DST} --destination=${PGAUDIT_DOCS}
+    hugo --source=${DST} --destination=${PGAUDIT_DOCS} --baseURL="/${REPO}/${PGAUDIT_VERSION}"
 
     cp ${PGAUDIT_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGAUDIT_VERSION}.pdf
 

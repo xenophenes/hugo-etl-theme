@@ -40,13 +40,13 @@ if [ "$1" == '--no-html' ]; then
 
 elif [ "$1" == '--no-pdf' ]; then
 
-    hugo --source=${DST} --destination=${POSTGIS_DOCS}
+    hugo --source=${DST} --destination=${POSTGIS_DOCS} --baseURL="/${REPO}/${POSTGIS_VERSION}"
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    hugo --source=${DST} --destination=${POSTGIS_DOCS}
+    hugo --source=${DST} --destination=${POSTGIS_DOCS} --baseURL="/${REPO}/${POSTGIS_VERSION}"
 
 fi
 

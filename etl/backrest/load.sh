@@ -45,13 +45,13 @@ if [ "$1" == '--no-html' ]; then
 
 elif [ "$1" == '--no-pdf' ]; then
 
-    hugo --source=${DST} --destination=${BACKREST_DOCS}
+    hugo --source=${DST} --destination=${BACKREST_DOCS} --baseURL="/${REPO}/${BACKREST_VERSION}"
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    hugo --source=${DST} --destination=${BACKREST_DOCS}
+    hugo --source=${DST} --destination=${BACKREST_DOCS} --baseURL="/${REPO}/${BACKREST_VERSION}"
 
     cp ${BACKREST_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${BACKREST_VERSION}.pdf
 

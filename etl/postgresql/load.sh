@@ -40,13 +40,13 @@ if [ "$1" == '--no-html' ]; then
 
 elif [ "$1" == '--no-pdf' ]; then
 
-    hugo --source=${DST} --destination=${POSTGRESQL_DOCS}
+    hugo --source=${DST} --destination=${POSTGRESQL_DOCS} --baseURL="/${REPO}/${POSTGRESQL_VERSION}"
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    hugo --source=${DST} --destination=${POSTGRESQL_DOCS}
+    hugo --source=${DST} --destination=${POSTGRESQL_DOCS} --baseURL="/${REPO}/${POSTGRESQL_VERSION}"
 
 fi
 

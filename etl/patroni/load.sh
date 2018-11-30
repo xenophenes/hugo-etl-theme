@@ -41,13 +41,13 @@ if [ "$1" == '--no-html' ]; then
 
 elif [ "$1" == '--no-pdf' ]; then
 
-    hugo --source=${DST} --destination=${PATRONI_DOCS}
+    hugo --source=${DST} --destination=${PATRONI_DOCS} --baseURL="/${REPO}/${PATRONI_VERSION}"
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    hugo --source=${DST} --destination=${PATRONI_DOCS}
+    hugo --source=${DST} --destination=${PATRONI_DOCS} --baseURL="/${REPO}/${PATRONI_VERSION}"
 
     cp ${PATRONI_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PATRONI_VERSION}.pdf
 
