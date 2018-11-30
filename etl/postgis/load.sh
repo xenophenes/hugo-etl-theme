@@ -17,6 +17,9 @@
 source ${ETL_PATH}/etl/common/common.sh
 source postgis_var.sh
 
+export POSTGIS_VERSION=$(echo ${POSTGIS_VERSION} | sed 's/_/./g')
+export POSTGIS_DOCS="${DOCS}/${REPO}/${POSTGIS_VERSION}"
+
 #===============================================
 # 1) Functions
 #===============================================

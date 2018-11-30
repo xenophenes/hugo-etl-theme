@@ -17,6 +17,9 @@
 source ${ETL_PATH}/etl/common/common.sh
 source set_user_var.sh
 
+export SET_USER_VERSION=$(echo ${SET_USER_VERSION} | sed 's/_/./g')
+export SET_USER_DOCS="${DOCS}/${REPO}${REPO_MAJOR}/${SET_USER_VERSION}"
+
 #===============================================
 # 1) Functions
 #===============================================

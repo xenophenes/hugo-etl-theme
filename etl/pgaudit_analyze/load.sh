@@ -17,6 +17,9 @@
 source ${ETL_PATH}/etl/common/common.sh
 source pgaudit_analyze_var.sh
 
+export PGAUDIT_ANALYZE_VERSION=$(echo ${PGAUDIT_ANALYZE_VERSION} | sed 's/_/./g')
+export PGAUDIT_ANALYZE_DOCS="${DOCS}/${REPO}/${PGAUDIT_ANALYZE_VERSION}"
+
 #===============================================
 # 1) Functions
 #===============================================

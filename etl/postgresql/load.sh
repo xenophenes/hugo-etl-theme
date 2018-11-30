@@ -17,6 +17,9 @@
 source ${ETL_PATH}/etl/common/common.sh
 source postgresql_var.sh
 
+export POSTGRESQL_VERSION=$(echo ${POSTGRESQL_VERSION} | sed 's/_/./g')
+export POSTGRESQL_DOCS="${DOCS}/${REPO}${REPO_MAJOR}/${POSTGRESQL_VERSION}"
+
 #===============================================
 # 1) Functions
 #===============================================
@@ -40,13 +43,13 @@ if [ "$1" == '--no-html' ]; then
 
 elif [ "$1" == '--no-pdf' ]; then
 
-    hugo --source=${DST} --destination=${POSTGRESQL_DOCS} --baseURL="/${REPO}/${POSTGRESQL_VERSION}"
+    hugo --source=${DST} --destination=${POSTGRESQL_DOCS} --baseURL="/${REPO}${REPO_MAJOR}/${POSTGRESQL_VERSION}"
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    hugo --source=${DST} --destination=${POSTGRESQL_DOCS} --baseURL="/${REPO}/${POSTGRESQL_VERSION}"
+    hugo --source=${DST} --destination=${POSTGRESQL_DOCS} --baseURL="/${REPO}${REPO_MAJOR}/${POSTGRESQL_VERSION}"
 
 fi
 

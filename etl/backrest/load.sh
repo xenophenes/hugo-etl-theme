@@ -17,6 +17,9 @@
 source ${ETL_PATH}/etl/common/common.sh
 source backrest_var.sh
 
+export BACKREST_VERSION=$(echo ${BACKREST_VERSION} | sed 's/_/./g')
+export BACKREST_DOCS=${DOCS}/${REPO}/${BACKREST_VERSION}
+
 #===============================================
 # 1) Functions
 #===============================================

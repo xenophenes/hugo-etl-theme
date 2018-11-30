@@ -17,6 +17,9 @@
 source ${ETL_PATH}/etl/common/common.sh
 source patroni_var.sh
 
+export PATRONI_VERSION=$(echo ${PATRONI_VERSION} | sed 's/_/./g')
+export PATRONI_DOCS="${DOCS}/${REPO}/${PATRONI_VERSION}"
+
 #===============================================
 # 1) Functions
 #===============================================
