@@ -25,12 +25,9 @@ function create_pdf {
     mkdir -p ${DST}/static/pdf
     mkdir -p ${ETL_PATH}/pdf/${REPO}
 
-    for f in $(find ${CONTENT} -name '*.html')
-    do
-      cp -n $f ${DST}/static/pdf/
-    done
-
-    pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/*.html -o ${DST}/static/pdf/${REPO}.pdf
+    sphinx-build -Q -b latex ${BUILD_PDF}/docs ${BUILD_PDF}/docs
+    (cd ${BUILD_PDF}/docs && pdflatex Patroni.tex)
+    cp ${BUILD_PDF}/docs/*.pdf ${DST}/static/pdf/${REPO}.pdf
 }
 
 #===============================================
@@ -51,14 +48,12 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    rm ${DST}/static/pdf/*.html
-
     hugo --source=${DST} --destination=${PATRONI_DOCS}
 
     cp ${PATRONI_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PATRONI_VERSION}.pdf
 
 fi
 
-rm -rf ${BUILD_ROOT} ${DST}
+#rm -rf ${BUILD_ROOT} ${DST}
 
 echo_end ${REPO}

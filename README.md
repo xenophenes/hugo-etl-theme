@@ -76,10 +76,18 @@ The PostGIS documentation is generated from source. Any requirements for buildin
 will need to be fulfilled before the scripts for the PostGIS project will run successfully. This
 additionally applies to ensuring the `dblatex` package is installed for PDF generation.
 
-Finally, [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) is used for processing
+[BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) is used for processing
 the data files, as is explained in more detail below. The minimum required version of BeautifulSoup is 4.4.0.
 
 The version of Hugo used to test this project is v0.40. There is a known error with v0.51 that is being worked through.
+
+Patroni requires the installation of the following packages:
+
+* python-sphinx
+* pdflatex
+* texlive-framed
+* texlive-threeparttable
+* texlive-wrapfig
 
 When you're ready to build out the documentation, the you'll want to use the `conversion.sh` script
 contained in the root directory.
