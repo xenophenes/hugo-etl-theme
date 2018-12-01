@@ -17,6 +17,7 @@
 source ${ETL_PATH}/etl/common/common.sh
 source postgresql_var.sh
 
+export OLD_POSTGRESQL_VERSION=$(echo ${POSTGRESQL_VERSION})
 export POSTGRESQL_VERSION=$(echo ${POSTGRESQL_VERSION} | sed 's/_/./g')
 export POSTGRESQL_DOCS="${DOCS}/${REPO}${REPO_MAJOR}/${POSTGRESQL_VERSION}"
 
@@ -27,10 +28,10 @@ export POSTGRESQL_DOCS="${DOCS}/${REPO}${REPO_MAJOR}/${POSTGRESQL_VERSION}"
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
-    (cd ${TMP}/*_${POSTGRESQL_VERSION}/doc/src/sgml/ && make postgres-US.pdf)
+    (cd ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/ && make postgres-US.pdf)
 
-    cp ${TMP}/*_${POSTGRESQL_VERSION}/doc/src/sgml/postgres-US.pdf ${DST}/static/pdf/${REPO}.pdf
-    cp ${TMP}/*_${POSTGRESQL_VERSION}/doc/src/sgml/postgres-US.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGRESQL_VERSION}.pdf
+    cp ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/postgres-US.pdf ${DST}/static/pdf/${REPO}.pdf
+    cp ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/postgres-US.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGRESQL_VERSION}.pdf
 }
 
 #===============================================
