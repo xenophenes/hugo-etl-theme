@@ -39,17 +39,27 @@ home = [ "HTML", "RSS", "JSON"]
 
 [[menu.shortcuts]]
 pre = "<h3>More</h3>"
-name = "<i class='fa fa-github'></i> <label>Github repo</label>"
+name = "<i class='fab fa-github'></i> <label>Source</label>"
 identifier = "ds"
 url = "https://github.com/pgaudit/pgaudit_analyze"
 weight = 10
 
 [[menu.shortcuts]]
-name = "<i class='fa fa-book'></i> <label>PDF Documentation</label>"
+name = "<i class='fas fa-file-pdf'></i> <label>PDF</label>"
 url = "/pdf/pgaudit_analyze.pdf"
 weight = 20
 
+#[[menu.shortcuts]]
+#name = "<i class='fas fa-book'></i> <label>EPUB</label>"
+#url = "/pdf/patroni.epub"
+#weight = 30
+
 [[menu.shortcuts]]
-name = "<i class='fa fa-file'></i> <label>License</label>"
+name = "<i class='fas fa-file-contract'></i> <label>License</label>"
 url = "https://github.com/pgaudit/pgaudit_analyze/blob/master/LICENSE"
-weight = 30
+weight = 40
+
+[[menu.shortcuts]]
+name = "<i class='fas fa-copy'></i> <label>View All Documentation</label>"
+url = "/documentation"
+weight = 50
