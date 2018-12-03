@@ -219,7 +219,7 @@ hidden: true
         tag.name = "h1"
 
     for tag in soup.findAll('h3', {'class': 'title'}):
-        if tag.contents[0] != "Tip":
+        if tag.contents[0] != "Tip" and tag.contents[0] != "Caution" and tag.contents[0] != "Note":
             tag.name = "h2"
 
     for tag in soup.findAll("div"):
