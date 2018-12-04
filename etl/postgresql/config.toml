@@ -62,5 +62,5 @@ weight = 40
 
 [[menu.shortcuts]]
 name = "<i class='fas fa-copy'></i> <label>View All Documentation</label>"
-url = "/documentation"
+url = "https://access.crunchydata.com/documentation"
 weight = 50
