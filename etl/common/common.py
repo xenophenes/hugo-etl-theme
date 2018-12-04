@@ -216,14 +216,11 @@ hidden: true
         tag.decompose()
 
     for tag in soup.findAll('h2', {'class': 'title'}):
-        tag.name = "h1"
+        tag.decompose()
 
     for tag in soup.findAll('h3', {'class': 'title'}):
         if tag.contents[0] != "Tip" and tag.contents[0] != "Caution" and tag.contents[0] != "Note":
             tag.name = "h2"
-
-    for tag in soup.findAll("div"):
-        tag.replaceWithChildren()
 
     f = open("/tmp/document.modified", "w")
     f.write(soup.prettify(formatter="html5"))
