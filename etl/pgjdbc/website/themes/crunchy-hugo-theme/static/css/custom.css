@@ -50,6 +50,12 @@ article > aside {
     width: 25rem !important;
 }
 
+article > aside .menu {
+    line-height: 2rem;
+    list-style-type: none;
+    margin-top: 2rem !important;
+}
+
 article > aside .menu .dd-item.active > div * {
     border-bottom: none;
 }
@@ -345,10 +351,6 @@ select {
     margin: 0 auto;
 }
 
-#navigation {
-    margin: 0 !important;
-}
-
 #navigation a i {
     font-size: 2rem;
 }
@@ -378,13 +380,17 @@ nav#TableOfContents, aside b {
     padding-right: 1.5rem;
 }
 
-nav#TableOfContents ul li, aside b {
+nav#TableOfContents div.h2, aside b {
     list-style: none;
     margin: 0.5rem 0px 0.5rem 20px;
     padding-left: 1rem;
 }
 
-nav#TableOfContents ul li ul li ul {
+nav#TableOfContents div.h1,
+nav#TableOfContents div.h3,
+nav#TableOfContents div.h4,
+nav#TableOfContents div.h5,
+nav#TableOfContents div.h6 {
     display: none;
 }
 
