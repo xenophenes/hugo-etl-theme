@@ -3,15 +3,6 @@ title: 'Git'
 draft: false
 ---
 
--   [Development](development)
--   [GIT](git)
--   [Translations](translations)
--   [Website](website)
--   [Todo](todo)
--   [Private API](privateapi/index)
-
-* * * * *
-
 ## GIT Web Interface
 
 A web view of the GIT repository is available

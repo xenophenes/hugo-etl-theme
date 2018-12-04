@@ -3,15 +3,6 @@ title: 'Website'
 draft: false
 ---
 
--   [Development](development)
--   [GIT](git)
--   [Translations](translations)
--   [Website](website)
--   [Todo](todo)
--   [Private API](privateapi/index)
-
-* * * * *
-
 ## Building the Website
 
 The website is produced with [Jekyll](http://jekyllrb.com). It allows

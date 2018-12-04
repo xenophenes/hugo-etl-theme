@@ -3,12 +3,6 @@ title: 'About'
 draft: false
 ---
 
--   [About](about)
--   [License](license)
--   [Extras](extras)
-
-* * * * *
-
 **PostgreSQL JDBC Driver** (*PgJDBC* for short) allows Java programs to
 connect to a PostgreSQL database using standard, database independent
 Java code. Is an open source JDBC driver written in Pure Java (Type 4),

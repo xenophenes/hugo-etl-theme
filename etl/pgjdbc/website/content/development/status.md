@@ -4,15 +4,6 @@ draft: false
 hidden: true
 ---
 
--   [Development](development)
--   [GIT](git)
--   [Translations](translations)
--   [Website](website)
--   [Todo](todo)
--   [Private API](privateapi/index)
-
-* * * * *
-
 ## Branch - 91
 
 <table>

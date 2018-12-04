@@ -3,12 +3,6 @@ title: 'Extras'
 draft: false
 ---
 
--   [About](about)
--   [License](license)
--   [Extras](extras)
-
-* * * * *
-
 ## Introduction
 
 Here is a collection of things that may be useful to you that are not

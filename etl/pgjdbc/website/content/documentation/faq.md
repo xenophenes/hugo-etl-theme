@@ -3,12 +3,6 @@ title: 'FAQ'
 draft: false
 ---
 
--   [Documentation](documentation)
--   [Changelog](changelog)
--   [FAQ](faq)
-
-* * * * *
-
 ## Frequently Asked Questions
 
 * * * * *

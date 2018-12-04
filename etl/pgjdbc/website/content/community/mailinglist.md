@@ -3,12 +3,6 @@ title: 'Mailing Lists'
 draft: false
 ---
 
--   [Community](community)
--   [Mailing List](mailinglist)
--   [Contributors](contributors)
-
-* * * * *
-
 ## Before Mailing Anyone
 
 Before posting a question or problem to the mailing list, please first

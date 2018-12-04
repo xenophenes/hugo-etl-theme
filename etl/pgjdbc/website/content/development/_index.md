@@ -3,15 +3,6 @@ title: 'Development'
 draft: false
 ---
 
--   [Development](development)
--   [GIT](git)
--   [Translations](translations)
--   [Website](website)
--   [Todo](todo)
--   [Private API](privateapi/index)
-
-* * * * *
-
 ## About the Driver
 
 The PostgreSQL JDBC driver has some unique properties that you should be

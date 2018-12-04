@@ -3,12 +3,6 @@ title: 'Community'
 draft: false
 ---
 
--   [Community](community)
--   [Mailing List](mailinglist)
--   [Contributors](contributors)
-
-* * * * *
-
 PostgreSQL is well supported by its active community. Current
 developments are chronicled in the [PostgreSQL Weekly
 News](http://www.postgresql.org/community/weeklynews) and there are more

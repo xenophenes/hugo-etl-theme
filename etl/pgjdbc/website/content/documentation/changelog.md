@@ -3,12 +3,6 @@ title: 'Changelog'
 draft: false
 ---
 
--   [Documentation](documentation)
--   [Changelog](changelog)
--   [FAQ](faq)
-
-* * * * *
-
 ## Introduction and explanation of symbols
 
 Changes are sorted by "type" and then chronologically with the most

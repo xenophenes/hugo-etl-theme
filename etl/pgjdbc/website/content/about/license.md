@@ -3,12 +3,6 @@ title: 'License'
 draft: false
 ---
 
--   [About](about)
--   [License](license)
--   [Extras](extras)
-
-* * * * *
-
 ## BSD 2-clause "Simplified" License
 
 The PostgreSQL JDBC Driver is distributed under the BSD-2-Clause

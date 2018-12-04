@@ -3,12 +3,6 @@ title: 'Contributors'
 draft: false
 ---
 
--   [Community](community)
--   [Mailing List](mailinglist)
--   [Contributors](contributors)
-
-* * * * *
-
 ## Maintainers
 
 Please do not contact the maintainers directly unless you have a

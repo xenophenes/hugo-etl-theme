@@ -3,15 +3,6 @@ title: 'Translations'
 draft: false
 ---
 
--   [Development](development)
--   [GIT](git)
--   [Translations](translations)
--   [Website](website)
--   [Todo](todo)
--   [Private API](privateapi/index)
-
-* * * * *
-
 Overview
 --------
 

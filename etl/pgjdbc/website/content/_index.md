@@ -139,7 +139,6 @@ Latest Releases
  **42.2.1** · 25 Jan 2018 ·
 [Notes](documentation/changelog#version_42.2.1) \
 
-**[Downloads](download)** |
 [Snapshots](https://oss.sonatype.org/content/repositories/snapshots/org/postgresql/postgresql/)
 
 Shortcuts

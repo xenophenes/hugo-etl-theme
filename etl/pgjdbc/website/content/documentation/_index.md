@@ -3,12 +3,6 @@ title: 'Documentation'
 draft: false
 ---
 
--   [Documentation](documentation)
--   [Changelog](changelog)
--   [FAQ](faq)
-
-* * * * *
-
 ## Documentation
 
 This website contains the latest, most up to date version of the
