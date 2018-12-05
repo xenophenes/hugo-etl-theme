@@ -51,7 +51,6 @@ def cleanup_backrest(filename):
 
     pageTitle = soup.title.get_text()
     pageTitle = pageTitle.replace("pgBackRest", "")
-    pageTitle = pageTitle.replace("&", "+")
 
     soup.body.insert(0,
 """
@@ -113,6 +112,14 @@ draft: false
     f = open("/tmp/document.modified", "w")
     f.write(soup.prettify(formatter="html5"))
     f.close()
+
+    with open("/tmp/document.modified", "r") as file:
+      filedata = file.read()
+
+    filedata = filedata.replace("&amp;", "&")
+
+    with open("/tmp/document.modified", "w") as file:
+      file.write(filedata)
 
 #==================
 # 3.2 PostGIS
