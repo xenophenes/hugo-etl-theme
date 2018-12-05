@@ -79,8 +79,6 @@ additionally applies to ensuring the `dblatex` package is installed for PDF gene
 [BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) is used for processing
 the data files, as is explained in more detail below. The minimum required version of BeautifulSoup is 4.4.0.
 
-The version of Hugo used to test this project is v0.40. There is a known error with v0.51 that is being worked through.
-
 Patroni requires the installation of the following packages:
 
 * python-sphinx
