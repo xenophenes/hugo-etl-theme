@@ -104,6 +104,12 @@ draft: false
     for tag in soup.findAll(attrs={'class':'page-footer'}):
         tag.decompose()
 
+    for tag in soup.findAll(attrs={'class':'section2-subtitle'}):
+        tag['style'] = "color: #0167B3;font-weight: 600;padding-bottom: 1rem;"
+
+    for tag in soup.findAll(attrs={'class':'section2-subsubtitle'}):
+        tag['style'] = "padding-bottom: 1rem;"
+
     f = open("/tmp/document.modified", "w")
     f.write(soup.prettify(formatter="html5"))
     f.close()
