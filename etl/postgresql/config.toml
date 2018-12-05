@@ -46,21 +46,11 @@ url = "https://git.postgresql.org/gitweb/?p=postgresql.git;a=summary"
 weight = 10
 
 [[menu.shortcuts]]
-name = "<i class='fas fa-file-pdf'></i> <label>PDF</label>"
-url = "/pdf/postgresql.pdf"
-weight = 20
-
-#[[menu.shortcuts]]
-#name = "<i class='fas fa-book'></i> <label>EPUB</label>"
-#url = "/pdf/patroni.epub"
-#weight = 30
-
-[[menu.shortcuts]]
 name = "<i class='fas fa-file-contract'></i> <label>License</label>"
 url = "https://www.postgresql.org/about/licence/"
-weight = 40
+weight = 20
 
 [[menu.shortcuts]]
 name = "<i class='fas fa-copy'></i> <label>View All Documentation</label>"
 url = "https://access.crunchydata.com/documentation"
-weight = 50
+weight = 30

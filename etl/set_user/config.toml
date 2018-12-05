@@ -39,17 +39,17 @@ home = [ "HTML", "RSS", "JSON"]
 
 [[menu.shortcuts]]
 pre = "<h3>More</h3>"
-name = "<i class='fa fa-github'></i> <label>Github repo</label>"
+name = "<i class='fab fa-github'></i> <label>Source</label>"
 identifier = "ds"
 url = "https://github.com/pgaudit/set_user"
 weight = 10
 
 [[menu.shortcuts]]
-name = "<i class='fa fa-book'></i> <label>PDF Documentation</label>"
-url = "/pdf/set_user.pdf"
+name = "<i class='fas fa-file-contract'></i> <label>License</label>"
+url = "https://github.com/pgaudit/set_user/blob/master/LICENSE"
 weight = 20
 
 [[menu.shortcuts]]
-name = "<i class='fa fa-file'></i> <label>License</label>"
-url = "https://github.com/pgaudit/set_user/blob/master/LICENSE"
+name = "<i class='fas fa-copy'></i> <label>View All Documentation</label>"
+url = "https://access.crunchydata.com/documentation"
 weight = 30
