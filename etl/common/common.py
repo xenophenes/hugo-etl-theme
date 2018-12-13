@@ -325,6 +325,58 @@ draft: false
     with open("/tmp/document.modified", "a") as file:
         file.write("<p>&copy; Copyright 2015 Compose, Zalando SE</p>")
 
+#==================
+# 3.5 pgBadger
+#==================
+
+def cleanup_pgbadger(filename):
+    fh = open(filename, "r")
+
+    soup = BeautifulSoup(fh, 'html.parser')
+
+    soup.body.insert(0,
+"""
+---
+title: "pgBadger - A fast PostgreSQL Log Analyzer"
+draft: false
+---
+
+
+<h1>pgBadger - A fast PostgreSQL Log Analyzer</h1>
+
+""")
+
+    soup.html.unwrap()
+    soup.body.unwrap()
+    soup.head.decompose()
+
+    for tag in soup:
+        if isinstance(tag, bs4.element.ProcessingInstruction):
+            tag.extract()
+
+    for tag in soup.contents:
+        if isinstance(tag, Doctype):
+            tag.extract()
+
+    for tag in soup.findAll('ul', {'id': 'index'}):
+        tag.decompose()
+
+    for tag in soup.findAll('h1'):
+        tag.name = "h2"
+
+    f = open("/tmp/document.modified", "w")
+    f.write(soup.prettify(formatter="html5"))
+    f.close()
+
+    with open("/tmp/document.modified", "r") as file:
+        filedata = file.read()
+
+    filedata = filedata.replace("&lt;", "<")
+    filedata = filedata.replace("&gt;", ">")
+
+    with open("/tmp/document.modified", "w") as file:
+        file.write(filedata)
+
 #===============================================
 # 4) Parsing
 #===============================================
@@ -337,5 +389,7 @@ elif cleanup == "postgresql":
     cleanup_postgresql(filename)
 elif cleanup == "patroni":
     cleanup_patroni(filename)
+elif cleanup == "pgbadger":
+    cleanup_pgbadger(filename)
 else:
     print ("There is no cleanup function for that project.")
