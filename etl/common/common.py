@@ -377,6 +377,97 @@ draft: false
     with open("/tmp/document.modified", "w") as file:
         file.write(filedata)
 
+#==================
+# 3.6 pgBouncer
+#==================
+
+def cleanup_pgbouncer(filename):
+    fh = open(filename, "r")
+
+    soup = BeautifulSoup(fh, 'html.parser')
+
+    pageTitle = soup.title.get_text()
+
+    if "_index.html" in filename:
+        soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+---
+
+<h1>pgBouncer - A Lightweight Connection Pooler for PostgreSQL</h1>
+
+""" % pageTitle)
+    elif "usage" in filename:
+        soup.h1.decompose()
+
+        soup.body.insert(0,
+"""
+---
+title: "Usage"
+draft: false
+---
+
+""")
+    elif "config" in filename:
+        soup.h1.decompose()
+
+        soup.body.insert(0,
+"""
+---
+title: "Configuration"
+draft: false
+---
+
+""")
+    else:
+        soup.h1.decompose()
+
+        soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+---
+
+
+""" % pageTitle)
+
+    soup.html.unwrap()
+    soup.body.unwrap()
+    soup.head.decompose()
+
+    for tag in soup:
+        if isinstance(tag, bs4.element.ProcessingInstruction):
+            tag.extract()
+
+    for tag in soup.contents:
+        if isinstance(tag, Doctype):
+            tag.extract()
+
+    for tag in soup.findAll("script"):
+        tag.decompose()
+
+    for tag in soup.findAll('h2'):
+        tag.name = "h3"
+
+    for tag in soup.findAll('h1'):
+        tag.name = "h2"
+
+    f = open("/tmp/document.modified", "w")
+    f.write(soup.prettify(formatter="html5"))
+    f.close()
+
+    with open("/tmp/document.modified", "r") as file:
+        filedata = file.read()
+
+    filedata = filedata.replace("&lt;", "<")
+    filedata = filedata.replace("&gt;", ">")
+
+    with open("/tmp/document.modified", "w") as file:
+        file.write(filedata)
+
 #===============================================
 # 4) Parsing
 #===============================================
@@ -391,5 +482,7 @@ elif cleanup == "patroni":
     cleanup_patroni(filename)
 elif cleanup == "pgbadger":
     cleanup_pgbadger(filename)
+elif cleanup == "pgbouncer":
+    cleanup_pgbouncer(filename)
 else:
     print ("There is no cleanup function for that project.")
