@@ -12,6 +12,7 @@ on the following projects:
 * patroni
 * pgbadger
 * pgbouncer
+* pg_partman
 
 It is important to note that naming conventions for any created project folders within each of the
 repository directories (as mentioned below under Structure) must follow the spelling as written above.
