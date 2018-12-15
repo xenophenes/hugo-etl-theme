@@ -52,22 +52,3 @@ function echo_begin {
 function echo_end {
     echo_info "ETL process for ${1} complete."
 }
-
-#===============================================
-# Cleanup functions
-#===============================================
-
-function cleanup_postgres {
-    # This is used for the PostgreSQL and PostGIS documentation.
-    # Remove all instances of text within brackets starting with a ., indicating a HTML class
-    sed -i "s/{\.[^)]*}//g" ${1}
-    # All links need to be relative, not absolute
-    sed -i "s/.html//g" ${1}
-    # Remove footer content
-    sed -zi 's/\* \* \* \* \*\n\n  ---.*\n[^\n]\+\n[^\n]\+\n  ---.*\n\n//g' ${1}
-    # Remove header content by removing everything including / before the first occurrence
-    # of * * * * *
-    sed -i '0,/^\* \* \* \* \*$/d' ${1}
-    # All images need to default to the root directory
-    sed -i 's/]](images/]](\/images/g' ${1}
-}

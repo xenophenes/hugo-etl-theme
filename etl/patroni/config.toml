@@ -10,7 +10,7 @@ theme = "crunchy-hugo-theme"
 #themesdir = "themes/"
 pygmentsCodeFences = true
 pygmentsStyle = "monokailight"
-publishDir = "${ETL_PATH}/docs/patroni"
+publishDir = ""
 
 defaultContentLanguage = "current"
 defaultContentLanguageInSubdir= true
