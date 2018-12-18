@@ -40,6 +40,7 @@ function usage {
     echo "   pgbadger"
     echo "   pgbouncer"
     echo "   pg_partman"
+    echo "   plr"
     echo "   sec_install_n_config"
     echo ""
     echo "Available project versions:"
@@ -234,6 +235,21 @@ elif [ "$1" == 'sec_install_n_config' ]; then
 
     # Clean up build artifacts
     remove_project ${PROJECT_NAME} ${SEC_INSTALL_N_CONFIG_VERSION}
+
+    # Run the extract and transform scripts
+    run_script
+
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3}
+
+elif [ "$1" == 'plr' ]; then
+
+    # Parameter setup
+    export PROJECT_NAME=$1
+    export PLR_VERSION=$(echo $2 | sed 's/\./_/g')
+
+    # Clean up build artifacts
+    remove_project ${PROJECT_NAME} ${PLR_VERSION}
 
     # Run the extract and transform scripts
     run_script
