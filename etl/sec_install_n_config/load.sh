@@ -27,15 +27,15 @@ export SEC_INSTALL_N_CONFIG_DOCS="${DOCS}/${REPO}/${SEC_INSTALL_N_CONFIG_VERSION
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
-    cp ${CONTENT}/_index.html ${DST}/static/pdf/crunchy_certified_postgresql_10.html
-    cp ${CONTENT}/96/_index.html ${DST}/static/pdf/crunchy_certified_postgresql_96.html
-    cp ${CONTENT}/95/_index.html ${DST}/static/pdf/crunchy_certified_postgresql_95.html
+    cp ${CONTENT}/_index.md ${DST}/static/pdf/crunchy_certified_postgresql_10.md
+    cp ${CONTENT}/96/_index.md ${DST}/static/pdf/crunchy_certified_postgresql_96.md
+    cp ${CONTENT}/95/_index.md ${DST}/static/pdf/crunchy_certified_postgresql_95.md
 
     cp -r ${DST}/static/media ${DST}/static/pdf
 
-    xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf toc ${DST}/static/pdf/crunchy_certified_postgresql_10.html ${DST}/static/pdf/crunchy_certified_postgresql_10.pdf
-    xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf toc ${DST}/static/pdf/crunchy_certified_postgresql_96.html ${DST}/static/pdf/crunchy_certified_postgresql_96.pdf
-    xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf toc ${DST}/static/pdf/crunchy_certified_postgresql_95.html ${DST}/static/pdf/crunchy_certified_postgresql_95.pdf
+    pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/crunchy_certified_postgresql_10.md -o ${DST}/static/pdf/crunchy_certified_postgresql_10.pdf
+    pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/crunchy_certified_postgresql_96.md -o ${DST}/static/pdf/crunchy_certified_postgresql_96.pdf
+    pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/crunchy_certified_postgresql_95.md -o ${DST}/static/pdf/crunchy_certified_postgresql_95.pdf
 }
 
 #===============================================
@@ -58,7 +58,7 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    rm -rf ${DST}/static/pdf/*.html ${DST}/static/pdf/media
+    rm -rf ${DST}/static/pdf/*.md ${DST}/static/pdf/media
 
     hugo --source=${DST} --destination=${SEC_INSTALL_N_CONFIG_DOCS} --baseURL="/${REPO}/${SEC_INSTALL_N_CONFIG_VERSION}"
 
