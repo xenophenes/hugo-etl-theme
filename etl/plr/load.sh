@@ -25,14 +25,9 @@ export PLR_DOCS=${DOCS}/${REPO}/${PLR_VERSION}
 #===============================================
 
 function create_pdf {
-    mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO} ${BUILD_PDF}
+    mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
-    cp ${CONTENT}/_index.md ${BUILD_PDF}/1.md
-    cp ${CONTENT}/plr/_index.md ${BUILD_PDF}/2.md
-    cp ${CONTENT}/plr_howto/_index.md ${BUILD_PDF}/3.md
-    cp ${CONTENT}/migration_to_partman/_index.md ${BUILD_PDF}/4.md
-
-    pandoc --toc --latex-engine=xelatex ${BUILD_PDF}/* -o ${DST}/static/pdf/${REPO}.pdf
+    cp ${BUILD}/*pdf ${DST}/static/pdf/${REPO}.pdf
 }
 
 #===============================================
