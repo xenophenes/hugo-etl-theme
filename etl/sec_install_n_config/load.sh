@@ -31,7 +31,7 @@ function create_pdf {
     cp ${CONTENT}/96/_index.md ${DST}/static/pdf/crunchy_certified_postgresql_96.md
     cp ${CONTENT}/95/_index.md ${DST}/static/pdf/crunchy_certified_postgresql_95.md
 
-    cp -r ${DST}/static/media ${DST}/static/pdf
+    cp -r ${DST}/static/media .
 
     pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/crunchy_certified_postgresql_10.md -o ${DST}/static/pdf/crunchy_certified_postgresql_10.pdf
     pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/crunchy_certified_postgresql_96.md -o ${DST}/static/pdf/crunchy_certified_postgresql_96.pdf
@@ -58,7 +58,7 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    rm -rf ${DST}/static/pdf/*.md ${DST}/static/pdf/media
+    rm -rf ${DST}/static/pdf/*.md media
 
     hugo --source=${DST} --destination=${SEC_INSTALL_N_CONFIG_DOCS} --baseURL="/${REPO}/${SEC_INSTALL_N_CONFIG_VERSION}"
 
