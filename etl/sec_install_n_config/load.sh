@@ -27,6 +27,7 @@ export SEC_INSTALL_N_CONFIG_DOCS="${DOCS}/${REPO}/${SEC_INSTALL_N_CONFIG_VERSION
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
+<<<<<<< a1617f7281cb60a1cd711f1d997d330ae82da77d
     cp ${CONTENT}/_index.md ${DST}/static/pdf/crunchy_certified_postgresql_10.md
     cp ${CONTENT}/96/_index.md ${DST}/static/pdf/crunchy_certified_postgresql_96.md
     cp ${CONTENT}/95/_index.md ${DST}/static/pdf/crunchy_certified_postgresql_95.md
@@ -36,6 +37,17 @@ function create_pdf {
     pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/crunchy_certified_postgresql_10.md -o ${DST}/static/pdf/crunchy_certified_postgresql_10.pdf
     pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/crunchy_certified_postgresql_96.md -o ${DST}/static/pdf/crunchy_certified_postgresql_96.pdf
     pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/crunchy_certified_postgresql_95.md -o ${DST}/static/pdf/crunchy_certified_postgresql_95.pdf
+=======
+    cp ${CONTENT}/_index.html ${DST}/static/pdf/crunchy_certified_postgresql_10.html
+    cp ${CONTENT}/96/_index.html ${DST}/static/pdf/crunchy_certified_postgresql_96.html
+    cp ${CONTENT}/95/_index.html ${DST}/static/pdf/crunchy_certified_postgresql_95.html
+
+    cp -r ${DST}/static/media ${DST}/static/pdf
+
+    wkhtmltopdf toc ${DST}/static/pdf/crunchy_certified_postgresql_10.html ${DST}/static/pdf/crunchy_certified_postgresql_10.pdf
+    wkhtmltopdf toc ${DST}/static/pdf/crunchy_certified_postgresql_96.html ${DST}/static/pdf/crunchy_certified_postgresql_96.pdf
+    wkhtmltopdf toc ${DST}/static/pdf/crunchy_certified_postgresql_95.html ${DST}/static/pdf/crunchy_certified_postgresql_95.pdf
+>>>>>>> Tie in sec_install_n_config
 }
 
 #===============================================
@@ -58,7 +70,11 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
+<<<<<<< a1617f7281cb60a1cd711f1d997d330ae82da77d
     rm -rf ${DST}/static/pdf/*.md media
+=======
+    rm -rf ${DST}/static/pdf/*.html ${DST}/static/pdf/media
+>>>>>>> Tie in sec_install_n_config
 
     hugo --source=${DST} --destination=${SEC_INSTALL_N_CONFIG_DOCS} --baseURL="/${REPO}/${SEC_INSTALL_N_CONFIG_VERSION}"
 
