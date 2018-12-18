@@ -13,6 +13,7 @@ on the following projects:
 * pgbadger
 * pgbouncer
 * pg_partman
+* sec_install_n_config
 
 It is important to note that naming conventions for any created project folders within each of the
 repository directories (as mentioned below under Structure) must follow the spelling as written above.

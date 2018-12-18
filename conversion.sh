@@ -40,6 +40,7 @@ function usage {
     echo "   pgbadger"
     echo "   pgbouncer"
     echo "   pg_partman"
+    echo "   sec_install_n_config"
     echo ""
     echo "Available project versions:"
     echo ""
@@ -180,50 +181,65 @@ elif [ "$1" == 'patroni' ]; then
     # Generate the documentation, choosing whether HTML, PDF, or both should be generated
     generate_docs ${3}
 
-  elif [ "$1" == 'pgbadger' ]; then
+elif [ "$1" == 'pgbadger' ]; then
 
-      # Parameter setup
-      export PROJECT_NAME=$1
-      export PGBADGER_VERSION=$(echo $2 | sed 's/\./_/g')
+    # Parameter setup
+    export PROJECT_NAME=$1
+    export PGBADGER_VERSION=$(echo $2 | sed 's/\./_/g')
 
-      # Clean up build artifacts
-      remove_project ${PROJECT_NAME} ${PGBADGER_VERSION}
+    # Clean up build artifacts
+    remove_project ${PROJECT_NAME} ${PGBADGER_VERSION}
 
-      # Run the extract and transform scripts
-      run_script
+    # Run the extract and transform scripts
+    run_script
 
-      # Generate the documentation, choosing whether HTML, PDF, or both should be generated
-      generate_docs ${3}
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3}
 
-    elif [ "$1" == 'pgbouncer' ]; then
+elif [ "$1" == 'pgbouncer' ]; then
 
-        # Parameter setup
-        export PROJECT_NAME=$1
-        export PGBOUNCER_VERSION=$(echo $2 | sed 's/\./_/g')
+    # Parameter setup
+    export PROJECT_NAME=$1
+    export PGBOUNCER_VERSION=$(echo $2 | sed 's/\./_/g')
 
-        # Clean up build artifacts
-        remove_project ${PROJECT_NAME} ${PGBOUNCER_VERSION}
+    # Clean up build artifacts
+    remove_project ${PROJECT_NAME} ${PGBOUNCER_VERSION}
 
-        # Run the extract and transform scripts
-        run_script
+    # Run the extract and transform scripts
+    run_script
 
-        # Generate the documentation, choosing whether HTML, PDF, or both should be generated
-        generate_docs ${3}
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3}
 
-    elif [ "$1" == 'pg_partman' ]; then
+elif [ "$1" == 'pg_partman' ]; then
 
-        # Parameter setup
-        export PROJECT_NAME=$1
-        export PG_PARTMAN_VERSION=$(echo $2 | sed 's/\./_/g')
+    # Parameter setup
+    export PROJECT_NAME=$1
+    export PG_PARTMAN_VERSION=$(echo $2 | sed 's/\./_/g')
 
-        # Clean up build artifacts
-        remove_project ${PROJECT_NAME} ${PG_PARTMAN_VERSION}
+    # Clean up build artifacts
+    remove_project ${PROJECT_NAME} ${PG_PARTMAN_VERSION}
 
-        # Run the extract and transform scripts
-        run_script
+    # Run the extract and transform scripts
+    run_script
 
-        # Generate the documentation, choosing whether HTML, PDF, or both should be generated
-        generate_docs ${3}
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3}
+
+elif [ "$1" == 'sec_install_n_config' ]; then
+
+    # Parameter setup
+    export PROJECT_NAME=$1
+    export SEC_INSTALL_N_CONFIG_VERSION=$(echo $2 | sed 's/\./_/g')
+
+    # Clean up build artifacts
+    remove_project ${PROJECT_NAME} ${SEC_INSTALL_N_CONFIG_VERSION}
+
+    # Run the extract and transform scripts
+    run_script
+
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3}
 
 else
     usage
