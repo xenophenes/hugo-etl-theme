@@ -32,7 +32,7 @@ function create_pdf {
     mv ${BUILD_PDF}/config.rst.html ${BUILD_PDF}/3.html
     mv ${BUILD_PDF}/todo.rst.html ${BUILD_PDF}/4.html
 
-    wkhtmltopdf toc ${BUILD_PDF}/* ${DST}/static/pdf/${REPO}.pdf
+    xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf toc ${BUILD_PDF}/* ${DST}/static/pdf/${REPO}.pdf
 }
 
 #===============================================

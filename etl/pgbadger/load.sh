@@ -29,7 +29,7 @@ function create_pdf {
     cp ${CONTENT}/_index.html ${BUILD_PDF}/_index.html
 
     sed -i "1,4d" ${BUILD_PDF}/_index.html
-    wkhtmltopdf toc ${BUILD_PDF}/_index.html ${DST}/static/pdf/${REPO}.pdf
+    xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf toc ${BUILD_PDF}/_index.html ${DST}/static/pdf/${REPO}.pdf
 }
 
 #===============================================

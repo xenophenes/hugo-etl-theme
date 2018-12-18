@@ -33,9 +33,9 @@ function create_pdf {
 
     cp -r ${DST}/static/media ${DST}/static/pdf
 
-    wkhtmltopdf toc ${DST}/static/pdf/crunchy_certified_postgresql_10.html ${DST}/static/pdf/crunchy_certified_postgresql_10.pdf
-    wkhtmltopdf toc ${DST}/static/pdf/crunchy_certified_postgresql_96.html ${DST}/static/pdf/crunchy_certified_postgresql_96.pdf
-    wkhtmltopdf toc ${DST}/static/pdf/crunchy_certified_postgresql_95.html ${DST}/static/pdf/crunchy_certified_postgresql_95.pdf
+    xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf toc ${DST}/static/pdf/crunchy_certified_postgresql_10.html ${DST}/static/pdf/crunchy_certified_postgresql_10.pdf
+    xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf toc ${DST}/static/pdf/crunchy_certified_postgresql_96.html ${DST}/static/pdf/crunchy_certified_postgresql_96.pdf
+    xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf toc ${DST}/static/pdf/crunchy_certified_postgresql_95.html ${DST}/static/pdf/crunchy_certified_postgresql_95.pdf
 }
 
 #===============================================
