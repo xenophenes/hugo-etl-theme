@@ -7,7 +7,6 @@ relativeURLs = true
 
 title = "pgAudit - PostgreSQL Audit Logging"
 theme = "crunchy-hugo-theme"
-#themesdir = "themes/"
 pygmentsCodeFences = true
 pygmentsStyle = "monokailight"
 publishDir = ""
