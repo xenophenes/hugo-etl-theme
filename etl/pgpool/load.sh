@@ -18,7 +18,7 @@ source ${ETL_PATH}/etl/common/common.sh
 source pgpool_var.sh
 
 export PGPOOL_VERSION=$(echo ${PGPOOL_VERSION} | sed 's/_/./g')
-export PGPOOL_DOCS=${DOCS}/${REPO}/${PGPOOL_VERSION}
+export PGPOOL_DOCS="${DOCS}/${REPO}/${PGPOOL_VERSION}"
 
 #===============================================
 # 1) Functions
@@ -27,13 +27,7 @@ export PGPOOL_DOCS=${DOCS}/${REPO}/${PGPOOL_VERSION}
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
-    mv ${BUILD_PDF}/_index.md ${BUILD_PDF}/1.md
-    mv ${BUILD_PDF}/user-guide.html ${BUILD_PDF}/2.html
-    mv ${BUILD_PDF}/command.html ${BUILD_PDF}/3.html
-    mv ${BUILD_PDF}/configuration.html ${BUILD_PDF}/4.html
-    mv ${BUILD_PDF}/release.html ${BUILD_PDF}/5.html
-
-    pandoc --toc --latex-engine=xelatex ${BUILD_PDF}/* -o ${DST}/static/pdf/${REPO}.pdf
+    # No PDF functionality (yet)
 }
 
 #===============================================
@@ -44,7 +38,7 @@ if [ "$1" == '--no-html' ]; then
 
     create_pdf
 
-    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGPOOL_VERSION}.pdf
+    #cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGPOOL_VERSION}.pdf
 
 elif [ "$1" == '--no-pdf' ]; then
 
@@ -54,9 +48,11 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
+    rm ${DST}/static/pdf/*.md
+
     hugo --source=${DST} --destination=${PGPOOL_DOCS} --baseURL="/${REPO}/${PGPOOL_VERSION}"
 
-    cp ${PGPOOL_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGPOOL_VERSION}.pdf
+    #cp ${PGPOOL_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGPOOL_VERSION}.pdf
 
 fi
 

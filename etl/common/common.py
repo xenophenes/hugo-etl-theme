@@ -337,8 +337,59 @@ draft: false
     with open("/tmp/document.modified", "w") as file:
         file.write(filedata)
 
+
 #==================
-# 3.5 PostGIS
+# 3.5 pgPool
+#==================
+
+def cleanup_pgpool(filename):
+    fh = open(filename, "r")
+
+    soup = BeautifulSoup(fh, 'html.parser')
+
+    try:
+        pageTitle = soup.title.get_text()
+
+        soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+---
+
+
+""" % pageTitle)
+    except AttributeError:
+        pass
+
+    soup.html.unwrap()
+    soup.body.unwrap()
+    soup.head.decompose()
+
+    for tag in soup.contents:
+        if isinstance(tag, Doctype):
+            tag.extract()
+
+    for tag in soup.findAll(attrs={'class':'NAVFOOTER'}):
+        tag.decompose()
+
+    try:
+        soup.h1.decompose()
+    except AttributeError:
+        pass
+
+    for tag in soup.findAll('h2'):
+        tag.name = "h3"
+
+    for tag in soup.findAll('h1'):
+        tag.name = "h2"
+
+    f = open("/tmp/document.modified", "w")
+    f.write(soup.prettify(formatter="html5"))
+    f.close()
+
+#==================
+# 3.6 PostGIS
 #==================
 
 def cleanup_postgis(filename):
@@ -385,7 +436,7 @@ hidden: true
     f.close()
 
 #==================
-# 3.6 PostgreSQL
+# 3.7 PostgreSQL
 #==================
 
 def cleanup_postgresql(filename):
@@ -481,6 +532,8 @@ elif cleanup == "pgbadger":
     cleanup_pgbadger(filename)
 elif cleanup == "pgbouncer":
     cleanup_pgbouncer(filename)
+elif cleanup == "pgpool":
+    cleanup_pgpool(filename)
 elif cleanup == "postgis":
     cleanup_postgis(filename)
 elif cleanup == "postgresql":

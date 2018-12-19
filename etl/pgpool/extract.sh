@@ -23,3 +23,10 @@ source pgpool_var.sh
 
 mkdir -p ${BUILD_ROOT}
 tar -xzf ${SRC}/${REPO}/${REPO}_II_${PGPOOL_VERSION}.tar.gz -C ${BUILD_ROOT}
+
+#===============================================
+# Build HTML from source
+#===============================================
+
+(cd ${BUILD} && ./configure)
+(cd ${BUILD}/doc && make html)

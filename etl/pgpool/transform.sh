@@ -28,41 +28,18 @@ yes | cp -f ${DIR}/config.toml ${DST}
 # Move files to destination directory
 #===============================================
 
-mkdir -p ${BUILD_PDF} ${DST}/static/images
-rm ${BUILD}/default.css ${BUILD}/index.html
-mv ${BUILD}/*.png ${DST}/static/images
-mv ${ETL}/${REPO}/build/${REPO}_${PGPOOL_VERSION}/README.md ${CONTENT}/_index.md
-cp -r ${BUILD}/* ${CONTENT}/
+mkdir ${DST}/static/images
+cp -r ${BUILD}/doc/src/sgml/html/index.html ${CONTENT}/_index.html
+cp -r ${BUILD}/doc/src/sgml/html/*.html ${CONTENT}
+cp -r ${BUILD}/doc/src/sgml/html/*.gif ${DST}/static/images
 
 #===============================================
 # Process the HTML files
 #===============================================
 
-for f in $(find ${CONTENT} -name '*.html' ! -name '*index.md')
+for f in $(find ${CONTENT} -name '*.html')
 do
   # Process & clean up the files
   python ${ETL}/common/common.py $f ${REPO}
   rm $f && mv /tmp/document.modified $f
-
-  # Need filenames intact before rename for PDF build
-  cp -r $f ${BUILD_PDF}
-
-  # Place each file into its own folder
-  FILE=$(basename "$f" | cut -f 1 -d '.')
-  mkdir -p ${CONTENT}/${FILE}
-  mv ${f} ${CONTENT}/${FILE}
-done
-
-cp ${CONTENT}/_index.md ${BUILD_PDF}
-
-#===============================================
-# Need _index.html for each directory of content
-#===============================================
-
-for d in `find ${CONTENT} -type d`
-do
-  NAME=$(echo ${d##*/})
-  if [[ -f ${d}/${NAME}.html ]]; then
-    mv ${d}/${NAME}.html ${d}/_index.html
-  fi
 done
