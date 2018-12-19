@@ -3,20 +3,19 @@
 This repository contains a set of scripts that perform an Extract, Transform, Load (ETL) process
 on the following projects:
 
+* backrest
+* patroni
 * pgaudit
 * pgaudit_analyze
-* set_user
-* backrest
-* postgresql
-* postgis
-* patroni
 * pgbadger
 * pgbouncer
-* pgjdbc
 * pg_partman
-* plr
 * pgpool
+* plr
+* postgis
+* postgresql
 * sec_install_n_config
+* set_user
 
 It is important to note that naming conventions for any created project folders within each of the
 repository directories (as mentioned below under Structure) must follow the spelling as written above.

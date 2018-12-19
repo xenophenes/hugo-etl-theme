@@ -121,140 +121,9 @@ draft: false
     with open("/tmp/document.modified", "w") as file:
       file.write(filedata)
 
-#==================
-# 3.2 PostGIS
-#==================
-
-def cleanup_postgis(filename):
-    fh = open(filename, "r")
-
-    soup = BeautifulSoup(fh, 'html.parser')
-
-    pageTitle = soup.title.get_text()
-
-    if "_index.html" in filename:
-        soup.body.insert(0,
-"""
----
-title: "%s"
-draft: false
----
-
-
-""" % pageTitle)
-    else:
-        soup.body.insert(0,
-"""
----
-title: "%s"
-draft: false
-hidden: true
----
-
-
-""" % pageTitle)
-
-    soup.html.unwrap()
-    soup.body.unwrap()
-    soup.head.decompose()
-
-    for tag in soup.findAll(attrs={'class':'navheader'}):
-        tag.decompose()
-
-    for tag in soup.findAll(attrs={'class':'navfooter'}):
-        tag.decompose()
-
-    f = open("/tmp/document.modified", "w")
-    f.write(soup.prettify(formatter="html5"))
-    f.close()
 
 #==================
-# 3.3 PostgreSQL
-#==================
-
-def cleanup_postgresql(filename):
-    fh = open(filename, "r")
-
-    soup = BeautifulSoup(fh, 'html.parser')
-
-    try:
-        pageTitle = soup.title.get_text()
-
-        if "_index.html" in filename:
-            soup.body.insert(0,
-"""
----
-title: "%s"
-draft: false
----
-
-
-""" % pageTitle)
-        else:
-            soup.body.insert(0,
-"""
----
-title: "%s"
-draft: false
-hidden: true
----
-
-
-""" % pageTitle)
-    except AttributeError:
-        pass
-
-    soup.html.unwrap()
-    soup.body.unwrap()
-    soup.head.decompose()
-
-    for tag in soup:
-        if isinstance(tag, bs4.element.ProcessingInstruction):
-            tag.extract()
-
-    for tag in soup.contents:
-        if isinstance(tag, Doctype):
-            tag.extract()
-
-    for tag in soup.findAll(attrs={'class':'navheader'}):
-        tag.decompose()
-
-    for tag in soup.findAll(attrs={'class':'navfooter'}):
-        tag.decompose()
-
-    for tag in soup.findAll(attrs={'class':'navfooter'}):
-        tag.decompose()
-
-    for tag in soup.findAll('h1'):
-        tag.decompose()
-
-    for tag in soup.findAll('h2', {'class': 'title'}):
-        tag.decompose()
-
-    for tag in soup.findAll('h3', {'class': 'title'}):
-        if tag.contents[0] != "Tip" and tag.contents[0] != "Caution" and tag.contents[0] != "Note":
-            tag.name = "h2"
-
-    f = open("/tmp/document.modified", "w")
-    f.write(soup.prettify(formatter="html5"))
-    f.close()
-
-    with open("/tmp/document.modified", "r") as file:
-      filedata = file.read()
-
-    filedata = filedata.replace("&nbsp;", " ")
-    filedata = filedata.replace("&ldquo;", '"')
-    filedata = filedata.replace("&rdquo;", '"')
-    filedata = filedata.replace("&amp;", "&")
-    filedata = filedata.replace("&mdash;", "-")
-    filedata = filedata.replace("&lt;", "<")
-    filedata = filedata.replace("&gt;", ">")
-
-    with open("/tmp/document.modified", "w") as file:
-      file.write(filedata)
-
-#==================
-# 3.4 Patroni
+# 3.2 Patroni
 #==================
 
 def cleanup_patroni(filename):
@@ -326,7 +195,7 @@ draft: false
         file.write("<p>&copy; Copyright 2015 Compose, Zalando SE</p>")
 
 #==================
-# 3.5 pgBadger
+# 3.3 pgBadger
 #==================
 
 def cleanup_pgbadger(filename):
@@ -378,7 +247,7 @@ draft: false
         file.write(filedata)
 
 #==================
-# 3.6 pgBouncer
+# 3.4 pgBouncer
 #==================
 
 def cleanup_pgbouncer(filename):
@@ -469,17 +338,17 @@ draft: false
         file.write(filedata)
 
 #==================
-# 3.7 pgJDBC
+# 3.5 PostGIS
 #==================
 
-def cleanup_pgjdbc(filename):
+def cleanup_postgis(filename):
     fh = open(filename, "r")
 
     soup = BeautifulSoup(fh, 'html.parser')
 
-    pageTitle = soup.h1.get_text()
+    pageTitle = soup.title.get_text()
 
-    if "The PostgreSQL JDBC Interface" in pageTitle:
+    if "_index.html" in filename:
         soup.body.insert(0,
 """
 ---
@@ -505,49 +374,89 @@ hidden: true
     soup.body.unwrap()
     soup.head.decompose()
 
-    for tag in soup.findAll('span', {'class': 'txtOffScreen'}):
+    for tag in soup.findAll(attrs={'class':'navheader'}):
         tag.decompose()
 
-    for tag in soup.findAll('div', {'id': 'pgSearch'}):
+    for tag in soup.findAll(attrs={'class':'navfooter'}):
         tag.decompose()
 
-    for tag in soup.findAll('div', {'id': 'pgHeader'}):
-        tag.decompose()
+    f = open("/tmp/document.modified", "w")
+    f.write(soup.prettify(formatter="html5"))
+    f.close()
 
-    for tag in soup.findAll('div', {'id': 'docHeader'}):
-        tag.decompose()
+#==================
+# 3.6 PostgreSQL
+#==================
 
-    for tag in soup.findAll('div', {'id': 'pgTopNav'}):
-        tag.decompose()
+def cleanup_postgresql(filename):
+    fh = open(filename, "r")
 
-    for tag in soup.findAll('div', {'id': 'pgSideWrap'}):
-        tag.decompose()
+    soup = BeautifulSoup(fh, 'html.parser')
 
-    for tag in soup.findAll('div', {'id': 'pgFooter'}):
-        tag.decompose()
+    try:
+        pageTitle = soup.title.get_text()
 
-    for tag in soup.findAll('div', {'id': 'docFooter'}):
-        tag.decompose()
+        if "_index.html" in filename:
+            soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+---
 
-    for tag in soup.findAll('div', {'class': 'NAVHEADER'}):
-        tag.decompose()
 
-    for tag in soup.findAll('div', {'class': 'NAVFOOTER'}):
-        tag.decompose()
+""" % pageTitle)
+        else:
+            soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+hidden: true
+---
 
-    if "index" not in filename:
-        soup.h1.decompose()
+
+""" % pageTitle)
+    except AttributeError:
+        pass
+
+    soup.html.unwrap()
+    soup.body.unwrap()
+    soup.head.decompose()
+
+    for tag in soup:
+        if isinstance(tag, bs4.element.ProcessingInstruction):
+            tag.extract()
 
     for tag in soup.contents:
         if isinstance(tag, Doctype):
             tag.extract()
+
+    for tag in soup.findAll(attrs={'class':'navheader'}):
+        tag.decompose()
+
+    for tag in soup.findAll(attrs={'class':'navfooter'}):
+        tag.decompose()
+
+    for tag in soup.findAll(attrs={'class':'navfooter'}):
+        tag.decompose()
+
+    for tag in soup.findAll('h1'):
+        tag.decompose()
+
+    for tag in soup.findAll('h2', {'class': 'title'}):
+        tag.decompose()
+
+    for tag in soup.findAll('h3', {'class': 'title'}):
+        if tag.contents[0] != "Tip" and tag.contents[0] != "Caution" and tag.contents[0] != "Note":
+            tag.name = "h2"
 
     f = open("/tmp/document.modified", "w")
     f.write(soup.prettify(formatter="html5"))
     f.close()
 
     with open("/tmp/document.modified", "r") as file:
-        filedata = file.read()
+      filedata = file.read()
 
     filedata = filedata.replace("&nbsp;", " ")
     filedata = filedata.replace("&ldquo;", '"')
@@ -556,10 +465,9 @@ hidden: true
     filedata = filedata.replace("&mdash;", "-")
     filedata = filedata.replace("&lt;", "<")
     filedata = filedata.replace("&gt;", ">")
-    filedata = filedata.replace("&trade;", " ")
 
     with open("/tmp/document.modified", "w") as file:
-        file.write(filedata)
+      file.write(filedata)
 
 #===============================================
 # 4) Parsing
@@ -567,17 +475,15 @@ hidden: true
 
 if cleanup == "backrest":
     cleanup_backrest(filename)
-elif cleanup == "postgis":
-    cleanup_postgis(filename)
-elif cleanup == "postgresql":
-    cleanup_postgresql(filename)
 elif cleanup == "patroni":
     cleanup_patroni(filename)
 elif cleanup == "pgbadger":
     cleanup_pgbadger(filename)
 elif cleanup == "pgbouncer":
     cleanup_pgbouncer(filename)
-elif cleanup == "pgjdbc":
-    cleanup_pgjdbc(filename)
+elif cleanup == "postgis":
+    cleanup_postgis(filename)
+elif cleanup == "postgresql":
+    cleanup_postgresql(filename)
 else:
     print ("There is no cleanup function for that project.")
