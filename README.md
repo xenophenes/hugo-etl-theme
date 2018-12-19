@@ -9,6 +9,7 @@ on the following projects:
 * pgaudit_analyze
 * pgbadger
 * pgbouncer
+* pgjdbc
 * pg_partman
 * pgpool
 * plr

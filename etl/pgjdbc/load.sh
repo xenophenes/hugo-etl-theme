@@ -48,7 +48,7 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    rm ${DST}/static/pdf/*.md
+    #rm ${DST}/static/pdf/*.md
 
     hugo --source=${DST} --destination=${PGJDBC_DOCS} --baseURL="/${REPO}/${PGJDBC_VERSION}"
 
