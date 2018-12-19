@@ -1,0 +1,72 @@
+---
+title: "Date-time escapes"
+draft: false
+hidden: true
+---
+<div id="docContainerWrap">
+ <div id="docContainer">
+  <div id="docContent">
+   <!-- NAVHEADER -->
+   <div class="CHAPTER">
+    <p>
+     The JDBC specification defines escapes for specifying date, time and timestamp
+values which are supported by the driver.
+    </p>
+    <blockquote>
+     <p>
+      date
+     </p>
+     <blockquote>
+      <p>
+       <code>
+        {d 'yyyy-mm-dd'}
+       </code>
+       which is translated to
+       <code>
+        DATE 'yyyy-mm-dd'
+       </code>
+      </p>
+     </blockquote>
+     <p>
+      time
+     </p>
+     <blockquote>
+      <p>
+       <code>
+        {t 'hh:mm:ss'}
+       </code>
+       which is translated to
+       <code>
+        TIME 'hh:mm:ss'
+       </code>
+      </p>
+     </blockquote>
+     <p>
+      timestamp
+     </p>
+     <blockquote>
+      <p>
+       <code>
+        {ts 'yyyy-mm-dd hh:mm:ss.f...'}
+       </code>
+       which is translated to
+       <code>
+        TIMESTAMP 'yyyy-mm-dd hh:mm:ss.f'
+       </code>
+       <br>
+       <br>
+       The fractional seconds (.f...) portion of the TIMESTAMP can be omitted.
+      </p>
+     </blockquote>
+    </blockquote>
+   </div>
+   <!-- NAVFOOTER -->
+  </div>
+  <!-- docContent -->
+  <div id="docComments">
+  </div>
+  <!-- pgFooter -->
+ </div>
+ <!-- docContainer -->
+</div>
+<!-- docContainer -->

@@ -1,0 +1,159 @@
+---
+title: "Arrays"
+draft: false
+hidden: true
+---
+<div id="docContainerWrap">
+ <div id="docContainer">
+  <div id="docContent">
+   <!-- NAVHEADER -->
+   <div class="CHAPTER">
+    <p>
+     PostgreSQL  provides robust support for array data types as column types, function arguments
+and criteria in where clauses. There are several ways to create arrays with pgjdbc.
+    </p>
+    <p>
+     The
+     <a href="https://docs.oracle.com/javase/8/docs/api/java/sql/Connection.html#createArrayOf-java.lang.String-java.lang.Object:A-">
+      java.sql.Connection.createArrayOf(String, Object[])
+     </a>
+     can be used to create an
+     <a href="https://docs.oracle.com/javase/8/docs/api/java/sql/Array.html">
+      java.sql.Array
+     </a>
+     from
+     <code>
+      Object[]
+     </code>
+     instances (Note: this includes both primitive and object multi-dimensional arrays).
+A similar method
+     <code>
+      org.postgresql.PGConnection.createArrayOf(String, Object)
+     </code>
+     provides support for primitive array types.
+The
+     <code>
+      java.sql.Array
+     </code>
+     object returned from these methods can be used in other methods, such as
+     <a href="https://docs.oracle.com/javase/8/docs/api/java/sql/PreparedStatement.html#setArray-int-java.sql.Array-">
+      PreparedStatement.setArray(int, Array)
+     </a>
+     .
+    </p>
+    <p>
+     Additionally, the following types of arrays can be used in
+     <code>
+      PreparedStatement.setObject
+     </code>
+     methods and will use the defined type mapping:
+    </p>
+    <table>
+     <thead>
+      <tr>
+       <th>
+        Java Type
+       </th>
+       <th>
+        Default PostgreSQL   Type
+       </th>
+      </tr>
+     </thead>
+     <tbody>
+      <tr>
+       <td>
+        <code>
+         short[]
+        </code>
+       </td>
+       <td>
+        <code>
+         int2[]
+        </code>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         int[]
+        </code>
+       </td>
+       <td>
+        <code>
+         int4[]
+        </code>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         long[]
+        </code>
+       </td>
+       <td>
+        <code>
+         int8[]
+        </code>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         float[]
+        </code>
+       </td>
+       <td>
+        <code>
+         float4[]
+        </code>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         double[]
+        </code>
+       </td>
+       <td>
+        <code>
+         float8[]
+        </code>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         boolean[]
+        </code>
+       </td>
+       <td>
+        <code>
+         bool[]
+        </code>
+       </td>
+      </tr>
+      <tr>
+       <td>
+        <code>
+         String[]
+        </code>
+       </td>
+       <td>
+        <code>
+         varchar[]
+        </code>
+       </td>
+      </tr>
+     </tbody>
+    </table>
+   </div>
+   <!-- NAVFOOTER -->
+  </div>
+  <!-- docContent -->
+  <div id="docComments">
+  </div>
+  <!-- pgFooter -->
+ </div>
+ <!-- docContainer -->
+</div>
+<!-- docContainer -->

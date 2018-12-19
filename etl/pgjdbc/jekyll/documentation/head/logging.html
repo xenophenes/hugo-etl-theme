@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Chapter 12. Logging using java.util.logging</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="description" content="The official documentation for the PostgreSQL JDBC Driver" />
+	<meta name="copyright" content="The PostgreSQL Global Development Group" />
+
+	<style type="text/css" media="screen" title="Normal Text">@import url("media/css/docs.css");</style>
+	<link rel="stylesheet" type="text/css" href="media/css/syntax.css">
+
+	<link rel="shortcut icon" href="media/favicon.ico" />
+</head>
+
+<body>
+	<div id="docHeader">
+		<div id="docHeaderLogo">
+			<a href="https://jdbc.postgresql.org/" title="PostgreSQL JDBC Driver"><img src="media/img/layout/hdr_left3a.png" alt="PostgreSQL" height="80" width="390" /></a>
+		</div>
+	</div>
+
+	<div id="docContainerWrap">
+		<div id="docContainer">
+			<div id="docContent">
+
+				<div class="NAVHEADER">
+					<table summary="Header navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+						<tbody>
+						<tr>
+							<th colspan="3" valign="bottom" align="center">
+								<h2 class="TITLE">Chapter 12. Logging using java.util.logging</h2>
+							</th>
+						</tr>
+						<tr>
+							<td valign="top" width="20%" align="left">
+								<a title="Data Sources and JNDI" href="jndi.html" accesskey="P">Prev</a>
+							</td>
+							<td valign="bottom" width="60%" align="center">&nbsp;</td>
+							<td valign="top" width="20%" align="right">
+								<a title="Further Reading" href="reading.html" accesskey="N">Next</a>
+							</td>
+    						</tr>
+  					</tbody>
+					</table>
+					<hr class="c1" width="100%" />
+				</div> <!-- NAVHEADER -->
+
+				<div class="CHAPTER">
+  					<h1>Chapter 12. Logging using java.util.logging</h1>
+					
+					<p><strong>Table of Contents</strong></p>
+
+<ul>
+<li><a href="logging.html#overview">Overview</a></li>
+<li><a href="logging.html#configuration">Configuration</a>
+
+<ul>
+<li><a href="logging.html#conprop">Enable logging by using connection properties</a></li>
+<li><a href="logging.html#fileprop">Enable logging by using logging.properties file</a></li>
+</ul></li>
+</ul>
+
+<p><a name="overview"></a></p>
+
+<h1>Overview</h1>
+
+<p>The PostgreSQL JDBC Driver supports the use of logging (or tracing) to help resolve issues with the
+PgJDBC Driver when is used in your application.</p>
+
+<p>The PgJDBC Driver uses the logging APIs of <code>java.util.logging</code> that is part of Java since JDK 1.4,
+which makes it a good choice for the driver since it don&#39;t add any external dependency for a logging
+framework. <code>java.util.logging</code> is a very rich and powerful tool, it&#39;s beyond the scope of this docs
+to explain or use it full potential, for that please refer to
+<a href="https://docs.oracle.com/javase/8/docs/technotes/guides/logging/overview.html">Java Logging Overview</a>.</p>
+
+<p>This logging support was added since version 42.0.0 of the PgJDBC Driver, and previous
+versions uses a custom mechanism to enable logging that it is replaced by the use of
+<code>java.util.logging</code> in current versions, the old mechanism is no longer available.</p>
+
+<p>Please note that while most people asked the use of a Logging Framework for a long time, this
+support is mainly to debug the driver itself and not for general sql query debug.</p>
+
+<p><a name="configuration"></a></p>
+
+<h1>Configuration</h1>
+
+<p>The Logging APIs offer both static and dynamic configuration control. Static control enables field
+service staff to set up a particular configuration and then re-launch the application with the new
+logging settings. Dynamic control allows for updates to the logging configuration within a currently
+running program.</p>
+
+<p>As part of the support of a logging framework in the PgJDBC Driver, there was a need to facilitate
+the enabling of the Logger using <a href="logging.html#conprop">connection properties</a>, which uses a static
+control to enable the tracing in the driver. Keep in mind that if you use an Application Server
+(Tomcat, JBoss, WildFly, etc.) you should use the facilities provided by them to enable the logging,
+as most Application Servers use dynamic configuration control which makes easy to enable/disable
+logging at runtime.</p>
+
+<p>The root logger used by the PgJDBC driver is <code>org.postgresql</code>.</p>
+
+<p><a name="conprop"></a></p>
+
+<h2>Enable logging by using connection properties</h2>
+
+<p>The driver provides a facility to enable logging using connection properties, it&#39;s not as feature rich
+as using a <code>logging.properties</code> file, so it should be used when you are really debugging the driver.</p>
+
+<p>The properties are <code>loggerLevel</code> and <code>loggerFile</code>:</p>
+
+<p><strong>loggerLevel</strong>: Logger level of the driver. Allowed values: <code>OFF</code>, <code>DEBUG</code> or <code>TRACE</code>.</p>
+
+<p>This option enable the <code>java.util.logging.Logger</code> Level of the driver based on the following mapping:</p>
+
+<table summary="Logger Level mapping" class="CALSTABLE" border="1">
+  <tr>
+    <th>loggerLevel</th>
+    <th>java.util.logging</th>
+  </tr>
+  <tbody>
+    <tr>
+      <td>OFF</td>
+      <td>OFF</td>
+    </tr>
+    <tr>
+      <td>DEBUG</td>
+      <td>FINE</td>
+    </tr>
+    <tr>
+      <td>TRACE</td>
+      <td>FINEST</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>As noted, there are no other levels supported using this method, and internally the driver Logger levels
+should not (for the most part) use others levels as the intention is to debug the driver and don&#39;t
+interfere with higher levels when some applications enable them globally.</p>
+
+<p><strong>loggerFile</strong>: File name output of the Logger.</p>
+
+<p>If set, the Logger will use a <code>java.util.logging.FileHandler</code> to write to a specified file.
+If the parameter is not set or the file can&#39;t be created the <code>java.util.logging.ConsoleHandler</code>
+will be used instead.</p>
+
+<p>This parameter should be use together with <code>loggerLevel</code>.</p>
+
+<p>The following is an example of how to use connection properties to enable logging:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"><span></span>jdbc:postgresql://localhost:5432/mydb?loggerLevel=DEBUG
+jdbc:postgresql://localhost:5432/mydb?loggerLevel=TRACE&amp;loggerFile=pgjdbc.log
+</code></pre></div>
+<p><a name="fileprop"></a></p>
+
+<h2>Enable logging by using logging.properties file</h2>
+
+<p>The default Java logging framework stores its configuration in a file called <code>logging.properties</code>.
+Settings are stored per line using a dot notation format. Java installs a global configuration file
+in the <code>lib</code> folder of the Java installation directory, although you can use a separate configuration
+file by specifying the <code>java.util.logging.config.file</code> property when starting a Java program.
+<code>logging.properties</code> files can also be created and stored with individual projects.</p>
+
+<p>The following is an example of setting that you can make in the <code>logging.properties</code>:</p>
+<div class="highlight"><pre><code class="language-properties" data-lang="properties"><span></span><span class="c"># Specify the handler, the handlers will be installed during VM startup.</span>
+<span class="na">handlers</span><span class="o">=</span> <span class="s">java.util.logging.FileHandler</span>
+
+<span class="c"># Default global logging level.</span>
+<span class="na">.level</span><span class="o">=</span> <span class="s">OFF</span>
+
+<span class="c"># default file output is in user&#39;s home directory.</span>
+<span class="na">java.util.logging.FileHandler.pattern</span> <span class="o">=</span> <span class="s">%h/pgjdbc%u.log</span>
+<span class="na">java.util.logging.FileHandler.limit</span> <span class="o">=</span> <span class="s">5000000</span>
+<span class="na">java.util.logging.FileHandler.count</span> <span class="o">=</span> <span class="s">20</span>
+<span class="na">java.util.logging.FileHandler.formatter</span> <span class="o">=</span> <span class="s">java.util.logging.SimpleFormatter</span>
+<span class="na">java.util.logging.FileHandler.level</span> <span class="o">=</span> <span class="s">FINEST</span>
+
+<span class="na">java.util.logging.SimpleFormatter.format</span><span class="o">=</span><span class="s">%1$tY-%1$tm-%1$td %1$tH:%1$tM:%1$tS %4$s %2$s %5$s%6$s%n</span>
+
+<span class="c"># Facility specific properties.</span>
+<span class="na">org.postgresql.level</span><span class="o">=</span><span class="s">FINEST</span>
+</code></pre></div>
+<p>And when you run your application you pass the system property:
+<code>java -jar -Djava.util.logging.config.file=logging.properties run.jar</code></p>
+
+				</div>
+
+				<div class="NAVFOOTER">
+					<hr class="c1" width="100%" />
+					<table summary="Footer navigation table" width="100%" border="0" cellpadding="0" cellspacing="0">
+					<tbody>
+						<tr>
+							<td valign="top" width="33%" align="left">
+								<a href="jndi.html" accesskey="P">Prev</a>
+							</td>
+							<td valign="top" width="34%" align="center">
+								<a href="index.html" accesskey="H">Home</a>
+							</td>
+							<td valign="top" width="33%" align="right">
+								<a href="reading.html" accesskey="N">Next</a>
+							</td>
+    						</tr>
+						<tr>
+							<td valign="top" width="33%" align="left">Data Sources and JNDI</td>
+							<td valign="top" width="34%" align="center">&nbsp;</td>
+							<td valign="top" width="33%" align="right">Further Reading</td>
+						</tr>
+					</tbody>
+					</table>
+				</div> <!-- NAVFOOTER -->
+
+
+			</div> <!-- docContent -->
+			
+			<div id="docComments"></div>
+
+			<div id="docFooter">
+				<a class="navFooter" href="https://www.postgresql.org/about/privacypolicy">Privacy Policy</a> |
+				<a class="navFooter" href="https://www.postgresql.org/about/">About PostgreSQL</a><br/>
+				Copyright &copy; 1996-2018 The PostgreSQL Global Development Group
+			</div> <!-- pgFooter -->
+		</div> <!-- docContainer -->
+	</div> <!-- docContainer -->
+</body>
+</html>

@@ -1,0 +1,119 @@
+---
+title: "Chapter 11. Connection Pools and Data Sources"
+draft: false
+hidden: true
+---
+<div id="docContainerWrap">
+ <div id="docContainer">
+  <div id="docContent">
+   <!-- NAVHEADER -->
+   <div class="CHAPTER">
+    <p>
+     <strong>
+      Table of Contents
+     </strong>
+    </p>
+    <ul>
+     <li>
+      <a href="datasource.html#ds-intro">
+       Overview
+      </a>
+     </li>
+     <li>
+      <a href="ds-cpds.html">
+       Application Servers:
+       <code>
+        ConnectionPoolDataSource
+       </code>
+      </a>
+     </li>
+     <li>
+      <a href="ds-ds.html">
+       Applications:
+       <code>
+        DataSource
+       </code>
+      </a>
+     </li>
+     <li>
+      <a href="tomcat.html">
+       Tomcat setup
+      </a>
+     </li>
+     <li>
+      <a href="jndi.html">
+       Data Sources and JNDI
+      </a>
+     </li>
+    </ul>
+    <p>
+     JDBC 2 introduced standard connection pooling features in an add-on API known as
+the JDBC 2.0 Optional Package (also known as the JDBC 2.0 Standard Extension).
+These features have since been included in the core JDBC 3 API.
+    </p>
+    <p>
+     <a name="ds-intro">
+     </a>
+    </p>
+    <h1>
+     Overview
+    </h1>
+    <p>
+     The JDBC API provides a client and a server interface for connection pooling.
+The client interface is
+     <code>
+      javax.sql.DataSource
+     </code>
+     , which is what application code
+will typically use to acquire a pooled database connection. The server interface
+is
+     <code>
+      javax.sql.ConnectionPoolDataSource
+     </code>
+     , which is how most application servers
+will interface with the PostgreSQL  JDBC driver.
+    </p>
+    <p>
+     In an application server environment, the application server configuration will
+typically refer to the PostgreSQL 
+     <code>
+      ConnectionPoolDataSource
+     </code>
+     implementation,
+while the application component code will typically acquire a
+     <code>
+      DataSource
+     </code>
+     implementation provided by the application server (not by PostgreSQL ).
+    </p>
+    <p>
+     For an environment without an application server, PostgreSQL  provides two
+implementations of
+     <code>
+      DataSource
+     </code>
+     which an application can use directly. One
+implementation performs connection pooling, while the other simply provides
+access to database connections through the
+     <code>
+      DataSource
+     </code>
+     interface without any
+pooling. Again, these implementations should not be used in an application server
+environment unless the application server does not support the
+     <code>
+      ConnectionPoolDataSource
+     </code>
+     interface.
+    </p>
+   </div>
+   <!-- NAVFOOTER -->
+  </div>
+  <!-- docContent -->
+  <div id="docComments">
+  </div>
+  <!-- pgFooter -->
+ </div>
+ <!-- docContainer -->
+</div>
+<!-- docContainer -->

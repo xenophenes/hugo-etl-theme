@@ -12,6 +12,7 @@ on the following projects:
 * patroni
 * pgbadger
 * pgbouncer
+* pgjdbc
 * pg_partman
 * plr
 * sec_install_n_config

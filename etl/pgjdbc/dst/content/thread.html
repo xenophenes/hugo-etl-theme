@@ -1,0 +1,31 @@
+---
+title: "Chapter 10. Using the Driver in a Multithreaded or a Servlet Environment"
+draft: false
+hidden: true
+---
+<div id="docContainerWrap">
+ <div id="docContainer">
+  <div id="docContent">
+   <!-- NAVHEADER -->
+   <div class="CHAPTER">
+    <p>
+     The PostgreSQL  JDBC driver is not thread safe. 
+The PostgreSQL server is not threaded. Each connection creates a new process on the server; 
+as such any concurrent requests to the process would have to be serialized. 
+The driver makes no guarantees that methods on connections are synchronized. 
+It will be up to the caller to synchronize calls to the driver.
+    </p>
+    <p>
+     A notable exception is org/postgresql/jdbc/TimestampUtils.java which is threadsafe.
+    </p>
+   </div>
+   <!-- NAVFOOTER -->
+  </div>
+  <!-- docContent -->
+  <div id="docComments">
+  </div>
+  <!-- pgFooter -->
+ </div>
+ <!-- docContainer -->
+</div>
+<!-- docContainer -->

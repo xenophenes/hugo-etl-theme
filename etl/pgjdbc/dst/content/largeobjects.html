@@ -1,0 +1,44 @@
+---
+title: "Large Objects"
+draft: false
+hidden: true
+---
+<div id="docContainerWrap">
+ <div id="docContainer">
+  <div id="docContent">
+   <!-- NAVHEADER -->
+   <div class="CHAPTER">
+    <p>
+     Large objects are supported in the standard JDBC specification. However, that
+interface is limited, and the API provided by PostgreSQL  allows for random
+access to the objects contents, as if it was a local file.
+    </p>
+    <p>
+     The org.postgresql.largeobject package provides to Java the libpq C interface's
+large object API. It consists of two classes,
+     <code>
+      LargeObjectManager
+     </code>
+     , which deals
+with creating, opening and deleting large objects, and
+     <code>
+      LargeObject
+     </code>
+     which deals
+with an individual object.  For an example usage of this API, please see
+     <a href="binary-data.html#binary-data-example">
+      Example 7.1, "Processing Binary Data in JDBC"
+     </a>
+     .
+    </p>
+   </div>
+   <!-- NAVFOOTER -->
+  </div>
+  <!-- docContent -->
+  <div id="docComments">
+  </div>
+  <!-- pgFooter -->
+ </div>
+ <!-- docContainer -->
+</div>
+<!-- docContainer -->

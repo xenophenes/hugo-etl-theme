@@ -1,0 +1,73 @@
+---
+title: "Custom SSLSocketFactory"
+draft: false
+hidden: true
+---
+<div id="docContainerWrap">
+ <div id="docContainer">
+  <div id="docContent">
+   <!-- NAVHEADER -->
+   <div class="CHAPTER">
+    <p>
+     PostgreSQL  provides a way for developers to customize how a SSL connection is
+established. This may be used to provide a custom certificate source or other
+extensions by allowing the developer to create their own
+     <code>
+      SSLContext
+     </code>
+     instance.
+The connection URL parameters
+     <code>
+      sslfactory
+     </code>
+     allow the user to specify which custom
+class to use for creating the
+     <code>
+      SSLSocketFactory
+     </code>
+     . The class name specified by
+     <code>
+      sslfactory
+     </code>
+     must extend
+     <code>
+      javax.net.ssl.SSLSocketFactory
+     </code>
+     and be available to the driver's classloader.
+    </p>
+    <p>
+     This class must have a zero argument constructor or a single argument constructor preferentially taking
+a
+     <code>
+      Properties
+     </code>
+     argument. There is a simple
+     <code>
+      org.postgresql.ssl.DefaultJavaSSLFactory
+     </code>
+     provided which uses the
+default java SSLFactory.
+    </p>
+    <p>
+     Information on how to actually implement such a class is beyond the scope of this
+documentation. Places to look for help are the
+     <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/security/jsse/JSSERefGuide.html">
+      JSSE Reference Guide
+     </a>
+     and the source to the
+     <code>
+      NonValidatingFactory
+     </code>
+     provided by the JDBC driver.
+    </p>
+   </div>
+   <!-- NAVFOOTER -->
+  </div>
+  <!-- docContent -->
+  <div id="docComments">
+  </div>
+  <!-- pgFooter -->
+ </div>
+ <!-- docContainer -->
+</div>
+<!-- docContainer -->

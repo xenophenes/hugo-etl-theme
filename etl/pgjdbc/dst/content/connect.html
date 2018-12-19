@@ -1,0 +1,1267 @@
+---
+title: "Connecting to the Database"
+draft: false
+hidden: true
+---
+<div id="docContainerWrap">
+ <div id="docContainer">
+  <div id="docContent">
+   <!-- NAVHEADER -->
+   <div class="CHAPTER">
+    <p>
+     With JDBC, a database is represented by a URL (Uniform Resource Locator). With
+PostgreSQL, this takes one of the following forms:
+    </p>
+    <ul>
+     <li>
+      jdbc:postgresql:
+      <em>
+       <code>
+        database
+       </code>
+      </em>
+     </li>
+     <li>
+      jdbc:postgresql:/
+     </li>
+     <li>
+      jdbc:postgresql://
+      <em>
+       <code>
+        host/database
+       </code>
+      </em>
+     </li>
+     <li>
+      jdbc:postgresql://
+      <em>
+       <code>
+        host/
+       </code>
+      </em>
+     </li>
+     <li>
+      jdbc:postgresql://
+      <em>
+       <code>
+        host:port/database
+       </code>
+      </em>
+     </li>
+     <li>
+      jdbc:postgresql://
+      <em>
+       <code>
+        host:port/
+       </code>
+      </em>
+     </li>
+    </ul>
+    <p>
+     The parameters have the following meanings:
+    </p>
+    <ul>
+     <li>
+      <p>
+       <em>
+        <code>
+         host
+        </code>
+       </em>
+      </p>
+      <p>
+       The host name of the server. Defaults to
+       <code>
+        localhost
+       </code>
+       . To specify an IPv6
+address your must enclose the
+       <code>
+        host
+       </code>
+       parameter with square brackets, for
+example:
+      </p>
+      <p>
+       jdbc:postgresql://[::1]:5740/accounting
+      </p>
+     </li>
+     <li>
+      <p>
+       <em>
+        <code>
+         port
+        </code>
+       </em>
+      </p>
+      <p>
+       The port number the server is listening on. Defaults to the PostgreSQL 
+standard port number (5432).
+      </p>
+     </li>
+     <li>
+      <p>
+       <em>
+        <code>
+         database
+        </code>
+       </em>
+      </p>
+      <p>
+       The database name. The default is to connect to a database with the same name
+as the user name.
+      </p>
+     </li>
+    </ul>
+    <p>
+     To connect, you need to get a
+     <code>
+      Connection
+     </code>
+     instance from JDBC. To do this, you use
+the
+     <code>
+      DriverManager.getConnection()
+     </code>
+     method:
+    </p>
+    <p>
+     <code>
+      Connection db = DriverManager.getConnection(url, username, password)
+     </code>
+     ;
+    </p>
+    <p>
+     <a name="connection-parameters">
+     </a>
+    </p>
+    <h2>
+     Connection Parameters
+    </h2>
+    <p>
+     In addition to the standard connection parameters the driver supports a number
+of additional properties which can be used to specify additional driver behaviour
+specific to PostgreSQL . These properties may be specified in either the connection
+URL or an additional
+     <code>
+      Properties
+     </code>
+     object parameter to
+     <code>
+      DriverManager.getConnection
+     </code>
+     .
+The following examples illustrate the use of both methods to establish a SSL
+connection.
+    </p>
+    <div class="highlight">
+     <pre><code class="language-java" data-lang="java"><span></span><span class="n">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">"jdbc:postgresql://localhost/test"</span><span class="o">;</span>
+<span class="n">Properties</span> <span class="n">props</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Properties</span><span class="o">();</span>
+<span class="n">props</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">"user"</span><span class="o">,</span><span class="s">"fred"</span><span class="o">);</span>
+<span class="n">props</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">"password"</span><span class="o">,</span><span class="s">"secret"</span><span class="o">);</span>
+<span class="n">props</span><span class="o">.</span><span class="na">setProperty</span><span class="o">(</span><span class="s">"ssl"</span><span class="o">,</span><span class="s">"true"</span><span class="o">);</span>
+<span class="n">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">props</span><span class="o">);</span>
+
+<span class="n">String</span> <span class="n">url</span> <span class="o">=</span> <span class="s">"jdbc:postgresql://localhost/test?user=fred&password=secret&ssl=true"</span><span class="o">;</span>
+<span class="n">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">DriverManager</span><span class="o">.</span><span class="na">getConnection</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+</code></pre>
+    </div>
+    <ul>
+     <li>
+      <p>
+       <strong>
+        user
+       </strong>
+       = String
+      </p>
+      <p>
+       The database user on whose behalf the connection is being made.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        password
+       </strong>
+       = String
+      </p>
+      <p>
+       The database user's password.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        ssl
+       </strong>
+       = boolean
+      </p>
+      <p>
+       Connect using SSL. The driver must have been compiled with SSL support.
+This property does not need a value associated with it. The mere presence
+of it specifies a SSL connection. However, for compatibility with future
+versions, the value "true" is preferred. For more information see
+       <a href="ssl.html">
+        Chapter
+4,
+        <em>
+         Using SSL
+        </em>
+       </a>
+       .
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        sslfactory
+       </strong>
+       = String
+      </p>
+      <p>
+       The provided value is a class name to use as the
+       <code>
+        SSLSocketFactory
+       </code>
+       when
+establishing a SSL connection. For more information see the section
+called
+       <a href="ssl-factory.html">
+        "Custom SSLSocketFactory"
+       </a>
+       .
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        sslfactoryarg
+       </strong>
+       (deprecated) = String
+      </p>
+      <p>
+       This value is an optional argument to the constructor of the sslfactory
+class provided above. For more information see the section called
+       <a href="ssl-factory.html">
+        "Custom SSLSocketFactory"
+       </a>
+       .
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        sslmode
+       </strong>
+       = String
+      </p>
+      <p>
+       possible values include
+       <code>
+        disable
+       </code>
+       ,
+       <code>
+        allow
+       </code>
+       ,
+       <code>
+        prefer
+       </code>
+       ,
+       <code>
+        require
+       </code>
+       ,
+       <code>
+        verify-ca
+       </code>
+       and
+       <code>
+        verify-full
+       </code>
+       .
+       <code>
+        require
+       </code>
+       ,
+       <code>
+        allow
+       </code>
+       and
+       <code>
+        prefer
+       </code>
+       all default to a non validating SSL factory and do not check the
+validity of the certificate or the host name.
+       <code>
+        verify-ca
+       </code>
+       validates the certificate, but does not
+verify the hostname.
+       <code>
+        verify-full
+       </code>
+       will validate that the certificate is correct and verify the
+host connected to has the same hostname as the certificate.
+      </p>
+      <p>
+       Setting these will necessitate storing the server certificate on the client machine see
+       <a href="ssl-client.html">
+        "Configuring the client"
+       </a>
+       for details.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        sslcert
+       </strong>
+       = String
+      </p>
+      <p>
+       Provide the full path for the certificate file. Defaults to /defaultdir/postgresql.crt
+      </p>
+      <p>
+       <em>
+        Note:
+       </em>
+       defaultdir is ${user.home}/.postgresql/ in *nix systems and %appdata%/postgresql/ on windows
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        sslkey
+       </strong>
+       = String
+      </p>
+      <p>
+       Provide the full path for the key file. Defaults to /defaultdir/postgresql.pk8
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        sslrootcert
+       </strong>
+       = String
+      </p>
+      <p>
+       File name of the SSL root certificate. Defaults to defaultdir/root.crt
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        sslhostnameverifier
+       </strong>
+       = String
+      </p>
+      <p>
+       Class name of hostname verifier. Defaults to using
+       <code>
+        org.postgresql.ssl.PGjdbcHostnameVerifier
+       </code>
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        sslpasswordcallback
+       </strong>
+       = String
+      </p>
+      <p>
+       Class name of the SSL password provider. Defaults to
+       <code>
+        org.postgresql.ssl.jdbc4.LibPQFactory.ConsoleCallbackHandler
+       </code>
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        sslpassword
+       </strong>
+       = String
+      </p>
+      <p>
+       If provided will be used by ConsoleCallbackHandler
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        sendBufferSize
+       </strong>
+       = int
+      </p>
+      <p>
+       Sets SO_SNDBUF on the connection stream
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        recvBufferSize
+       </strong>
+       = int
+      </p>
+      <p>
+       Sets SO_RCVBUF on the connection stream
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        protocolVersion
+       </strong>
+       = int
+      </p>
+      <p>
+       The driver supports the V3 frontend/backend protocols. The V3 protocol was introduced in 7.4 and
+the driver will by default try to   connect using the V3 protocol.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        loggerLevel
+       </strong>
+       = String
+      </p>
+      <p>
+       Logger level of the driver. Allowed values:
+       <code>
+        OFF
+       </code>
+       ,
+       <code>
+        DEBUG
+       </code>
+       or
+       <code>
+        TRACE
+       </code>
+       .
+This enable the
+       <code>
+        java.util.logging.Logger
+       </code>
+       Level of the driver based on the following mapping
+of levels: DEBUG -> FINE, TRACE -> FINEST. This property is intended for debug the driver and
+not for general SQL query debug.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        loggerFile
+       </strong>
+       = String
+      </p>
+      <p>
+       File name output of the Logger. If set, the Logger will use a
+       <code>
+        java.util.logging.FileHandler
+       </code>
+       to write to a specified file. If the parameter is not set or the file can&rsquo;t be created the
+       <code>
+        java.util.logging.ConsoleHandler
+       </code>
+       will be used instead. This parameter should be use
+together with loggerLevel.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        allowEncodingChanges
+       </strong>
+       = boolean
+      </p>
+      <p>
+       When using the V3 protocol the driver monitors changes in certain server
+configuration parameters that should not be touched by end users. The
+       <code>
+        client_encoding
+       </code>
+       setting is set by the driver and should not be altered.
+If the driver detects a change it will abort the connection. There is
+one legitimate exception to this behaviour though, using the
+       <code>
+        COPY
+       </code>
+       command
+on a file residing on the server's filesystem. The only means of specifying
+the encoding of this file is by altering the
+       <code>
+        client_encoding
+       </code>
+       setting.
+The JDBC team considers this a failing of the
+       <code>
+        COPY
+       </code>
+       command and hopes to
+provide an alternate means of specifying the encoding in the future, but
+for now there is this URL parameter. Enable this only if you need to
+override the client encoding when doing a copy.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        logUnclosedConnections
+       </strong>
+       = boolean
+      </p>
+      <p>
+       Clients may leak
+       <code>
+        Connection
+       </code>
+       objects by failing to call its
+       <code>
+        close()
+       </code>
+       method. Eventually these objects will be garbage collected and the
+       <code>
+        finalize()
+       </code>
+       method will be called which will close the
+       <code>
+        Connection
+       </code>
+       if
+caller has neglected to do this himself. The usage of a finalizer is just
+a stopgap solution. To help developers detect and correct the source of
+these leaks the
+       <code>
+        logUnclosedConnections
+       </code>
+       URL parameter has been added.
+It captures a stacktrace at each
+       <code>
+        Connection
+       </code>
+       opening and if the
+       <code>
+        finalize()
+       </code>
+       method is reached without having been closed the stacktrace is printed
+to the log.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        autosave
+       </strong>
+       = String
+      </p>
+      <p>
+       Specifies what the driver should do if a query fails. In
+       <code>
+        autosave=always
+       </code>
+       mode, JDBC driver sets a savepoint before each query,
+and rolls back to that savepoint in case of failure. In
+       <code>
+        autosave=never
+       </code>
+       mode (default), no savepoint dance is made ever.
+In
+       <code>
+        autosave=conservative
+       </code>
+       mode, savepoint is set for each query, however the rollback is done only for rare cases
+like 'cached statement cannot change return type' or 'statement XXX is not valid' so JDBC driver rollsback and retries
+      </p>
+      <p>
+       The default is
+       <code>
+        never
+       </code>
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        binaryTransferEnable
+       </strong>
+       = String
+      </p>
+      <p>
+       A comma separated list of types to enable binary transfer. Either OID numbers or names.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        binaryTransferDisable
+       </strong>
+       = String
+      </p>
+      <p>
+       A comma separated list of types to disable binary transfer. Either OID numbers or names.
+Overrides values in the driver default set and values set with binaryTransferEnable.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        prepareThreshold
+       </strong>
+       = int
+      </p>
+      <p>
+       Determine the number of
+       <code>
+        PreparedStatement
+       </code>
+       executions required before
+switching over to use server side prepared statements. The default is
+five, meaning start using server side prepared statements on the fifth
+execution of the same
+       <code>
+        PreparedStatement
+       </code>
+       object. More information on
+server side prepared statements is available in the section called
+       <a href="server-prepare.html">
+        "Server Prepared Statements"
+       </a>
+       .
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        preparedStatementCacheQueries
+       </strong>
+       = int
+      </p>
+      <p>
+       Determine the number of queries that are cached in each connection.
+The default is 256, meaning if you use more than 256 different queries
+in
+       <code>
+        prepareStatement()
+       </code>
+       calls, the least recently used ones
+will be discarded. The cache allows application to benefit from
+       <a href="server-prepare.html">
+        "Server Prepared Statements"
+       </a>
+       (see
+       <code>
+        prepareThreshold
+       </code>
+       ) even if the prepared statement is
+closed after each execution. The value of 0 disables the cache.
+      </p>
+      <p>
+       N.B.Each connection has its own statement cache.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        preparedStatementCacheSizeMiB
+       </strong>
+       = int
+      </p>
+      <p>
+       Determine the maximum size (in mebibytes) of the prepared queries cache
+(see
+       <code>
+        preparedStatementCacheQueries
+       </code>
+       ).
+The default is 5, meaning if you happen to cache more than 5 MiB of queries
+the least recently used ones will be discarded.
+The main aim of this setting is to prevent
+       <code>
+        OutOfMemoryError
+       </code>
+       .
+The value of 0 disables the cache.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        preferQueryMode
+       </strong>
+       = String
+      </p>
+      <p>
+       Specifies which mode is used to execute queries to database: simple means ('Q' execute, no parse, no bind, text mode only), 
+extended means always use bind/execute messages, extendedForPrepared means extended for prepared statements only, 
+extendedCacheEverything means use extended protocol and try cache every statement 
+(including Statement.execute(String sql)) in a query cache.
+extended | extendedForPrepared | extendedCacheEverything | simple
+      </p>
+      <p>
+       The default is extended
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        defaultRowFetchSize
+       </strong>
+       = int
+      </p>
+      <p>
+       Determine the number of rows fetched in
+       <code>
+        ResultSet
+       </code>
+       by one fetch with trip to the database. Limiting the number of rows are fetch with 
+each trip to the database allow avoids unnecessary memory consumption 
+and as a consequence
+       <code>
+        OutOfMemoryException
+       </code>
+       .
+      </p>
+      <p>
+       The default is zero, meaning that in
+       <code>
+        ResultSet
+       </code>
+       will be fetch all rows at once. 
+Negative number is not available.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        loginTimeout
+       </strong>
+       = int
+      </p>
+      <p>
+       Specify how long to wait for establishment of a database connection. The
+timeout is specified in seconds.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        connectTimeout
+       </strong>
+       = int
+      </p>
+      <p>
+       The timeout value used for socket connect operations. If connecting to the server
+takes longer than this value, the connection is broken. 
+The timeout is specified in seconds and a value of zero means that it   is disabled.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        socketTimeout
+       </strong>
+       = int
+      </p>
+      <p>
+       The timeout value used for socket read operations. If reading from the
+server takes longer than this value, the connection is closed. This can
+be used as both a brute force global query timeout and a method of
+detecting network problems. The timeout is specified in seconds and a
+value of zero means that it is disabled.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        cancelSignalTimeout
+       </strong>
+       = int
+      </p>
+     </li>
+    </ul>
+    <p>
+     Cancel command is sent out of band over its own connection, so cancel message can itself get
+  stuck. This property controls "connect timeout" and "socket timeout" used for cancel commands.
+  The timeout is specified in seconds. Default value is 10 seconds.
+    </p>
+    <ul>
+     <li>
+      <p>
+       <strong>
+        tcpKeepAlive
+       </strong>
+       = boolean
+      </p>
+      <p>
+       Enable or disable TCP keep-alive probe. The default is
+       <code>
+        false
+       </code>
+       .
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        unknownLength
+       </strong>
+       = int
+      </p>
+      <p>
+       Certain postgresql types such as
+       <code>
+        TEXT
+       </code>
+       do not have a well defined length.
+When returning meta-data about these types through functions like
+       <code>
+        ResultSetMetaData.getColumnDisplaySize
+       </code>
+       and
+       <code>
+        ResultSetMetaData.getPrecision
+       </code>
+       we must provide a value and various client tools have different ideas
+about what they would like to see. This parameter specifies the length
+to return for types of unknown length.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        stringtype
+       </strong>
+       = String
+      </p>
+      <p>
+       Specify the type to use when binding
+       <code>
+        PreparedStatement
+       </code>
+       parameters set
+via
+       <code>
+        setString()
+       </code>
+       . If
+       <code>
+        stringtype
+       </code>
+       is set to
+       <code>
+        VARCHAR
+       </code>
+       (the default), such
+parameters will be sent to the server as varchar parameters. If
+       <code>
+        stringtype
+       </code>
+       is set to
+       <code>
+        unspecified
+       </code>
+       , parameters will be sent to the server as untyped
+values, and the server will attempt to infer an appropriate type. This
+is useful if you have an existing application that uses
+       <code>
+        setString()
+       </code>
+       to
+set parameters that are actually some other type, such as integers, and
+you are unable to change the application to use an appropriate method
+such as
+       <code>
+        setInt()
+       </code>
+       .
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        kerberosServerName
+       </strong>
+       = String
+      </p>
+      <p>
+       The Kerberos service name to use when authenticating with GSSAPI. This
+is equivalent to libpq's PGKRBSRVNAME environment variable and defaults
+to "postgres".
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        jaasApplicationName
+       </strong>
+       = String
+      </p>
+      <p>
+       Specifies the name of the JAAS system or application login configuration.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        jaasLogin
+       </strong>
+       = boolean
+      </p>
+      <p>
+       Specifies whether to perform a JAAS login before authenticating with GSSAPI.
+If set to
+       <code>
+        true
+       </code>
+       (the default), the driver will attempt to obtain GSS credentials
+using the configured JAAS login module(s) (e.g.
+       <code>
+        Krb5LoginModule
+       </code>
+       ) before
+authenticating. To skip the JAAS login, for example if the native GSS
+implementation is being used to obtain credentials, set this to
+       <code>
+        false
+       </code>
+       .
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        ApplicationName
+       </strong>
+       = String
+      </p>
+      <p>
+       Specifies the name of the application that is using the connection. 
+This allows a database administrator to see what applications are 
+connected to the server and what resources they are using through views like pg
+       <em>
+        stat
+       </em>
+       activity.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        gsslib
+       </strong>
+       = String
+      </p>
+      <p>
+       Force either SSPI (Windows transparent single-sign-on) or GSSAPI (Kerberos, via JSSE)
+to be used when the server requests Kerberos or SSPI authentication. 
+Permissible values are auto (default, see below), sspi (force SSPI) or gssapi (force GSSAPI-JSSE).
+      </p>
+      <p>
+       If this parameter is auto, SSPI is attempted if the server requests SSPI authentication, 
+the JDBC client is running on Windows, and the Waffle libraries required 
+for SSPI are on the CLASSPATH. Otherwise Kerberos/GSSAPI via JSSE is used. 
+Note that this behaviour does not exactly match that of libpq, which uses 
+Windows' SSPI libraries for Kerberos (GSSAPI) requests by default when on Windows.
+      </p>
+      <p>
+       gssapi mode forces JSSE's GSSAPI to be used even if SSPI is available, matching the pre-9.4 behaviour.
+      </p>
+      <p>
+       On non-Windows platforms or where SSPI is unavailable, forcing sspi mode will fail with a PSQLException.
+      </p>
+      <p>
+       Since: 9.4
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        sspiServiceClass
+       </strong>
+       = String
+      </p>
+      <p>
+       Specifies the name of the Windows SSPI service class that forms the service 
+class part of the SPN. The default, POSTGRES, is almost always correct.
+      </p>
+      <p>
+       See: SSPI authentication (Pg docs) Service Principal Names (MSDN), DsMakeSpn (MSDN) Configuring SSPI (Pg wiki).
+      </p>
+      <p>
+       This parameter is ignored on non-Windows platforms.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        useSpnego
+       </strong>
+       = boolean
+      </p>
+      <p>
+       Use SPNEGO in SSPI authentication requests
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        sendBufferSize
+       </strong>
+       = int
+      </p>
+      <p>
+       Sets SO_SNDBUF on the connection stream
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        receiveBufferSize
+       </strong>
+       = int
+      </p>
+      <p>
+       Sets SO_RCVBUF on the connection stream
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        readOnly
+       </strong>
+       = boolean
+      </p>
+      <p>
+       Put the connection in read-only mode
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        disableColumnSanitiser
+       </strong>
+       = boolean
+      </p>
+      <p>
+       Setting this to true disables column name sanitiser. 
+The sanitiser folds columns in the resultset to lowercase. 
+The default is to sanitise the columns (off).
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        assumeMinServerVersion
+       </strong>
+       = String
+      </p>
+      <p>
+       Assume that the server is at least the given version, 
+thus enabling to some optimization at connection time instead of trying to be version blind.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        currentSchema
+       </strong>
+       = String
+      </p>
+      <p>
+       Specify the schema to be set in the search-path. 
+This schema will be used to resolve unqualified object names used in statements over this connection.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        targetServerType
+       </strong>
+       = String
+      </p>
+      <p>
+       Allows opening connections to only servers with required state, 
+the allowed values are any, master, slave, secondary, preferSlave and preferSecondary. 
+The master/slave distinction is currently done by observing if the server allows writes. 
+The value preferSecondary tries to connect to secondary if any are available, 
+otherwise allows falls back to connecting also to master.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        hostRecheckSeconds
+       </strong>
+       = int
+      </p>
+      <p>
+       Controls how long in seconds the knowledge about a host state 
+is cached in JVM wide global cache. The default value is 10 seconds.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        loadBalanceHosts
+       </strong>
+       = boolean
+      </p>
+      <p>
+       In default mode (disabled) hosts are connected in the given order. 
+If enabled hosts are chosen randomly from the set of suitable candidates.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        socketFactory
+       </strong>
+       = String
+      </p>
+      <p>
+       The provided value is a class name to use as the
+       <code>
+        SocketFactory
+       </code>
+       when establishing a socket connection. 
+This may be used to create unix sockets instead of normal sockets. The class name specified by
+       <code>
+        socketFactory
+       </code>
+       must extend
+       <code>
+        javax.net.SocketFactory
+       </code>
+       and be available to the driver's classloader.
+This class must have a zero argument constructor or a single argument constructor taking a String argument. 
+This argument may optionally be supplied by
+       <code>
+        socketFactoryArg
+       </code>
+       .
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        socketFactoryArg
+       </strong>
+       (deprecated) = String
+      </p>
+      <p>
+       This value is an optional argument to the constructor of the socket factory
+class provided above.
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        reWriteBatchedInserts
+       </strong>
+       = boolean
+      </p>
+      <p>
+       This will change batch inserts from insert into foo (col1, col2, col3) values (1,2,3) into 
+insert into foo (col1, col2, col3) values (1,2,3), (4,5,6) this provides 2-3x performance improvement
+      </p>
+     </li>
+     <li>
+      <p>
+       <strong>
+        replication
+       </strong>
+       = String
+      </p>
+     </li>
+    </ul>
+    <p>
+     Connection parameter passed in the startup message. This parameter accepts two values; "true"
+   and
+     <code>
+      database
+     </code>
+     . Passing
+     <code>
+      true
+     </code>
+     tells the backend to go into walsender mode, wherein a small set
+   of replication commands can be issued instead of SQL statements. Only the simple query protocol
+   can be used in walsender mode. Passing "database" as the value instructs walsender to connect
+   to the database specified in the dbname parameter, which will allow the connection to be used
+   for logical replication from that database.
+     <p>
+      Parameter should be use together with
+      <code>
+       assumeMinServerVersion
+      </code>
+      with parameter >= 9.4 (backend >= 9.4)
+     </p>
+    </p>
+    <p>
+     <a name="connection-failover">
+     </a>
+    </p>
+    <h2>
+     Connection Fail-over
+    </h2>
+    <p>
+     To support simple connection fail-over it is possible to define multiple endpoints
+(host and port pairs) in the connection url separated by commas.
+The driver will try to once connect to each of them in order until the connection succeeds. 
+If none succeed, a normal connection exception is thrown.
+    </p>
+    <p>
+     The syntax for the connection url is:
+    </p>
+    <p>
+     <code>
+      jdbc:postgresql://host1:port1,host2:port2/database
+     </code>
+    </p>
+    <p>
+     The simple connection fail-over is useful when running against a high availability 
+postgres installation that has identical data on each node. 
+For example streaming replication postgres or postgres-xc cluster.
+    </p>
+    <p>
+     For example an application can create two connection pools. 
+One data source is for writes, another for reads. The write pool limits connections only to master node:
+    </p>
+    <p>
+     <code>
+      jdbc:postgresql://node1,node2,node3/accounting?targetServerType=master
+     </code>
+     .
+    </p>
+    <p>
+     And read pool balances connections between slaves nodes, but allows connections also to master if no slaves are available:
+    </p>
+    <p>
+     <code>
+      jdbc:postgresql://node1,node2,node3/accounting?targetServerType=preferSlave&loadBalanceHosts=true
+     </code>
+    </p>
+    <p>
+     If a slave fails, all slaves in the list will be tried first. If the case that there are no available slaves
+the master will be tried. If all of the servers are marked as "can't connect" in the cache then an attempt
+will be made to connect to all of the hosts in the URL in order.
+    </p>
+   </div>
+   <!-- NAVFOOTER -->
+  </div>
+  <!-- docContent -->
+  <div id="docComments">
+  </div>
+  <!-- pgFooter -->
+ </div>
+ <!-- docContainer -->
+</div>
+<!-- docContainer -->

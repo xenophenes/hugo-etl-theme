@@ -468,6 +468,99 @@ draft: false
     with open("/tmp/document.modified", "w") as file:
         file.write(filedata)
 
+#==================
+# 3.7 pgJDBC
+#==================
+
+def cleanup_pgjdbc(filename):
+    fh = open(filename, "r")
+
+    soup = BeautifulSoup(fh, 'html.parser')
+
+    pageTitle = soup.h1.get_text()
+
+    if "The PostgreSQL JDBC Interface" in pageTitle:
+        soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+---
+
+
+""" % pageTitle)
+    else:
+        soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+hidden: true
+---
+
+
+""" % pageTitle)
+
+    soup.html.unwrap()
+    soup.body.unwrap()
+    soup.head.decompose()
+
+    for tag in soup.findAll('span', {'class': 'txtOffScreen'}):
+        tag.decompose()
+
+    for tag in soup.findAll('div', {'id': 'pgSearch'}):
+        tag.decompose()
+
+    for tag in soup.findAll('div', {'id': 'pgHeader'}):
+        tag.decompose()
+
+    for tag in soup.findAll('div', {'id': 'docHeader'}):
+        tag.decompose()
+
+    for tag in soup.findAll('div', {'id': 'pgTopNav'}):
+        tag.decompose()
+
+    for tag in soup.findAll('div', {'id': 'pgSideWrap'}):
+        tag.decompose()
+
+    for tag in soup.findAll('div', {'id': 'pgFooter'}):
+        tag.decompose()
+
+    for tag in soup.findAll('div', {'id': 'docFooter'}):
+        tag.decompose()
+
+    for tag in soup.findAll('div', {'class': 'NAVHEADER'}):
+        tag.decompose()
+
+    for tag in soup.findAll('div', {'class': 'NAVFOOTER'}):
+        tag.decompose()
+
+    if "index" not in filename:
+        soup.h1.decompose()
+
+    for tag in soup.contents:
+        if isinstance(tag, Doctype):
+            tag.extract()
+
+    f = open("/tmp/document.modified", "w")
+    f.write(soup.prettify(formatter="html5"))
+    f.close()
+
+    with open("/tmp/document.modified", "r") as file:
+        filedata = file.read()
+
+    filedata = filedata.replace("&nbsp;", " ")
+    filedata = filedata.replace("&ldquo;", '"')
+    filedata = filedata.replace("&rdquo;", '"')
+    filedata = filedata.replace("&amp;", "&")
+    filedata = filedata.replace("&mdash;", "-")
+    filedata = filedata.replace("&lt;", "<")
+    filedata = filedata.replace("&gt;", ">")
+    filedata = filedata.replace("&trade;", " ")
+
+    with open("/tmp/document.modified", "w") as file:
+        file.write(filedata)
+
 #===============================================
 # 4) Parsing
 #===============================================
@@ -484,5 +577,7 @@ elif cleanup == "pgbadger":
     cleanup_pgbadger(filename)
 elif cleanup == "pgbouncer":
     cleanup_pgbouncer(filename)
+elif cleanup == "pgjdbc":
+    cleanup_pgjdbc(filename)
 else:
     print ("There is no cleanup function for that project.")

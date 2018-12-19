@@ -1,0 +1,66 @@
+---
+title: "Using the ResultSet Interface"
+draft: false
+hidden: true
+---
+<div id="docContainerWrap">
+ <div id="docContainer">
+  <div id="docContent">
+   <!-- NAVHEADER -->
+   <div class="CHAPTER">
+    <p>
+     The following must be considered when using the
+     <code>
+      ResultSet
+     </code>
+     interface:
+    </p>
+    <ul>
+     <li>
+      Before reading any values, you must call
+      <code>
+       next()
+      </code>
+      . This returns true if there
+is a result, but more importantly, it prepares the row for processing.
+     </li>
+     <li>
+      You must close a
+      <code>
+       ResultSet
+      </code>
+      by calling
+      <code>
+       close()
+      </code>
+      once you have finished using
+it.
+     </li>
+     <li>
+      Once you make another query with the
+      <code>
+       Statement
+      </code>
+      used to create a
+      <code>
+       ResultSet
+      </code>
+      ,
+the currently open
+      <code>
+       ResultSet
+      </code>
+      instance is closed automatically.
+     </li>
+    </ul>
+   </div>
+   <!-- NAVFOOTER -->
+  </div>
+  <!-- docContent -->
+  <div id="docComments">
+  </div>
+  <!-- pgFooter -->
+ </div>
+ <!-- docContainer -->
+</div>
+<!-- docContainer -->

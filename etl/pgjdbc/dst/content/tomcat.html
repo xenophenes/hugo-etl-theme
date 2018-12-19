@@ -1,0 +1,139 @@
+---
+title: "Tomcat setup"
+draft: false
+hidden: true
+---
+<div id="docContainerWrap">
+ <div id="docContainer">
+  <div id="docContent">
+   <!-- NAVHEADER -->
+   <div class="CHAPTER">
+    <h3>
+     Note
+    </h3>
+    <p>
+     The postgresql.jar file must be placed in $CATALINA_HOME/common/lib in both
+Tomcat 4 and 5.
+    </p>
+    <p>
+     The absolute easiest way to set this up in either tomcat instance is to use the
+admin web application that comes with Tomcat, simply add the datasource to the
+context you want to use it in.
+    </p>
+    <p>
+     Setup for Tomcat 4 place the following inside the <Context> tag inside
+conf/server.xml
+    </p>
+    <div class="highlight">
+     <pre><code class="language-xml" data-lang="xml"><span></span><span class="nt"><Resource</span> <span class="na">name=</span><span class="s">"jdbc/postgres"</span> <span class="na">scope=</span><span class="s">"Shareable"</span> <span class="na">type=</span><span class="s">"javax.sql.DataSource"</span><span class="nt">/></span>
+<span class="nt"><ResourceParams</span> <span class="na">name=</span><span class="s">"jdbc/postgres"</span><span class="nt">></span>
+    <span class="nt"><parameter></span>
+        <span class="nt"><name></span>validationQuery<span class="nt"></name></span>
+        <span class="nt"><value></span>select version();<span class="nt"></value></span>
+    <span class="nt"></parameter></span>
+    <span class="nt"><parameter></span>
+        <span class="nt"><name></span>url<span class="nt"></name></span>
+        <span class="nt"><value></span>jdbc:postgresql://localhost/davec<span class="nt"></value></span>
+    <span class="nt"></parameter></span>
+    <span class="nt"><parameter></span>
+        <span class="nt"><name></span>password<span class="nt"></name></span>
+        <span class="nt"><value></span>davec<span class="nt"></value></span>
+    <span class="nt"></parameter></span>
+    <span class="nt"><parameter></span>
+        <span class="nt"><name></span>maxActive<span class="nt"></name></span>
+        <span class="nt"><value></span>4<span class="nt"></value></span>
+    <span class="nt"></parameter></span>
+    <span class="nt"><parameter></span>
+        <span class="nt"><name></span>maxWait<span class="nt"></name></span>
+        <span class="nt"><value></span>5000<span class="nt"></value></span>
+    <span class="nt"></parameter></span>
+    <span class="nt"><parameter></span>
+        <span class="nt"><name></span>driverClassName<span class="nt"></name></span>
+        <span class="nt"><value></span>org.postgresql.Driver<span class="nt"></value></span>
+    <span class="nt"></parameter></span>
+    <span class="nt"><parameter></span>
+        <span class="nt"><name></span>username<span class="nt"></name></span>
+        <span class="nt"><value></span>davec<span class="nt"></value></span>
+    <span class="nt"></parameter></span>
+    <span class="nt"><parameter></span>
+        <span class="nt"><name></span>maxIdle<span class="nt"></name></span>
+        <span class="nt"><value></span>2<span class="nt"></value></span>
+    <span class="nt"></parameter></span>
+<span class="nt"></ResourceParams></span>   
+</code></pre>
+    </div>
+    <p>
+     Setup for Tomcat 5, you can use the above method, except that it goes inside the
+<DefaultContext> tag inside the <Host> tag. eg. <Host> ... <DefaultContext> ...
+    </p>
+    <p>
+     Alternatively there is a conf/Catalina/hostname/context.xml file. For example
+http://localhost:8080/servlet-example has a directory $CATALINA_HOME/conf/Catalina/localhost/servlet-example.xml file. 
+Inside this file place the above xml inside the <Context> tag
+    </p>
+    <p>
+     Then you can use the following code to access the connection.
+    </p>
+    <div class="highlight">
+     <pre><code class="language-java" data-lang="java"><span></span><span class="kn">import</span> <span class="nn">javax.naming.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">javax.sql.*</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.sql.*</span><span class="o">;</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DBTest</span> 
+<span class="o">{</span>
+
+    <span class="n">String</span> <span class="n">foo</span> <span class="o">=</span> <span class="s">"Not Connected"</span><span class="o">;</span>
+    <span class="kt">int</span> <span class="n">bar</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> 
+    <span class="o">{</span>
+        <span class="k">try</span>
+        <span class="o">{</span>
+            <span class="n">Context</span> <span class="n">ctx</span> <span class="o">=</span> <span class="k">new</span> <span class="n">InitialContext</span><span class="o">();</span>
+            <span class="k">if</span><span class="o">(</span><span class="n">ctx</span> <span class="o">==</span> <span class="kc">null</span> <span class="o">)</span>
+                <span class="k">throw</span> <span class="k">new</span> <span class="n">Exception</span><span class="o">(</span><span class="s">"Boom - No Context"</span><span class="o">);</span>
+
+            <span class="c1">// /jdbc/postgres is the name of the resource above </span>
+            <span class="n">DataSource</span> <span class="n">ds</span> <span class="o">=</span> <span class="o">(</span><span class="n">DataSource</span><span class="o">)</span><span class="n">ctx</span><span class="o">.</span><span class="na">lookup</span><span class="o">(</span><span class="s">"java:comp/env/jdbc/postgres"</span><span class="o">);</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">ds</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> 
+            <span class="o">{</span>
+                <span class="n">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="na">getConnection</span><span class="o">();</span>
+
+                <span class="k">if</span><span class="o">(</span><span class="n">conn</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> 
+                <span class="o">{</span>
+                    <span class="n">foo</span> <span class="o">=</span> <span class="s">"Got Connection "</span><span class="o">+</span><span class="n">conn</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+                    <span class="n">Statement</span> <span class="n">stmt</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="na">createStatement</span><span class="o">();</span>
+                    <span class="n">ResultSet</span> <span class="n">rst</span> <span class="o">=</span> <span class="n">stmt</span><span class="o">.</span><span class="na">executeQuery</span><span class="o">(</span><span class="s">"select id, foo, bar from testdata"</span><span class="o">);</span>
+
+                    <span class="k">if</span><span class="o">(</span><span class="n">rst</span><span class="o">.</span><span class="na">next</span><span class="o">())</span>
+                    <span class="o">{</span>
+                        <span class="n">foo</span><span class="o">=</span><span class="n">rst</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="mi">2</span><span class="o">);</span>
+                        <span class="n">bar</span><span class="o">=</span><span class="n">rst</span><span class="o">.</span><span class="na">getInt</span><span class="o">(</span><span class="mi">3</span><span class="o">);</span>
+                    <span class="o">}</span>
+                    <span class="n">conn</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">catch</span><span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> 
+        <span class="o">{</span>
+            <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">getFoo</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">foo</span><span class="o">;</span> <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getBar</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">bar</span><span class="o">;}</span>
+<span class="o">}</span>
+</code></pre>
+    </div>
+   </div>
+   <!-- NAVFOOTER -->
+  </div>
+  <!-- docContent -->
+  <div id="docComments">
+  </div>
+  <!-- pgFooter -->
+ </div>
+ <!-- docContainer -->
+</div>
+<!-- docContainer -->

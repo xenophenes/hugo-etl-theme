@@ -1,0 +1,364 @@
+---
+title: "Applications DataSource"
+draft: false
+hidden: true
+---
+<div id="docContainerWrap">
+ <div id="docContainer">
+  <div id="docContent">
+   <!-- NAVHEADER -->
+   <div class="CHAPTER">
+    <p>
+     PostgreSQL  includes two implementations of
+     <code>
+      DataSource
+     </code>
+     , as shown in
+     <a href="ds-ds.html#ds-ds-imp">
+      Table 11.2, "
+      <code>
+       DataSource
+      </code>
+      Implementations"
+     </a>
+     .
+One that does pooling and the other that does not. The pooling implementation
+does not actually close connections when the client calls the
+     <code>
+      close
+     </code>
+     method,
+but instead returns the connections to a pool of available connections for other
+clients to use.  This avoids any overhead of repeatedly opening and closing
+connections, and allows a large number of clients to share a small number of
+database connections.
+    </p>
+    <p>
+     The pooling data-source implementation provided here is not the most feature-rich
+in the world. Among other things, connections are never closed until the pool
+itself is closed; there is no way to shrink the pool.  As well, connections
+requested for users other than the default configured user are not pooled. Its
+error handling sometimes cannot remove a broken connection from the pool. In
+general it is not recommended to use the PostgreSQL  provided connection pool.
+Check your application server or check out the excellent
+     <a href="http://jakarta.apache.org/commons/dbcp/">
+      jakarta commons DBCP
+     </a>
+     project.
+    </p>
+    <p>
+     <a name="ds-ds-imp">
+     </a>
+     <strong>
+      Table 11.2. 
+      <code>
+       DataSource
+      </code>
+      Implementations
+     </strong>
+    </p>
+    <table border="1" class="CALSTABLE" summary="DataSource Implementations">
+     <tr>
+      <th>
+       Pooling
+      </th>
+      <th>
+       Implementation Class
+      </th>
+     </tr>
+     <tbody>
+      <tr>
+       <td>
+        No
+       </td>
+       <td>
+        `org.postgresql.ds.PGSimpleDataSource
+       </td>
+      </tr>
+      <tr>
+       <td>
+        Yes
+       </td>
+       <td>
+        `org.postgresql.ds.PGPoolingDataSource
+       </td>
+      </tr>
+     </tbody>
+    </table>
+    <p>
+     Both implementations use the same configuration scheme. JDBC requires that a
+     <code>
+      DataSource
+     </code>
+     be configured via JavaBean properties, shown in
+     <a href="ds-ds.html#ds-ds-props">
+      Table 11.3, "
+      <code>
+       DataSource
+      </code>
+      Configuration Properties"
+     </a>
+     ,
+so there are get and set methods for each of these properties.
+    </p>
+    <p>
+     <a name="ds-ds-props">
+     </a>
+     <strong>
+      Table 11.3. 
+      <code>
+       DataSource
+      </code>
+      Configuration Properties
+     </strong>
+    </p>
+    <table border="1" class="CALSTABLE" summary="DataSource Configuration Properties">
+     <tr>
+      <th>
+       Property
+      </th>
+      <th>
+       Type
+      </th>
+      <th>
+       Description
+      </th>
+     </tr>
+     <tbody>
+      <tr>
+       <td>
+        serverName
+       </td>
+       <td>
+        STRING
+       </td>
+       <td>
+        PostgreSQL  database server host name
+       </td>
+      </tr>
+      <tr>
+       <td>
+        databaseName
+       </td>
+       <td>
+        STRING
+       </td>
+       <td>
+        PostgreSQL  database name
+       </td>
+      </tr>
+      <tr>
+       <td>
+        portNumber
+       </td>
+       <td>
+        INT
+       </td>
+       <td>
+        TCP port which the PostgreSQL 
+database server is listening on (or 0 to use the default port)
+       </td>
+      </tr>
+      <tr>
+       <td>
+        user
+       </td>
+       <td>
+        STRING
+       </td>
+       <td>
+        User used to make database connections
+       </td>
+      </tr>
+      <tr>
+       <td>
+        password
+       </td>
+       <td>
+        STRING
+       </td>
+       <td>
+        Password used to make database connections
+       </td>
+      </tr>
+      <tr>
+       <td>
+        ssl
+       </td>
+       <td>
+        BOOLEAN
+       </td>
+       <td>
+        If true, use SSL encrypted
+connections (default false)
+       </td>
+      </tr>
+      <tr>
+       <td>
+        sslfactory
+       </td>
+       <td>
+        STRING
+       </td>
+       <td>
+        Custom javax.net.ssl.SSLSocketFactory
+class name (see the section called ["Custom
+SSLSocketFactory"](ssl-factory.html))
+       </td>
+      </tr>
+     </tbody>
+    </table>
+    <p>
+     The pooling implementation requires some additional configuration properties,
+which are shown in
+     <a href="ds-ds.html#ds-ds-xprops">
+      Table 11.4, "Additional Pooling
+      <code>
+       DataSource
+      </code>
+      Configuration Properties
+     </a>
+     .
+    </p>
+    <p>
+     <a name="ds-ds-xprops">
+     </a>
+     <strong>
+      Table 11.4. Additional Pooling
+      <code>
+       DataSource
+      </code>
+      Configuration Properties
+     </strong>
+    </p>
+    <table border="1" class="CALSTABLE" summary="Additional Pooling DataSource Configuration Properties">
+     <tr>
+      <th>
+       Property
+      </th>
+      <th>
+       Type
+      </th>
+      <th>
+       Description
+      </th>
+     </tr>
+     <tbody>
+      <tr>
+       <td>
+        dataSourceName
+       </td>
+       <td>
+        STRING
+       </td>
+       <td>
+        Every pooling DataSource must
+have a unique name.
+       </td>
+      </tr>
+      <tr>
+       <td>
+        initialConnections
+       </td>
+       <td>
+        INT
+       </td>
+       <td>
+        The number of database connections to be created when the
+pool is initialized.
+       </td>
+      </tr>
+      <tr>
+       <td>
+        maxConnections
+       </td>
+       <td>
+        INT
+       </td>
+       <td>
+        The maximum number of open database connections to allow.
+When more connections are requested, the caller will hang until a
+connection is returned to the pool.
+       </td>
+      </tr>
+     </tbody>
+    </table>
+    <p>
+     <a href="ds-ds.html#ds-example">
+      Example 11.1, "
+      <code>
+       DataSource
+      </code>
+      Code Example"
+     </a>
+     shows an example
+of typical application code using a pooling
+     <code>
+      DataSource
+     </code>
+     .
+    </p>
+    <p>
+     <a name="ds-example">
+     </a>
+     <strong>
+      Example 11.1. 
+      <code>
+       DataSource
+      </code>
+      Code Example
+     </strong>
+    </p>
+    <p>
+     Code to initialize a pooling
+     <code>
+      DataSource
+     </code>
+     might look like this:
+    </p>
+    <div class="highlight">
+     <pre><code class="language-java" data-lang="java"><span></span><span class="n">PGPoolingDataSource</span> <span class="n">source</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PGPoolingDataSource</span><span class="o">();</span>
+<span class="n">source</span><span class="o">.</span><span class="na">setDataSourceName</span><span class="o">(</span><span class="s">"A Data Source"</span><span class="o">);</span>
+<span class="n">source</span><span class="o">.</span><span class="na">setServerName</span><span class="o">(</span><span class="s">"localhost"</span><span class="o">);</span>
+<span class="n">source</span><span class="o">.</span><span class="na">setDatabaseName</span><span class="o">(</span><span class="s">"test"</span><span class="o">);</span>
+<span class="n">source</span><span class="o">.</span><span class="na">setUser</span><span class="o">(</span><span class="s">"testuser"</span><span class="o">);</span>
+<span class="n">source</span><span class="o">.</span><span class="na">setPassword</span><span class="o">(</span><span class="s">"testpassword"</span><span class="o">);</span>
+<span class="n">source</span><span class="o">.</span><span class="na">setMaxConnections</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+</code></pre>
+    </div>
+    <p>
+     Then code to use a connection from the pool might look like this. Note that it
+is critical that the connections are eventually closed.  Else the pool will
+"leak" connections and will eventually lock all the clients out.
+    </p>
+    <div class="highlight">
+     <pre><code class="language-java" data-lang="java"><span></span><span class="n">Connection</span> <span class="n">conn</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+<span class="k">try</span>
+<span class="o">{</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="na">getConnection</span><span class="o">();</span>
+    <span class="c1">// use connection</span>
+<span class="o">}</span>
+<span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="c1">// log error</span>
+<span class="o">}</span>
+<span class="k">finally</span>
+<span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">con</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span>
+    <span class="o">{</span>
+        <span class="k">try</span> <span class="o">{</span> <span class="n">conn</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">SQLException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+    </div>
+   </div>
+   <!-- NAVFOOTER -->
+  </div>
+  <!-- docContent -->
+  <div id="docComments">
+  </div>
+  <!-- pgFooter -->
+ </div>
+ <!-- docContainer -->
+</div>
+<!-- docContainer -->

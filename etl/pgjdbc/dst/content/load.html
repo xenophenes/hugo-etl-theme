@@ -1,0 +1,49 @@
+---
+title: "Loading the Driver"
+draft: false
+hidden: true
+---
+<div id="docContainerWrap">
+ <div id="docContainer">
+  <div id="docContent">
+   <!-- NAVHEADER -->
+   <div class="CHAPTER">
+    <p>
+     Applications do not need to explicitly load the org.postgresql.Driver
+class because the pgjdbc driver jar supports the Java Service Provider
+mechanism. The driver will be loaded by the JVM when the application
+connects to PostgreSQL  (as long as the driver's jar file is on the
+classpath).
+    </p>
+    <h3>
+     Note
+    </h3>
+    <p>
+     Prior to Java 1.6, the driver had to be loaded by the application - either by calling
+    </p>
+    <div class="highlight">
+     <pre><code class="language-java" data-lang="java"><span></span><span class="n">Class</span><span class="o">.</span><span class="na">forName</span><span class="o">(</span><span class="s">"org.postgresql.Driver"</span><span class="o">);</span>
+</code></pre>
+    </div>
+    <p>
+     or by passing the driver class name as a JVM parameter.
+    </p>
+    <p>
+     <code>
+      java -Djdbc.drivers=org.postgresql.Driver example.ImageViewer
+     </code>
+    </p>
+    <p>
+     These older methods of loading the driver are still supported but they are no longer necessary.
+    </p>
+   </div>
+   <!-- NAVFOOTER -->
+  </div>
+  <!-- docContent -->
+  <div id="docComments">
+  </div>
+  <!-- pgFooter -->
+ </div>
+ <!-- docContainer -->
+</div>
+<!-- docContainer -->

@@ -1,0 +1,81 @@
+---
+title: "Chapter 4. Using SSL"
+draft: false
+hidden: true
+---
+<div id="docContainerWrap">
+ <div id="docContainer">
+  <div id="docContent">
+   <!-- NAVHEADER -->
+   <div class="CHAPTER">
+    <p>
+     <strong>
+      Table of Contents
+     </strong>
+    </p>
+    <ul>
+     <li>
+      <a href="ssl.html#ssl-server">
+       Configuring the Server
+      </a>
+     </li>
+     <li>
+      <a href="ssl-client.html">
+       Configuring the Client
+      </a>
+      <ul>
+       <li>
+        <a href="ssl-client.html#nonvalidating">
+         Using SSL without Certificate Validation
+        </a>
+       </li>
+      </ul>
+     </li>
+     <li>
+      <a href="ssl-factory.html">
+       Custom SSLSocketFactory
+      </a>
+     </li>
+    </ul>
+    <p>
+     <a name="ssl-server">
+     </a>
+    </p>
+    <h1>
+     Configuring the Server
+    </h1>
+    <p>
+     Configuring the PostgreSQL  server for SSL is covered in the
+     <a href="http://www.postgresql.org/docs/current/static/ssl-tcp.html">
+      main
+documentation
+     </a>
+     ,
+so it will not be repeated here. Before trying to access your SSL enabled
+server from Java, make sure you can get to it via
+     <strong>
+      psql
+     </strong>
+     . You should
+see output like the following if you have established a SSL  connnection.
+    </p>
+    <div class="highlight">
+     <pre><code class="language-text" data-lang="text"><span></span>$ ./bin/psql -h localhost -U postgres
+psql (9.6.2)
+SSL connection (protocol: TLSv1.2, cipher: ECDHE-RSA-AES256-GCM-SHA384, bits: 256, compression: off)
+Type "help" for help.
+
+postgres=#
+</code></pre>
+    </div>
+   </div>
+   <!-- NAVFOOTER -->
+  </div>
+  <!-- docContent -->
+  <div id="docComments">
+  </div>
+  <!-- pgFooter -->
+ </div>
+ <!-- docContainer -->
+</div>
+<!-- docContainer -->
