@@ -42,6 +42,7 @@ function usage {
     echo "   pgjdbc"
     echo "   pg_partman"
     echo "   plr"
+    echo "   pgpool"
     echo "   sec_install_n_config"
     echo ""
     echo "Available project versions:"
@@ -266,6 +267,21 @@ elif [ "$1" == 'plr' ]; then
 
     # Clean up build artifacts
     remove_project ${PROJECT_NAME} ${PLR_VERSION}
+
+    # Run the extract and transform scripts
+    run_script
+
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3}
+
+elif [ "$1" == 'pgpool' ]; then
+
+    # Parameter setup
+    export PROJECT_NAME=$1
+    export PGPOOL_VERSION=$(echo $2 | sed 's/\./_/g')
+
+    # Clean up build artifacts
+    remove_project ${PROJECT_NAME} ${PGPOOL_VERSION}
 
     # Run the extract and transform scripts
     run_script
