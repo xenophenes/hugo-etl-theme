@@ -195,7 +195,78 @@ draft: false
         file.write("<p>&copy; Copyright 2015 Compose, Zalando SE</p>")
 
 #==================
-# 3.3 pgBadger
+# 3.3 pgAdmin4
+#==================
+
+def cleanup_pgadmin4(filename):
+    fh = open(filename, "r")
+
+    soup = BeautifulSoup(fh, 'html.parser')
+
+    pageTitle = soup.title.get_text()
+
+    if "_index.html" in filename:
+        soup.h1.decompose()
+
+        soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+---
+
+
+<h1>pgAdmin 4 documentation</h1>
+
+""" % pageTitle)
+
+    else:
+        soup.h1.decompose()
+
+        soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+---
+
+""" % pageTitle)
+
+    soup.html.unwrap()
+    soup.body.unwrap()
+    soup.head.decompose()
+
+    for tag in soup.contents:
+        if isinstance(tag, Doctype):
+            tag.extract()
+
+    for tag in soup.findAll('div', {'id': 'searchbox'}):
+        tag.decompose()
+
+    f = open("/tmp/document.modified", "w")
+    f.write(soup.prettify(formatter="html5"))
+    f.close()
+
+    with open("/tmp/document.modified", "r") as file:
+        filedata = file.read()
+
+    filedata = filedata.replace("|", "")
+    filedata = filedata.replace("&nbsp;", " ")
+    filedata = filedata.replace("&raquo;", "")
+    filedata = filedata.replace("&ldquo;", '"')
+    filedata = filedata.replace("&rdquo;", '"')
+    filedata = filedata.replace("&amp;", "&")
+    filedata = filedata.replace("&mdash;", "-")
+    filedata = filedata.replace("&lt;", "<")
+    filedata = filedata.replace("&gt;", ">")
+    filedata = filedata.replace("&trade;", " ")
+    filedata = filedata.replace("_images", "images")
+
+    with open("/tmp/document.modified", "w") as file:
+        file.write(filedata)
+
+#==================
+# 3.4 pgBadger
 #==================
 
 def cleanup_pgbadger(filename):
@@ -247,7 +318,7 @@ draft: false
         file.write(filedata)
 
 #==================
-# 3.4 pgBouncer
+# 3.5 pgBouncer
 #==================
 
 def cleanup_pgbouncer(filename):
@@ -339,7 +410,7 @@ draft: false
 
 
 #==================
-# 3.5 pgJDBC
+# 3.6 pgJDBC
 #==================
 
 def cleanup_pgjdbc(filename):
@@ -434,7 +505,7 @@ hidden: true
         file.write(filedata)
 
 #==================
-# 3.6 pgPool
+# 3.7 pgPool
 #==================
 
 def cleanup_pgpool(filename):
@@ -484,7 +555,7 @@ draft: false
     f.close()
 
 #==================
-# 3.7 PostGIS
+# 3.8 PostGIS
 #==================
 
 def cleanup_postgis(filename):
@@ -531,7 +602,7 @@ hidden: true
     f.close()
 
 #==================
-# 3.8 PostgreSQL
+# 3.9 PostgreSQL
 #==================
 
 def cleanup_postgresql(filename):
@@ -623,6 +694,8 @@ if cleanup == "backrest":
     cleanup_backrest(filename)
 elif cleanup == "patroni":
     cleanup_patroni(filename)
+elif cleanup == "pgadmin4":
+    cleanup_pgadmin4(filename)
 elif cleanup == "pgbadger":
     cleanup_pgbadger(filename)
 elif cleanup == "pgbouncer":

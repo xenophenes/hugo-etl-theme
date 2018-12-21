@@ -32,6 +32,7 @@ function usage {
     echo ""
     echo "   backrest"
     echo "   patroni"
+    echo "   pgadmin4"
     echo "   pgaudit"
     echo "   pgaudit_analyze"
     echo "   pgbadger"
@@ -101,6 +102,21 @@ elif [ "$1" == 'patroni' ]; then
 
     # Clean up build artifacts
     remove_project ${PROJECT_NAME} ${PATRONI_VERSION}
+
+    # Run the extract and transform scripts
+    run_script
+
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3}
+
+elif [ "$1" == 'pgadmin4' ]; then
+
+    # Parameter setup
+    export PROJECT_NAME=$1
+    export PGADMIN4_VERSION=$(echo $2 | sed 's/\./_/g')
+
+    # Clean up build artifacts
+    remove_project ${PROJECT_NAME} ${PGADMIN4_VERSION}
 
     # Run the extract and transform scripts
     run_script

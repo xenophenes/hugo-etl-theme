@@ -5,6 +5,7 @@ on the following projects:
 
 * backrest
 * patroni
+* pgadmin4
 * pgaudit
 * pgaudit_analyze
 * pgbadger
@@ -74,25 +75,43 @@ These PDF files are generated using `pandoc`, and include a table of contents fo
 
 ## Requirements
 
+### General
+
+[BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) is used for processing
+the data files, as is explained in more detail below. The minimum required version of BeautifulSoup is 4.4.0.
+
+### PostgreSQL
+
 The PostgreSQL documentation is generated from SGML into HTML using the instructions
 found [here](https://www.postgresql.org/docs/current/static/docguide.html). Any requirements for
 building PostgreSQL documentation from source will need to be fulfilled before the scripts for the
 PostgreSQL project will run successfully.
 
+### PostGIS
+
 The PostGIS documentation is generated from source. Any requirements for building PostGIS from source
 will need to be fulfilled before the scripts for the PostGIS project will run successfully. This
 additionally applies to ensuring the `dblatex` package is installed for PDF generation.
 
-[BeautifulSoup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) is used for processing
-the data files, as is explained in more detail below. The minimum required version of BeautifulSoup is 4.4.0.
+### Patroni
 
-Patroni requires the installation of the following packages:
+sudo yum -y install python-sphinx pdflatex texlive-framed texlive-threeparttable texlive-wrapfig
 
-* python-sphinx
-* pdflatex
-* texlive-framed
-* texlive-threeparttable
-* texlive-wrapfig
+### pgPool
+
+sudo yum -y install openjade
+sudo yum -y install docbook-dtds docbook-style-dsssl docbook-xsl
+sudo yum -y install libxslt
+
+### pgAdmin4
+
+sudo yum -y install mesa-libGL-devel gcc-c++ qt5-qtbase-devel
+sudo yum -y install qt-devel qtwebkit-devel
+sudo yum -y install python34 python34-libs python34-devel python-rpm-macros python-srpm-macros python3-rpm-macros python-devel
+sudo yum -y install python-jinja2
+sudo yum -y install python2-pytest pytest python-docutils python-py python-pygments python-sphinx
+
+## Conversion Script
 
 When you're ready to build out the documentation, the you'll want to use the `conversion.sh` script
 contained in the root directory.
@@ -106,13 +125,20 @@ Usage: $ ./conversion.sh [project_name] [project_version] [flags]
 
 Available project names:
 
+   backrest
+   patroni
+   pgadmin4
    pgaudit
    pgaudit_analyze
-   set_user
-   backrest
+   pgbadger
+   pgbouncer
+   pg_partman
+   pgpool
+   plr
    postgis
    postgresql
-   patroni
+   sec_install_n_config
+   set_user
 
 Available project versions:
 
