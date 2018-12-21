@@ -7,7 +7,7 @@ relativeURLs = true
 
 title = "pg_partman - a partition management extension for PostgreSQL"
 theme = "crunchy-hugo-theme"
-#themesdir = "themes/"
+
 pygmentsCodeFences = true
 pygmentsStyle = "monokailight"
 publishDir = ""

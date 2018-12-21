@@ -8,7 +8,7 @@ relativeURLs = true
 
 title = "PostgreSQL: The World's Most Advanced Open Source Relational Database"
 theme = "crunchy-hugo-theme"
-#themesdir = "themes/"
+
 pygmentsCodeFences = true
 pygmentsStyle = "monokailight"
 publishDir = ""

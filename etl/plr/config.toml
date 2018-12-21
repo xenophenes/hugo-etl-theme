@@ -7,7 +7,7 @@ relativeURLs = true
 
 title = "PL/R - R Procedural Language for PostgreSQL"
 theme = "crunchy-hugo-theme"
-#themesdir = "themes/"
+
 pygmentsCodeFences = true
 pygmentsStyle = "monokailight"
 publishDir = ""

@@ -7,7 +7,7 @@ relativeURLs = true
 
 title = "pgAudit - PostgreSQL set_user Extension Module"
 theme = "crunchy-hugo-theme"
-#themesdir = "themes/"
+
 pygmentsCodeFences = true
 pygmentsStyle = "monokailight"
 publishDir = ""

@@ -7,7 +7,7 @@ relativeURLs = true
 
 title = "Patroni"
 theme = "crunchy-hugo-theme"
-#themesdir = "themes/"
+
 pygmentsCodeFences = true
 pygmentsStyle = "monokailight"
 publishDir = ""

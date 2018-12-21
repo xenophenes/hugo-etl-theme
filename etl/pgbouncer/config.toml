@@ -7,7 +7,7 @@ relativeURLs = true
 
 title = "pgBouncer - A lightweight connection pooler for PostgreSQL"
 theme = "crunchy-hugo-theme"
-#themesdir = "themes/"
+
 pygmentsCodeFences = true
 pygmentsStyle = "monokailight"
 publishDir = ""

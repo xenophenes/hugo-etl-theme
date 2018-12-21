@@ -7,7 +7,7 @@ relativeURLs = true
 
 title = "amcheck/amcheck_next: functions for verifying PostgreSQL relation integrity"
 theme = "crunchy-hugo-theme"
-#themesdir = "themes/"
+
 pygmentsCodeFences = true
 pygmentsStyle = "monokailight"
 publishDir = ""

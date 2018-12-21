@@ -7,7 +7,7 @@ relativeURLs = true
 
 title = "PostGIS - Spatial and Geographic Objects for PostgreSQL"
 theme = "crunchy-hugo-theme"
-#themesdir = "themes/"
+
 pygmentsCodeFences = true
 pygmentsStyle = "monokailight"
 publishDir = ""
