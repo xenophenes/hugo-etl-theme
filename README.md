@@ -5,6 +5,7 @@ on the following projects:
 
 * amcheck_next
 * backrest
+* check_postgres
 * patroni
 * pgadmin4
 * pgaudit
@@ -128,6 +129,7 @@ Available project names:
 
    amcheck_next
    backrest
+   check_postgres
    patroni
    pgadmin4
    pgaudit

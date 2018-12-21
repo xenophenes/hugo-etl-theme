@@ -40,9 +40,9 @@ cleanup = sys.argv[2]
 # 3) Functions
 #===============================================
 
-#==================
+#===================
 # 3.1 pgBackRest
-#==================
+#===================
 
 def cleanup_backrest(filename):
     fh = open(filename, "r")
@@ -121,10 +121,73 @@ draft: false
     with open("/tmp/document.modified", "w") as file:
       file.write(filedata)
 
+#===================
+# 3.2 check_postgres
+#===================
 
-#==================
-# 3.2 Patroni
-#==================
+def cleanup_check_postgres(filename):
+    fh = open(filename, "r")
+
+    soup = BeautifulSoup(fh, 'html.parser')
+
+    pageTitle = soup.title.get_text()
+
+    soup.h1.decompose()
+
+    for tag in soup.findAll("h3"):
+        tag.name = "h4"
+
+    for tag in soup.findAll("h2"):
+        tag.name = "h3"
+
+    for tag in soup.findAll("h1"):
+        tag.name = "h2"
+
+    soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+---
+
+
+<h1>check_postgres</h1>
+
+""" % pageTitle)
+
+    soup.html.unwrap()
+    soup.body.unwrap()
+    soup.head.decompose()
+
+    for tag in soup:
+        if isinstance(tag, bs4.element.ProcessingInstruction):
+            tag.extract()
+
+    for tag in soup.contents:
+        if isinstance(tag, Doctype):
+            tag.extract()
+
+    f = open("/tmp/document.modified", "w")
+    f.write(soup.prettify(formatter="html5"))
+    f.close()
+
+    with open("/tmp/document.modified", "r") as file:
+        filedata = file.read()
+
+    filedata = filedata.replace("&nbsp;", " ")
+    filedata = filedata.replace("&ldquo;", '"')
+    filedata = filedata.replace("&rdquo;", '"')
+    filedata = filedata.replace("&amp;", "&")
+    filedata = filedata.replace("&mdash;", "-")
+    filedata = filedata.replace("&lt;", "<")
+    filedata = filedata.replace("&gt;", ">")
+
+    with open("/tmp/document.modified", "w") as file:
+        file.write(filedata)
+
+#===================
+# 3.3 Patroni
+#===================
 
 def cleanup_patroni(filename):
     fh = open(filename, "r")
@@ -194,9 +257,9 @@ draft: false
     with open("/tmp/document.modified", "a") as file:
         file.write("<p>&copy; Copyright 2015 Compose, Zalando SE</p>")
 
-#==================
-# 3.3 pgAdmin4
-#==================
+#===================
+# 3.4 pgAdmin4
+#===================
 
 def cleanup_pgadmin4(filename):
     fh = open(filename, "r")
@@ -265,9 +328,9 @@ draft: false
     with open("/tmp/document.modified", "w") as file:
         file.write(filedata)
 
-#==================
-# 3.4 pgBadger
-#==================
+#===================
+# 3.5 pgBadger
+#===================
 
 def cleanup_pgbadger(filename):
     fh = open(filename, "r")
@@ -317,9 +380,9 @@ draft: false
     with open("/tmp/document.modified", "w") as file:
         file.write(filedata)
 
-#==================
-# 3.5 pgBouncer
-#==================
+#===================
+# 3.6 pgBouncer
+#===================
 
 def cleanup_pgbouncer(filename):
     fh = open(filename, "r")
@@ -409,9 +472,9 @@ draft: false
         file.write(filedata)
 
 
-#==================
-# 3.6 pgJDBC
-#==================
+#===================
+# 3.7 pgJDBC
+#===================
 
 def cleanup_pgjdbc(filename):
     fh = open(filename, "r")
@@ -504,9 +567,9 @@ hidden: true
     with open("/tmp/document.modified", "w") as file:
         file.write(filedata)
 
-#==================
-# 3.7 pgPool
-#==================
+#===================
+# 3.8 pgPool
+#===================
 
 def cleanup_pgpool(filename):
     fh = open(filename, "r")
@@ -554,9 +617,9 @@ draft: false
     f.write(soup.prettify(formatter="html5"))
     f.close()
 
-#==================
-# 3.8 PostGIS
-#==================
+#===================
+# 3.9 PostGIS
+#===================
 
 def cleanup_postgis(filename):
     fh = open(filename, "r")
@@ -601,9 +664,9 @@ hidden: true
     f.write(soup.prettify(formatter="html5"))
     f.close()
 
-#==================
-# 3.9 PostgreSQL
-#==================
+#===================
+# 3.10 PostgreSQL
+#===================
 
 def cleanup_postgresql(filename):
     fh = open(filename, "r")
@@ -692,6 +755,8 @@ hidden: true
 
 if cleanup == "backrest":
     cleanup_backrest(filename)
+elif cleanup == "check_postgres":
+    cleanup_check_postgres(filename)
 elif cleanup == "patroni":
     cleanup_patroni(filename)
 elif cleanup == "pgadmin4":
