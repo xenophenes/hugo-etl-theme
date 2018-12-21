@@ -30,6 +30,7 @@ function usage {
     echo ""
     echo "Available project names:"
     echo ""
+    echo "   amcheck_next"
     echo "   backrest"
     echo "   patroni"
     echo "   pgadmin4"
@@ -79,7 +80,22 @@ if [ "$#" -ne 3 ]; then
     usage
 fi
 
-if [ "$1" == 'backrest' ]; then
+if [ "$1" == 'amcheck_next' ]; then
+
+    # Parameter setup
+    export PROJECT_NAME=$1
+    export AMCHECK_NEXT_VERSION=$(echo $2 | sed 's/\./_/g')
+
+    # Clean up build artifacts
+    remove_project ${PROJECT_NAME} ${AMCHECK_NEXT_VERSION}
+
+    # Run the extract and transform scripts
+    run_script
+
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3}
+
+elif [ "$1" == 'backrest' ]; then
 
     # Parameter setup
     export PROJECT_NAME=$1

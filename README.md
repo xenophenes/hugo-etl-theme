@@ -3,6 +3,7 @@
 This repository contains a set of scripts that perform an Extract, Transform, Load (ETL) process
 on the following projects:
 
+* amcheck_next
 * backrest
 * patroni
 * pgadmin4
@@ -125,6 +126,7 @@ Usage: $ ./conversion.sh [project_name] [project_version] [flags]
 
 Available project names:
 
+   amcheck_next
    backrest
    patroni
    pgadmin4
