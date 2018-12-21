@@ -533,11 +533,7 @@ hidden: true
     for tag in soup.findAll('div', {'id': 'docFooter'}):
         tag.decompose()
 
-    for tag in soup.findAll('div', {'class': 'NAVHEADER'}):
-        tag.decompose()
-
-    for tag in soup.findAll('div', {'class': 'NAVFOOTER'}):
-        tag.decompose()
+    soup.tr.decompose()
 
     if "index" not in filename:
         soup.h1.decompose()
