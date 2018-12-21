@@ -43,6 +43,7 @@ function usage {
     echo "   plr"
     echo "   postgis"
     echo "   postgresql"
+    echo "   psycopg2"
     echo "   sec_install_n_config"
     echo "   set_user"
     echo ""
@@ -283,6 +284,21 @@ elif [ "$1" == 'postgresql' ]; then
 
     # Clean up build artifacts
     remove_project ${PROJECT_NAME} ${POSTGRESQL_VERSION}
+
+    # Run the extract and transform scripts
+    run_script
+
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3}
+
+elif [ "$1" == 'psycopg2' ]; then
+
+    # Parameter setup
+    export PROJECT_NAME=$1
+    export PSYCOPG2_VERSION=$(echo $2 | sed 's/\./_/g')
+
+    # Clean up build artifacts
+    remove_project ${PROJECT_NAME} ${PSYCOPG2_VERSION}
 
     # Run the extract and transform scripts
     run_script

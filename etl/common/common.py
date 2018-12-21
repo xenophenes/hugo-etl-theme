@@ -745,6 +745,75 @@ hidden: true
     with open("/tmp/document.modified", "w") as file:
       file.write(filedata)
 
+#===================
+# 3.11 psycopg2
+#===================
+
+def cleanup_psycopg2(filename):
+    fh = open(filename, "r")
+
+    soup = BeautifulSoup(fh, 'html.parser')
+
+    pageTitle = soup.title.get_text()
+
+    soup.h1.decompose()
+
+    for tag in soup.findAll("h3"):
+        tag.name = "h4"
+
+    for tag in soup.findAll("h2"):
+        tag.name = "h3"
+
+    for tag in soup.findAll("h1"):
+        tag.name = "h2"
+
+    soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+---
+
+""" % pageTitle)
+
+
+    soup.html.unwrap()
+    soup.body.unwrap()
+    soup.head.decompose()
+
+    for tag in soup:
+        if isinstance(tag, bs4.element.ProcessingInstruction):
+            tag.extract()
+
+    for tag in soup.contents:
+        if isinstance(tag, Doctype):
+            tag.extract()
+
+    for tag in soup.findAll('div', {'class': 'sphinxsidebar'}):
+        tag.decompose()
+
+    f = open("/tmp/document.modified", "w")
+    f.write(soup.prettify(formatter="html5"))
+    f.close()
+
+    with open("/tmp/document.modified", "r") as file:
+      filedata = file.read()
+
+    filedata = filedata.replace("|", "")
+    filedata = filedata.replace("&nbsp;", " ")
+    filedata = filedata.replace("&para;", "")
+    filedata = filedata.replace("&ndash;", "-")
+    filedata = filedata.replace("&raquo;", "")
+    filedata = filedata.replace("&ldquo;", '"')
+    filedata = filedata.replace("&rdquo;", '"')
+    filedata = filedata.replace("&amp;", "&")
+    filedata = filedata.replace("&mdash;", "-")
+    filedata = filedata.replace("&lt;", "<")
+    filedata = filedata.replace("&gt;", ">")
+
+    with open("/tmp/document.modified", "w") as file:
+      file.write(filedata)
+
 #===============================================
 # 4) Parsing
 #===============================================
@@ -769,5 +838,7 @@ elif cleanup == "postgis":
     cleanup_postgis(filename)
 elif cleanup == "postgresql":
     cleanup_postgresql(filename)
+elif cleanup == "psycopg2":
+    cleanup_psycopg2(filename)
 else:
     print ("There is no cleanup function for that project.")

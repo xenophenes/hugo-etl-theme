@@ -18,6 +18,7 @@ on the following projects:
 * plr
 * postgis
 * postgresql
+* psycopg2
 * sec_install_n_config
 * set_user
 
@@ -141,6 +142,7 @@ Available project names:
    plr
    postgis
    postgresql
+   psycopg2
    sec_install_n_config
    set_user
 
