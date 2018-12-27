@@ -142,6 +142,21 @@ elif [ "$1" == 'patroni' ]; then
     # Generate the documentation, choosing whether HTML, PDF, or both should be generated
     generate_docs ${3}
 
+elif [ "$1" == 'pg_cron' ]; then
+
+    # Parameter setup
+    export PROJECT_NAME=$1
+    export PG_CRON_VERSION=$(echo $2 | sed 's/\./_/g')
+
+    # Clean up build artifacts
+    remove_project ${PROJECT_NAME} ${PG_CRON_VERSION}
+
+    # Run the extract and transform scripts
+    run_script
+
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3}
+
 elif [ "$1" == 'pgadmin4' ]; then
 
     # Parameter setup

@@ -7,6 +7,7 @@ on the following projects:
 * backrest
 * check_postgres
 * patroni
+* pg_cron
 * pgadmin4
 * pgaudit
 * pgaudit_analyze
@@ -133,6 +134,7 @@ Available project names:
    backrest
    check_postgres
    patroni
+   pg_cron
    pgadmin4
    pgaudit
    pgaudit_analyze
