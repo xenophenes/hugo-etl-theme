@@ -15,6 +15,7 @@ on the following projects:
 * pgjdbc
 * pg_partman
 * pgpool
+* pgrouting
 * plr
 * postgis
 * postgresql
@@ -139,6 +140,7 @@ Available project names:
    pgbouncer
    pg_partman
    pgpool
+   pgrouting
    plr
    postgis
    postgresql

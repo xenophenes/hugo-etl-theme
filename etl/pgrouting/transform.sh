@@ -28,7 +28,13 @@ yes | cp -f ${DIR}/config.toml ${DST}
 # Move files to destination directory
 #===============================================
 
-
+mkdir ${DST}/static/images
+sphinx-build -b html ${BUILD}/build/doc ${BUILD}/output
+cp ${BUILD}/output/index.html ${CONTENT}/_index.html
+cp ${BUILD}/output/*.html ${CONTENT}
+cp ${BUILD}/output/_images/*.png ${DST}/static/images
+cp ${BUILD}/output/_static/images/*.png ${DST}/static/images
+cp ${BUILD}/output/_static/images/developers/*.png ${DST}/static/images
 
 #===============================================
 # Process the HTML files

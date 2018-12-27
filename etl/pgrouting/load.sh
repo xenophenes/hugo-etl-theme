@@ -18,7 +18,7 @@ source ${ETL_PATH}/etl/common/common.sh
 source pgrouting_var.sh
 
 export PGROUTING_VERSION=$(echo ${PGROUTING_VERSION} | sed 's/_/./g')
-export PGROUTING_DOCS=${DOCS}/${REPO}/${PGROUTING_VERSION}
+export PGROUTING_DOCS="${DOCS}/${REPO}/${PGROUTING_VERSION}"
 
 #===============================================
 # 1) Functions
@@ -26,14 +26,11 @@ export PGROUTING_DOCS=${DOCS}/${REPO}/${PGROUTING_VERSION}
 
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
+    # No PDF functionality (yet)
 
-    mv ${BUILD_PDF}/_index.md ${BUILD_PDF}/1.md
-    mv ${BUILD_PDF}/user-guide.html ${BUILD_PDF}/2.html
-    mv ${BUILD_PDF}/command.html ${BUILD_PDF}/3.html
-    mv ${BUILD_PDF}/configuration.html ${BUILD_PDF}/4.html
-    mv ${BUILD_PDF}/release.html ${BUILD_PDF}/5.html
-
-    pandoc --toc --latex-engine=xelatex ${BUILD_PDF}/* -o ${DST}/static/pdf/${REPO}.pdf
+    #sphinx-build -b latex ${BUILD}/output ${BUILD_PDF}/docs
+    #(cd ${BUILD_PDF}/docs && pdflatex pgRoutingDocumentation.tex)
+    #cp ${BUILD_PDF}/docs/*.pdf ${DST}/static/pdf/${REPO}.pdf
 }
 
 #===============================================
@@ -44,7 +41,7 @@ if [ "$1" == '--no-html' ]; then
 
     create_pdf
 
-    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
+    #cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
 
 elif [ "$1" == '--no-pdf' ]; then
 
@@ -56,7 +53,7 @@ elif [ "$1" == '--all' ]; then
 
     hugo --source=${DST} --destination=${PGROUTING_DOCS} --baseURL="/${REPO}/${PGROUTING_VERSION}"
 
-    cp ${PGROUTING_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
+    #cp ${PGROUTING_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
 
 fi
 

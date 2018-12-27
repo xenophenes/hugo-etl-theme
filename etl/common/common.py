@@ -613,8 +613,83 @@ draft: false
     f.write(soup.prettify(formatter="html5"))
     f.close()
 
+
 #===================
-# 3.9 PostGIS
+# 3.9 pgRouting
+#===================
+
+def cleanup_pgrouting(filename):
+    fh = open(filename, "r")
+
+    soup = BeautifulSoup(fh, 'html.parser')
+
+    try:
+        pageTitle = soup.title.get_text()
+
+        soup.body.insert(0,
+"""
+---
+title: "%s"
+draft: false
+---
+
+
+""" % pageTitle)
+    except AttributeError:
+        pass
+
+    soup.html.unwrap()
+    soup.body.unwrap()
+    soup.head.decompose()
+
+    for tag in soup.contents:
+        if isinstance(tag, Doctype):
+            tag.extract()
+
+    soup.h1.decompose()
+
+    for tag in soup.findAll('h2', {'class': 'heading'}):
+        tag.decompose()
+
+    for tag in soup.findAll('h4'):
+        tag.name = "h5"
+
+    for tag in soup.findAll('h3'):
+        tag.name = "h4"
+
+    for tag in soup.findAll('h2'):
+        tag.name = "h3"
+
+    for tag in soup.findAll('h1'):
+        tag.name = "h2"
+
+    f = open("/tmp/document.modified", "w")
+    f.write(soup.prettify(formatter="html5"))
+    f.close()
+
+    with open("/tmp/document.modified", "r") as file:
+        filedata = file.read()
+
+    filedata = filedata.replace("|", "")
+    filedata = filedata.replace("&nbsp;", " ")
+    filedata = filedata.replace("&para;", "")
+    filedata = filedata.replace("&ndash;", "-")
+    filedata = filedata.replace("&raquo;", "")
+    filedata = filedata.replace("&ldquo;", '"')
+    filedata = filedata.replace("&rdquo;", '"')
+    filedata = filedata.replace("&amp;", "&")
+    filedata = filedata.replace("&mdash;", "-")
+    filedata = filedata.replace("&lt;", "<")
+    filedata = filedata.replace("&gt;", ">")
+    filedata = filedata.replace("_static/", "images/")
+    filedata = filedata.replace("_images/", "images/")
+    filedata = filedata.replace("pgRouting-", "pgrouting-")
+
+    with open("/tmp/document.modified", "w") as file:
+        file.write(filedata)
+
+#===================
+# 3.10 PostGIS
 #===================
 
 def cleanup_postgis(filename):
@@ -661,7 +736,7 @@ hidden: true
     f.close()
 
 #===================
-# 3.10 PostgreSQL
+# 3.11 PostgreSQL
 #===================
 
 def cleanup_postgresql(filename):
@@ -746,7 +821,7 @@ hidden: true
       file.write(filedata)
 
 #===================
-# 3.11 psycopg2
+# 3.12 psycopg2
 #===================
 
 def cleanup_psycopg2(filename):
@@ -834,6 +909,8 @@ elif cleanup == "pgjdbc":
     cleanup_pgjdbc(filename)
 elif cleanup == "pgpool":
     cleanup_pgpool(filename)
+elif cleanup == "pgrouting":
+    cleanup_pgrouting(filename)
 elif cleanup == "postgis":
     cleanup_postgis(filename)
 elif cleanup == "postgresql":

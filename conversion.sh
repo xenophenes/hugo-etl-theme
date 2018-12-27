@@ -40,6 +40,7 @@ function usage {
     echo "   pgbouncer"
     echo "   pg_partman"
     echo "   pgpool"
+    echo "   pgrouting"
     echo "   plr"
     echo "   postgis"
     echo "   postgresql"
@@ -239,6 +240,21 @@ elif [ "$1" == 'pgpool' ]; then
 
     # Clean up build artifacts
     remove_project ${PROJECT_NAME} ${PGPOOL_VERSION}
+
+    # Run the extract and transform scripts
+    run_script
+
+    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    generate_docs ${3}
+
+elif [ "$1" == 'pgrouting' ]; then
+
+    # Parameter setup
+    export PROJECT_NAME=$1
+    export PGROUTING_VERSION=$(echo $2 | sed 's/\./_/g')
+
+    # Clean up build artifacts
+    remove_project ${PROJECT_NAME} ${PGROUTING_VERSION}
 
     # Run the extract and transform scripts
     run_script
