@@ -30,7 +30,6 @@ function create_pdf {
     sed -i '/:caption:/d' ${BUILD_PDF}/docs/index.rst
     sphinx-build -b latex ${BUILD_PDF}/docs ${BUILD_PDF}/pdfout
 
-    echo "RIGHT HERE"
     sed -i '/usepackage{multirow}/r latex-add.txt' ${BUILD_PDF}/pdfout/Patroni.tex
 
     (cd ${BUILD_PDF}/pdfout && make all-pdf)
