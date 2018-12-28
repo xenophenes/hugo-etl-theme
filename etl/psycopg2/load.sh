@@ -56,6 +56,6 @@ elif [ "$1" == '--all' ]; then
 
 fi
 
-#rm -rf ${BUILD_ROOT} ${DST}
+rm -rf ${BUILD_ROOT} ${DST}
 
 echo_end ${REPO}

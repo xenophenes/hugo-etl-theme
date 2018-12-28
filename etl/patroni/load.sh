@@ -27,9 +27,14 @@ export PATRONI_DOCS="${DOCS}/${REPO}/${PATRONI_VERSION}"
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
-    sphinx-build -Q -b latex ${BUILD_PDF}/docs ${BUILD_PDF}/docs
-    (cd ${BUILD_PDF}/docs && pdflatex Patroni.tex)
-    cp ${BUILD_PDF}/docs/*.pdf ${DST}/static/pdf/${REPO}.pdf
+    sed -i '/:caption:/d' ${BUILD_PDF}/docs/index.rst
+    sphinx-build -b latex ${BUILD_PDF}/docs ${BUILD_PDF}/pdfout
+
+    echo "RIGHT HERE"
+    sed -i '/usepackage{multirow}/r latex-add.txt' ${BUILD_PDF}/pdfout/Patroni.tex
+
+    (cd ${BUILD_PDF}/pdfout && make all-pdf)
+    cp ${BUILD_PDF}/pdfout/*.pdf ${DST}/static/pdf/${REPO}.pdf
 }
 
 #===============================================
