@@ -26,11 +26,10 @@ export PGROUTING_DOCS="${DOCS}/${REPO}/${PGROUTING_VERSION}"
 
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
-    # No PDF functionality (yet)
 
-    #sphinx-build -b latex ${BUILD}/output ${BUILD_PDF}/docs
-    #(cd ${BUILD_PDF}/docs && pdflatex pgRoutingDocumentation.tex)
-    #cp ${BUILD_PDF}/docs/*.pdf ${DST}/static/pdf/${REPO}.pdf
+    sphinx-build -Q -b latex ${BUILD}/output ${BUILD_PDF}/docs
+    (cd ${BUILD_PDF}/docs && pdflatex pgRoutingDocumentation.tex)
+    cp ${BUILD_PDF}/docs/*.pdf ${DST}/static/pdf/${REPO}.pdf
 }
 
 #===============================================
