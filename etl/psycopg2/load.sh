@@ -27,7 +27,9 @@ export PSYCOPG2_DOCS="${DOCS}/${REPO}/${PSYCOPG2_VERSION}"
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
-    #pandoc ${BUILD}/doc/psycopg2.txt --pdf-engine=xelatex -o ${DST}/static/pdf/${REPO}.pdf
+    (cd ${BUILD}/doc/src && make latex)
+    (cd ${BUILD}/doc/src/_build/latex && make all-pdf)
+    cp ${BUILD}/doc/src/_build/latex/*.pdf ${DST}/static/pdf/${REPO}.pdf
 }
 
 #===============================================
@@ -38,7 +40,7 @@ if [ "$1" == '--no-html' ]; then
 
     create_pdf
 
-    #cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PSYCOPG2_VERSION}.pdf
+    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PSYCOPG2_VERSION}.pdf
 
 elif [ "$1" == '--no-pdf' ]; then
 
@@ -50,10 +52,10 @@ elif [ "$1" == '--all' ]; then
 
     hugo --source=${DST} --destination=${PSYCOPG2_DOCS} --baseURL="/${REPO}/${PSYCOPG2_VERSION}"
 
-    #cp ${PSYCOPG2_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PSYCOPG2_VERSION}.pdf
+    cp ${PSYCOPG2_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PSYCOPG2_VERSION}.pdf
 
 fi
 
-rm -rf ${BUILD_ROOT} ${DST}
+#rm -rf ${BUILD_ROOT} ${DST}
 
 echo_end ${REPO}
