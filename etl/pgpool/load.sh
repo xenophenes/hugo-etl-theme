@@ -27,7 +27,8 @@ export PGPOOL_DOCS="${DOCS}/${REPO}/${PGPOOL_VERSION}"
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
-    # No PDF functionality (yet)
+    (cd ${BUILD}/doc/src/sgml && make pgpool.html)
+    wkhtmltopdf toc ${BUILD}/doc/src/sgml/pgpool-ii.html ${DST}/static/pdf/${REPO}.pdf
 }
 
 #===============================================
@@ -38,7 +39,7 @@ if [ "$1" == '--no-html' ]; then
 
     create_pdf
 
-    #cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGPOOL_VERSION}.pdf
+    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGPOOL_VERSION}.pdf
 
 elif [ "$1" == '--no-pdf' ]; then
 
@@ -48,11 +49,9 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    #rm ${DST}/static/pdf/*.md
-
     hugo --source=${DST} --destination=${PGPOOL_DOCS} --baseURL="/${REPO}/${PGPOOL_VERSION}"
 
-    #cp ${PGPOOL_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGPOOL_VERSION}.pdf
+    cp ${PGPOOL_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGPOOL_VERSION}.pdf
 
 fi
 
