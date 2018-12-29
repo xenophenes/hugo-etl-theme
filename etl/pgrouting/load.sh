@@ -27,9 +27,8 @@ export PGROUTING_DOCS="${DOCS}/${REPO}/${PGROUTING_VERSION}"
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
-    sphinx-build -Q -b latex ${BUILD}/output ${BUILD_PDF}/docs
-    (cd ${BUILD_PDF}/docs && pdflatex pgRoutingDocumentation.tex)
-    cp ${BUILD_PDF}/docs/*.pdf ${DST}/static/pdf/${REPO}.pdf
+    (cd ${BUILD}/build && sphinx-build -b singlehtml doc singlehtml)
+    wkhtmltopdf toc ${BUILD}/build/singlehtml/index.html ${DST}/static/pdf/${REPO}.pdf
 }
 
 #===============================================
@@ -40,7 +39,7 @@ if [ "$1" == '--no-html' ]; then
 
     create_pdf
 
-    #cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
+    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
 
 elif [ "$1" == '--no-pdf' ]; then
 
@@ -52,7 +51,7 @@ elif [ "$1" == '--all' ]; then
 
     hugo --source=${DST} --destination=${PGROUTING_DOCS} --baseURL="/${REPO}/${PGROUTING_VERSION}"
 
-    #cp ${PGROUTING_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
+    cp ${PGROUTING_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
 
 fi
 
