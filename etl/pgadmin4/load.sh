@@ -27,7 +27,9 @@ export PGADMIN4_DOCS=${DOCS}/${REPO}/${PGADMIN4_VERSION}
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
-    # No PDF functionality (Yet)
+    (cd ${BUILD}/docs && sphinx-build -b latex en_US out)
+    sed -Ei 's/chapter\{\\index\{(.*?)\}(.*?)}/chapter{\1}/g' ${BUILD}/docs/out/pgadmin4.tex
+    (cd ${BUILD}/docs/out && pdflatex pgadmin4.tex && cp *.pdf ${DST}/static/pdf/${REPO}.pdf)
 }
 
 #===============================================
@@ -38,7 +40,7 @@ if [ "$1" == '--no-html' ]; then
 
     create_pdf
 
-    #cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGADMIN4_VERSION}.pdf
+    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGADMIN4_VERSION}.pdf
 
 elif [ "$1" == '--no-pdf' ]; then
 
@@ -50,7 +52,7 @@ elif [ "$1" == '--all' ]; then
 
     hugo --source=${DST} --destination=${PGADMIN4_DOCS} --baseURL="/${REPO}/${PGADMIN4_VERSION}"
 
-    #cp ${PGADMIN4_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGADMIN4_VERSION}.pdf
+    cp ${PGADMIN4_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGADMIN4_VERSION}.pdf
 
 fi
 
