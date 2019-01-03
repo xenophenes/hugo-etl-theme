@@ -32,7 +32,7 @@ function create_pdf {
     pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/_index.md -o ${DST}/static/pdf/${REPO}.pdf
 }
 
-function generate_docs {
+function create_docs {
     hugo --source=${DST} --destination=${PG_CRON_DOCS} --baseURL="/${REPO}/${PG_CRON_VERSION}"
 }
 
@@ -48,7 +48,7 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    generate_docs
+    create_docs
 
 elif [ "$1" == '--all' ]; then
 
@@ -56,7 +56,7 @@ elif [ "$1" == '--all' ]; then
 
     rm ${DST}/static/pdf/*.md
 
-    generate_docs
+    create_docs
 
     cp ${PG_CRON_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PG_CRON_VERSION}.pdf
 

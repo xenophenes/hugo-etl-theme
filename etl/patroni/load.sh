@@ -36,7 +36,7 @@ function create_pdf {
     cp ${BUILD_PDF}/pdfout/*.pdf ${DST}/static/pdf/${REPO}.pdf
 }
 
-function generate_docs {
+function create_docs {
     hugo --source=${DST} --destination=${PATRONI_DOCS} --baseURL="/${REPO}/${PATRONI_VERSION}"
 }
 
@@ -52,13 +52,13 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    generate_docs
+    create_docs
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    generate_docs
+    create_docs
 
     cp ${PATRONI_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PATRONI_VERSION}.pdf
 

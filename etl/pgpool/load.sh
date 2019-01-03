@@ -31,7 +31,7 @@ function create_pdf {
     wkhtmltopdf toc ${BUILD}/doc/src/sgml/pgpool-ii.html ${DST}/static/pdf/${REPO}.pdf
 }
 
-function generate_docs {
+function create_docs {
     hugo --source=${DST} --destination=${PGPOOL_DOCS} --baseURL="/${REPO}/${PGPOOL_VERSION}"
 }
 
@@ -47,13 +47,13 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    generate_docs
+    create_docs
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    generate_docs
+    create_docs
 
     cp ${PGPOOL_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGPOOL_VERSION}.pdf
 

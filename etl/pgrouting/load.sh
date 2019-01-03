@@ -31,7 +31,7 @@ function create_pdf {
     wkhtmltopdf toc ${BUILD}/build/singlehtml/index.html ${DST}/static/pdf/${REPO}.pdf
 }
 
-function generate_docs {
+function create_docs {
     hugo --source=${DST} --destination=${PGROUTING_DOCS} --baseURL="/${REPO}/${PGROUTING_VERSION}"
 }
 
@@ -47,13 +47,13 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    generate_docs
+    create_docs
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    generate_docs
+    create_docs
 
     cp ${PGROUTING_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
 

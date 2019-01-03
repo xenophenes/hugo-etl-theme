@@ -32,7 +32,7 @@ function create_pdf {
     xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf toc ${BUILD_PDF}/_index.html ${DST}/static/pdf/${REPO}.pdf
 }
 
-function generate_docs {
+function create_docs {
     hugo --source=${DST} --destination=${PGBADGER_DOCS} --baseURL="/${REPO}/${PGBADGER_VERSION}"
 }
 
@@ -48,13 +48,13 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    generate_docs
+    create_docs
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    generate_docs
+    create_docs
     
     cp ${PGBADGER_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGBADGER_VERSION}.pdf
 

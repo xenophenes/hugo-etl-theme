@@ -35,7 +35,7 @@ function create_pdf {
     pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/_index.md -o ${DST}/static/pdf/${REPO}.pdf
 }
 
-function generate_docs {
+function create_docs {
     hugo --source=${DST} --destination=${AMCHECK_NEXT_DOCS} --baseURL="/${REPO}/${AMCHECK_NEXT_VERSION}"
 }
 
@@ -51,7 +51,7 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    generate_docs
+    create_docs
 
 elif [ "$1" == '--all' ]; then
 
@@ -59,7 +59,7 @@ elif [ "$1" == '--all' ]; then
 
     rm ${DST}/static/pdf/*.md
 
-    generate_docs
+    create_docs
 
     cp ${AMCHECK_NEXT_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${AMCHECK_NEXT_VERSION}.pdf
 

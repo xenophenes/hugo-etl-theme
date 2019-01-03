@@ -32,7 +32,7 @@ function create_pdf {
     (cd ${BUILD}/docs/out && pdflatex pgadmin4.tex && cp *.pdf ${DST}/static/pdf/${REPO}.pdf)
 }
 
-function generate_docs {
+function create_docs {
     hugo --source=${DST} --destination=${PGADMIN4_DOCS} --baseURL="/${REPO}/${PGADMIN4_VERSION}"
 }
 
@@ -48,13 +48,13 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    generate_docs
+    create_docs
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    generate_docs
+    create_docs
 
     cp ${PGADMIN4_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGADMIN4_VERSION}.pdf
 

@@ -30,7 +30,7 @@ function create_pdf {
     wkhtmltopdf toc ${CONTENT}/_index.html ${DST}/static/pdf/${REPO}.pdf
 }
 
-function generate_docs {
+function create_docs {
     hugo --source=${DST} --destination=${CHECK_POSTGRES_DOCS} --baseURL="/${REPO}/${CHECK_POSTGRES_VERSION}"
 }
 
@@ -46,13 +46,13 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    generate_docs
+    create_docs
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    generate_docs
+    create_docs
 
     cp ${CHECK_POSTGRES_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${CHECK_POSTGRES_VERSION}.pdf
 

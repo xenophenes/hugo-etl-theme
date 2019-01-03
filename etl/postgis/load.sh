@@ -33,7 +33,7 @@ function create_pdf {
     cp ${TMP}/doc/postgis-*.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGIS_VERSION}.pdf
 }
 
-function generate_docs {
+function create_docs {
     hugo --source=${DST} --destination=${POSTGIS_DOCS} --baseURL="/${REPO}/${POSTGIS_VERSION}"
 }
 
@@ -47,13 +47,13 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    generate_docs
+    create_docs
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    generate_docs
+    create_docs
 
 fi
 
