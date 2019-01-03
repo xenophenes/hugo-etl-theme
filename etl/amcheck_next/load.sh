@@ -64,6 +64,8 @@ elif [ "$1" == '--epub' ]; then
 
     create_epub
 
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${AMCHECK_NEXT_VERSION}.epub
+
 elif [ "$1" == '--html' ]; then
 
     create_docs
@@ -79,6 +81,7 @@ elif [ "$1" == '--all' ]; then
     create_docs
 
     cp ${AMCHECK_NEXT_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${AMCHECK_NEXT_VERSION}.pdf
+    cp ${AMCHECK_NEXT_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${AMCHECK_NEXT_VERSION}.epub
 
 fi
 
