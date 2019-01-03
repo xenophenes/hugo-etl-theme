@@ -34,6 +34,10 @@ function create_pdf {
     cp ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/postgres-US.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGRESQL_VERSION}.pdf
 }
 
+function generate_docs {
+    hugo --source=${DST} --destination=${POSTGRESQL_DOCS} --baseURL="/${REPO}${REPO_MAJOR}/${POSTGRESQL_VERSION}"
+}
+
 #===============================================
 # 2) Generate the documentation
 #===============================================
@@ -44,13 +48,13 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    hugo --source=${DST} --destination=${POSTGRESQL_DOCS} --baseURL="/${REPO}${REPO_MAJOR}/${POSTGRESQL_VERSION}"
+    generate_docs
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    hugo --source=${DST} --destination=${POSTGRESQL_DOCS} --baseURL="/${REPO}${REPO_MAJOR}/${POSTGRESQL_VERSION}"
+    generate_docs
 
 fi
 

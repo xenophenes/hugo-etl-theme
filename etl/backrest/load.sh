@@ -36,6 +36,10 @@ function create_pdf {
     pandoc --toc --latex-engine=xelatex ${BUILD_PDF}/* -o ${DST}/static/pdf/${REPO}.pdf
 }
 
+function generate_docs {
+    hugo --source=${DST} --destination=${BACKREST_DOCS} --baseURL="/${REPO}/${BACKREST_VERSION}"
+}
+
 #===============================================
 # 2) Generate the documentation
 #===============================================
@@ -48,13 +52,13 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    hugo --source=${DST} --destination=${BACKREST_DOCS} --baseURL="/${REPO}/${BACKREST_VERSION}"
+    generate_docs
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    hugo --source=${DST} --destination=${BACKREST_DOCS} --baseURL="/${REPO}/${BACKREST_VERSION}"
+    generate_docs
 
     cp ${BACKREST_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${BACKREST_VERSION}.pdf
 

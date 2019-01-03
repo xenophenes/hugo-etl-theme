@@ -30,6 +30,10 @@ function create_pdf {
     # No PDF functionality (yet)
 }
 
+function generate_docs {
+    hugo --source=${DST} --destination=${PGJDBC_DOCS} --baseURL="/${REPO}/${PGJDBC_VERSION}"
+}
+
 #===============================================
 # 2) Generate the documentation
 #===============================================
@@ -42,7 +46,7 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    hugo --source=${DST} --destination=${PGJDBC_DOCS} --baseURL="/${REPO}/${PGJDBC_VERSION}"
+    generate_docs
 
 elif [ "$1" == '--all' ]; then
 
@@ -50,7 +54,7 @@ elif [ "$1" == '--all' ]; then
 
     #rm ${DST}/static/pdf/*.md
 
-    hugo --source=${DST} --destination=${PGJDBC_DOCS} --baseURL="/${REPO}/${PGJDBC_VERSION}"
+    generate_docs
 
     #cp ${PGJDBC_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGJDBC_VERSION}.pdf
 

@@ -38,6 +38,10 @@ function create_pdf {
     pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/crunchy_certified_postgresql_95.md -o ${DST}/static/pdf/crunchy_certified_postgresql_95.pdf
 }
 
+function generate_docs {
+    hugo --source=${DST} --destination=${SEC_INSTALL_N_CONFIG_DOCS} --baseURL="/${REPO}/${SEC_INSTALL_N_CONFIG_VERSION}"
+}
+
 #===============================================
 # 2) Generate the documentation
 #===============================================
@@ -52,7 +56,7 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    hugo --source=${DST} --destination=${SEC_INSTALL_N_CONFIG_DOCS} --baseURL="/${REPO}/${SEC_INSTALL_N_CONFIG_VERSION}"
+    generate_docs
 
 elif [ "$1" == '--all' ]; then
 
@@ -60,7 +64,7 @@ elif [ "$1" == '--all' ]; then
 
     rm -rf ${DST}/static/pdf/*.md media
 
-    hugo --source=${DST} --destination=${SEC_INSTALL_N_CONFIG_DOCS} --baseURL="/${REPO}/${SEC_INSTALL_N_CONFIG_VERSION}"
+    generate_docs
 
     cp ${SEC_INSTALL_N_CONFIG_DOCS}/pdf/crunchy_certified_postgresql_10.pdf ${ETL_PATH}/pdf/${REPO}/crunchy_certified_postgresql_10.pdf
     cp ${SEC_INSTALL_N_CONFIG_DOCS}/pdf/crunchy_certified_postgresql_96.pdf ${ETL_PATH}/pdf/${REPO}/crunchy_certified_postgresql_96.pdf

@@ -32,6 +32,10 @@ function create_pdf {
     (cd ${BUILD}/docs/out && pdflatex pgadmin4.tex && cp *.pdf ${DST}/static/pdf/${REPO}.pdf)
 }
 
+function generate_docs {
+    hugo --source=${DST} --destination=${PGADMIN4_DOCS} --baseURL="/${REPO}/${PGADMIN4_VERSION}"
+}
+
 #===============================================
 # 2) Generate the documentation
 #===============================================
@@ -44,13 +48,13 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    hugo --source=${DST} --destination=${PGADMIN4_DOCS} --baseURL="/${REPO}/${PGADMIN4_VERSION}"
+    generate_docs
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    hugo --source=${DST} --destination=${PGADMIN4_DOCS} --baseURL="/${REPO}/${PGADMIN4_VERSION}"
+    generate_docs
 
     cp ${PGADMIN4_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGADMIN4_VERSION}.pdf
 

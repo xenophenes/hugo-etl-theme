@@ -32,6 +32,10 @@ function create_pdf {
     cp ${BUILD}/doc/src/_build/latex/*.pdf ${DST}/static/pdf/${REPO}.pdf
 }
 
+function generate_docs {
+    hugo --source=${DST} --destination=${PSYCOPG2_DOCS} --baseURL="/${REPO}/${PSYCOPG2_VERSION}"
+}
+
 #===============================================
 # 2) Generate the documentation
 #===============================================
@@ -44,13 +48,13 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    hugo --source=${DST} --destination=${PSYCOPG2_DOCS} --baseURL="/${REPO}/${PSYCOPG2_VERSION}"
+    generate_docs
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    hugo --source=${DST} --destination=${PSYCOPG2_DOCS} --baseURL="/${REPO}/${PSYCOPG2_VERSION}"
+    generate_docs
 
     cp ${PSYCOPG2_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PSYCOPG2_VERSION}.pdf
 

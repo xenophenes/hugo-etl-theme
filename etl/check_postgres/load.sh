@@ -30,6 +30,10 @@ function create_pdf {
     wkhtmltopdf toc ${CONTENT}/_index.html ${DST}/static/pdf/${REPO}.pdf
 }
 
+function generate_docs {
+    hugo --source=${DST} --destination=${CHECK_POSTGRES_DOCS} --baseURL="/${REPO}/${CHECK_POSTGRES_VERSION}"
+}
+
 #===============================================
 # 2) Generate the documentation
 #===============================================
@@ -38,21 +42,19 @@ if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
-    #cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${CHECK_POSTGRES_VERSION}.pdf
+    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${CHECK_POSTGRES_VERSION}.pdf
 
 elif [ "$1" == '--html' ]; then
 
-    hugo --source=${DST} --destination=${CHECK_POSTGRES_DOCS} --baseURL="/${REPO}/${CHECK_POSTGRES_VERSION}"
+    generate_docs
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    #rm ${DST}/static/pdf/*.md
+    generate_docs
 
-    hugo --source=${DST} --destination=${CHECK_POSTGRES_DOCS} --baseURL="/${REPO}/${CHECK_POSTGRES_VERSION}"
-
-    #cp ${CHECK_POSTGRES_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${CHECK_POSTGRES_VERSION}.pdf
+    cp ${CHECK_POSTGRES_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${CHECK_POSTGRES_VERSION}.pdf
 
 fi
 
