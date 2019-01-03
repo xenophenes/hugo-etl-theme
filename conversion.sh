@@ -57,6 +57,7 @@ function usage {
     echo "Available flags: "
     echo ""
     echo "   --pdf"
+    echo "   --epub"
     echo "   --html"
     echo "   --all"
     echo ""

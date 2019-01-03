@@ -40,6 +40,7 @@ The following folders are contained within this repository when everything is bu
 * /docs
 * /src
 * /pdf
+* /epub
 
 ### /etl
 
@@ -76,7 +77,14 @@ and so on.
 The **pdf** folder is where all generated PDF's of the documentation are collected. There are folders
 that are created for each project, with the respective PDF files being renamed to include the version.
 
-These PDF files are generated using `pandoc`, and include a table of contents for ease of use.
+These PDF files are generated using `pandoc` or `wkhtmltopdf` in most cases where it cannot be generated organically from source, and generally include a table of contents for ease of use.
+
+### /epub
+
+The **epub** folder is where all generated EPUB's of the documentation are collected. There are folders
+that are created for each project, with the respective EPUB files being renamed to include the version.
+
+These EPUB files are generated using `pandoc`, and generally include a table of contents for ease of use.
 
 ## Requirements
 

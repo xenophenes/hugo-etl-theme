@@ -35,6 +35,17 @@ function create_pdf {
     pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/_index.md -o ${DST}/static/pdf/${REPO}.pdf
 }
 
+function create_epub {
+    mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
+
+    cp ${CONTENT}/_index.md ${DST}/static/epub
+
+    sed -i '/### Test status/d' ${DST}/static/epub/_index.md
+    sed -i '/\[\!\[Build Status\]/d' ${DST}/static/epub/_index.md
+
+    pandoc ${DST}/static/epub/_index.md -o ${DST}/static/epub/${REPO}.epub
+}
+
 function create_docs {
     hugo --source=${DST} --destination=${AMCHECK_NEXT_DOCS} --baseURL="/${REPO}/${AMCHECK_NEXT_VERSION}"
 }
@@ -49,6 +60,10 @@ if [ "$1" == '--pdf' ]; then
 
     cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${AMCHECK_NEXT_VERSION}.pdf
 
+elif [ "$1" == '--epub' ]; then
+
+    create_epub
+
 elif [ "$1" == '--html' ]; then
 
     create_docs
@@ -57,7 +72,9 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    rm ${DST}/static/pdf/*.md
+    create_epub
+
+    rm ${DST}/static/pdf/*.md ${DST}/static/epub/*.md
 
     create_docs
 
