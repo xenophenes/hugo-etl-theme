@@ -38,11 +38,11 @@ function create_pdf {
 # 2) Generate the documentation
 #===============================================
 
-if [ "$1" == '--no-html' ]; then
+if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
-elif [ "$1" == '--no-pdf' ]; then
+elif [ "$1" == '--html' ]; then
 
     hugo --source=${DST} --destination=${POSTGRESQL_DOCS} --baseURL="/${REPO}${REPO_MAJOR}/${POSTGRESQL_VERSION}"
 

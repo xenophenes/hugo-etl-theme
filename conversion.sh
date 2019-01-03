@@ -56,8 +56,8 @@ function usage {
     echo ""
     echo "Available flags: "
     echo ""
-    echo "   --no-html"
-    echo "   --no-pdf"
+    echo "   --pdf"
+    echo "   --html"
     echo "   --all"
     echo ""
     exit 1

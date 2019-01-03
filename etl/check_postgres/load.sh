@@ -34,13 +34,13 @@ function create_pdf {
 # 2) Generate the documentation
 #===============================================
 
-if [ "$1" == '--no-html' ]; then
+if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
     #cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${CHECK_POSTGRES_VERSION}.pdf
 
-elif [ "$1" == '--no-pdf' ]; then
+elif [ "$1" == '--html' ]; then
 
     hugo --source=${DST} --destination=${CHECK_POSTGRES_DOCS} --baseURL="/${REPO}/${CHECK_POSTGRES_VERSION}"
 

@@ -42,7 +42,7 @@ function create_pdf {
 # 2) Generate the documentation
 #===============================================
 
-if [ "$1" == '--no-html' ]; then
+if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
@@ -50,7 +50,7 @@ if [ "$1" == '--no-html' ]; then
     cp ${DST}/static/pdf/crunchy_certified_postgresql_96.pdf ${ETL_PATH}/pdf/${REPO}/crunchy_certified_postgresql_96.pdf
     cp ${DST}/static/pdf/crunchy_certified_postgresql_95.pdf ${ETL_PATH}/pdf/${REPO}/crunchy_certified_postgresql_95.pdf
 
-elif [ "$1" == '--no-pdf' ]; then
+elif [ "$1" == '--html' ]; then
 
     hugo --source=${DST} --destination=${SEC_INSTALL_N_CONFIG_DOCS} --baseURL="/${REPO}/${SEC_INSTALL_N_CONFIG_VERSION}"
 

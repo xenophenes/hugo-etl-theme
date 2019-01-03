@@ -157,8 +157,8 @@ Available project versions:
 
 Available flags:
 
-   --no-html
-   --no-pdf
+   --pdf
+   --html
    --all
 
 ```
