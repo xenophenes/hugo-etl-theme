@@ -25,15 +25,25 @@ export BACKREST_DOCS=${DOCS}/${REPO}/${BACKREST_VERSION}
 #===============================================
 
 function create_pdf {
-    mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
+    mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO} ${BUILD_PDF}
 
-    mv ${BUILD_PDF}/_index.md ${BUILD_PDF}/1.md
-    mv ${BUILD_PDF}/user-guide.html ${BUILD_PDF}/2.html
-    mv ${BUILD_PDF}/command.html ${BUILD_PDF}/3.html
-    mv ${BUILD_PDF}/configuration.html ${BUILD_PDF}/4.html
-    mv ${BUILD_PDF}/release.html ${BUILD_PDF}/5.html
+    cp ${BUILD_ROOT}/user-guide.html ${BUILD_PDF}/1.html
+    cp ${BUILD_ROOT}/command.html ${BUILD_PDF}/2.html
+    cp ${BUILD_ROOT}/configuration.html ${BUILD_PDF}/3.html
+    cp ${BUILD_ROOT}/release.html ${BUILD_PDF}/4.html
 
     pandoc --toc --latex-engine=xelatex ${BUILD_PDF}/* -o ${DST}/static/pdf/${REPO}.pdf
+}
+
+function create_epub {
+    mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO} ${BUILD_EPUB}
+
+    cp ${BUILD_ROOT}/user-guide.html ${BUILD_EPUB}/1.html
+    cp ${BUILD_ROOT}/command.html ${BUILD_EPUB}/2.html
+    cp ${BUILD_ROOT}/configuration.html ${BUILD_EPUB}/3.html
+    cp ${BUILD_ROOT}/release.html ${BUILD_EPUB}/4.html
+
+    pandoc ${BUILD_EPUB}/* -o ${DST}/static/epub/${REPO}.epub
 }
 
 function create_docs {
@@ -50,6 +60,10 @@ if [ "$1" == '--pdf' ]; then
 
     cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${BACKREST_VERSION}.pdf
 
+elif [ "$1" == '--epub' ]; then
+
+    create_epub
+
 elif [ "$1" == '--html' ]; then
 
     create_docs
@@ -57,6 +71,8 @@ elif [ "$1" == '--html' ]; then
 elif [ "$1" == '--all' ]; then
 
     create_pdf
+
+    create_epub
 
     create_docs
 
