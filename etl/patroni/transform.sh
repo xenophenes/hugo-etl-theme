@@ -28,10 +28,10 @@ yes | cp -f ${DIR}/config.toml ${DST}
 # Move files to destination directory
 #===============================================
 
-mkdir -p ${BUILD} ${BUILD_PDF} ${DST}/static/images
+mkdir -p ${BUILD}${DST}/static/images
 
 cp ${BUILD_SRC}/*.png ${DST}/static/images
-cp -r ${BUILD_SRC} ${BUILD_PDF}
+cp -r ${BUILD_SRC} ${BUILD_ROOT}/src
 
 sphinx-build -Q -b html ${BUILD_SRC} ${BUILD}
 

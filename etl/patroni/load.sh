@@ -25,15 +25,31 @@ export PATRONI_DOCS="${DOCS}/${REPO}/${PATRONI_VERSION}"
 #===============================================
 
 function create_pdf {
-    mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
+    mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO} ${BUILD_PDF}
 
-    sed -i '/:caption:/d' ${BUILD_PDF}/docs/index.rst
-    sphinx-build -b latex ${BUILD_PDF}/docs ${BUILD_PDF}/pdfout
+    cp -r ${BUILD_ROOT}/src/* ${BUILD_PDF}
+
+    sed -i '/:caption:/d' ${BUILD_PDF}/index.rst
+    sphinx-build -b latex ${BUILD_PDF} ${BUILD_PDF}/pdfout
 
     sed -i '/usepackage{multirow}/r latex-add.txt' ${BUILD_PDF}/pdfout/Patroni.tex
 
     (cd ${BUILD_PDF}/pdfout && make all-pdf)
     cp ${BUILD_PDF}/pdfout/*.pdf ${DST}/static/pdf/${REPO}.pdf
+}
+
+function create_epub {
+    mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO} ${BUILD_EPUB}
+
+    cp -r ${BUILD_ROOT}/src/* ${BUILD_EPUB}
+
+    sed -i '/:caption:/d' ${BUILD_EPUB}/index.rst
+    sphinx-build -b latex ${BUILD_EPUB} ${BUILD_EPUB}/epubout
+
+    sed -i '/usepackage{multirow}/r latex-add.txt' ${BUILD_EPUB}/epubout/Patroni.tex
+
+    pandoc ${BUILD_EPUB}/epubout/Patroni.tex -o ${BUILD_EPUB}/epubout/${REPO}.epub
+    cp ${BUILD_EPUB}/epubout/*.epub ${DST}/static/epub/${REPO}.epub
 }
 
 function create_docs {
@@ -50,6 +66,12 @@ if [ "$1" == '--pdf' ]; then
 
     cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PATRONI_VERSION}.pdf
 
+elif [ "$1" == '--epub' ]; then
+
+    create_epub
+
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PATRONI_VERSION}.epub
+
 elif [ "$1" == '--html' ]; then
 
     create_docs
@@ -58,12 +80,15 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
+    create_epub
+
     create_docs
 
     cp ${PATRONI_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PATRONI_VERSION}.pdf
+    cp ${PATRONI_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PATRONI_VERSION}.epub
 
 fi
 
-rm -rf ${BUILD_ROOT} ${DST}
+#rm -rf ${BUILD_ROOT} ${DST}
 
 echo_end ${REPO}
