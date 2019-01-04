@@ -21,4 +21,8 @@ CONTENT="${DST}/content"
 BUILD_ROOT="${DIR}/build"
 BUILD="${BUILD_ROOT}/${REPO}_${POSTGRESQL_VERSION}"
 TMP="/tmp/${REPO}_${POSTGRESQL_VERSION}"
-REPO_MAJOR=$(echo ${POSTGRESQL_VERSION} | sed -r 's/([^_]*).*/\1/')
+if [ "$POSTGRESQL_VERSION" == '9*' ]; then
+    REPO_MAJOR=$(echo ${POSTGRESQL_VERSION} | sed -r 's/([^_]*)_([^_]*).*/\1\2/')
+else
+    REPO_MAJOR=$(echo ${POSTGRESQL_VERSION} | sed -r 's/([^_]*).*/\1/')
+fi
