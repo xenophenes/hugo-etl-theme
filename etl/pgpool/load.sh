@@ -31,6 +31,13 @@ function create_pdf {
     wkhtmltopdf toc ${BUILD}/doc/src/sgml/pgpool-ii.html ${DST}/static/pdf/${REPO}.pdf
 }
 
+function create_epub {
+    mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
+
+    (cd ${BUILD}/doc/src/sgml && make pgpool.html)
+    pandoc ${BUILD}/doc/src/sgml/pgpool-ii.html -o ${DST}/static/epub/${REPO}.epub
+}
+
 function create_docs {
     hugo --source=${DST} --destination=${PGPOOL_DOCS} --baseURL="/${REPO}/${PGPOOL_VERSION}"
 }
@@ -45,6 +52,12 @@ if [ "$1" == '--pdf' ]; then
 
     cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGPOOL_VERSION}.pdf
 
+elif [ "$1" == '--epub' ]; then
+
+    create_epub
+
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGPOOL_VERSION}.epub
+
 elif [ "$1" == '--html' ]; then
 
     create_docs
@@ -53,9 +66,12 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
+    create_epub
+
     create_docs
 
     cp ${PGPOOL_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGPOOL_VERSION}.pdf
+    cp ${PGPOOL_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGPOOL_VERSION}.epub
 
 fi
 
