@@ -25,14 +25,25 @@ export PGBOUNCER_DOCS=${DOCS}/${REPO}/${PGBOUNCER_VERSION}
 #===============================================
 
 function create_pdf {
-    mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
+    mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO} ${BUILD_PDF}
 
-    mv ${BUILD_PDF}/_index.html ${BUILD_PDF}/1.html
-    mv ${BUILD_PDF}/usage.rst.html ${BUILD_PDF}/2.html
-    mv ${BUILD_PDF}/config.rst.html ${BUILD_PDF}/3.html
-    mv ${BUILD_PDF}/todo.rst.html ${BUILD_PDF}/4.html
+    mv ${BUILD_ROOT}/_index.html ${BUILD_PDF}/1.html
+    mv ${BUILD_ROOT}/usage.rst.html ${BUILD_PDF}/2.html
+    mv ${BUILD_ROOT}/config.rst.html ${BUILD_PDF}/3.html
+    mv ${BUILD_ROOT}/todo.rst.html ${BUILD_PDF}/4.html
 
     xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf toc ${BUILD_PDF}/* ${DST}/static/pdf/${REPO}.pdf
+}
+
+function create_epub {
+    mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO} ${BUILD_EPUB}
+
+    mv ${BUILD_ROOT}/_index.html ${BUILD_EPUB}/1.html
+    mv ${BUILD_ROOT}/usage.rst.html ${BUILD_EPUB}/2.html
+    mv ${BUILD_ROOT}/config.rst.html ${BUILD_EPUB}/3.html
+    mv ${BUILD_ROOT}/todo.rst.html ${BUILD_EPUB}/4.html
+
+    pandoc ${BUILD_EPUB}/* -o ${DST}/static/epub/${REPO}.epub
 }
 
 function create_docs {
@@ -51,15 +62,24 @@ if [ "$1" == '--pdf' ]; then
 
 elif [ "$1" == '--html' ]; then
 
+    create_epub
+
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGBOUNCER_VERSION}.epub
+
+elif [ "$1" == '--html' ]; then
+
     create_docs
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
+    create_epub
+
     create_docs
 
     cp ${PGBOUNCER_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGBOUNCER_VERSION}.pdf
+    cp ${PGBOUNCER_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGBOUNCER_VERSION}.epub
 
 fi
 

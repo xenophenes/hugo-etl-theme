@@ -28,7 +28,6 @@ yes | cp -f ${DIR}/config.toml ${DST}
 # Move files to destination directory
 #===============================================
 
-mkdir ${BUILD_PDF}
 (cd ${BUILD} && git clone https://github.com/libusual/libusual && mv libusual/* lib)
 (cd ${BUILD} && ./autogen.sh && ./configure && make htmls)
 mv ${BUILD}/html/README.rst.html ${CONTENT}/_index.html
@@ -45,7 +44,7 @@ do
   rm $f && mv /tmp/document.modified $f
 
   # Save files for PDF processing
-  cp $f ${BUILD_PDF}/
+  cp $f ${BUILD_ROOT}/
 done
 
 #===============================================
