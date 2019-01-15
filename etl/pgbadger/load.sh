@@ -32,6 +32,14 @@ function create_pdf {
     xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf toc ${BUILD_PDF}/_index.html ${DST}/static/pdf/${REPO}.pdf
 }
 
+function create_epub {
+    mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO} ${BUILD_EPUB}
+    cp ${CONTENT}/_index.html ${BUILD_EPUB}/_index.html
+
+    sed -i "1,4d" ${BUILD_EPUB}/_index.html
+    pandoc ${BUILD_EPUB}/_index.html -o ${DST}/static/epub/${REPO}.epub
+}
+
 function create_docs {
     hugo --source=${DST} --destination=${PGBADGER_DOCS} --baseURL="/${REPO}/${PGBADGER_VERSION}"
 }
@@ -46,6 +54,12 @@ if [ "$1" == '--pdf' ]; then
 
     cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGBADGER_VERSION}.pdf
 
+elif [ "$1" == '--epub' ]; then
+
+    create_epub
+
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGBADGER_VERSION}.epub
+
 elif [ "$1" == '--html' ]; then
 
     create_docs
@@ -54,9 +68,12 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
+    create_epub
+
     create_docs
-    
+
     cp ${PGBADGER_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGBADGER_VERSION}.pdf
+    cp ${PGBADGER_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGBADGER_VERSION}.epub
 
 fi
 
