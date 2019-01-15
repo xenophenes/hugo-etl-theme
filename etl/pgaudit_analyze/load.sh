@@ -27,12 +27,17 @@ export PGAUDIT_ANALYZE_DOCS="${DOCS}/${REPO}/${PGAUDIT_ANALYZE_VERSION}"
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
-    for f in $(find ${CONTENT} -name '*.md')
-    do
-      cp $f ${DST}/static/pdf
-    done
+    cp ${CONTENT}/_index.md ${DST}/static/pdf
 
     pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/*.md -o ${DST}/static/pdf/${REPO}.pdf
+}
+
+function create_epub {
+    mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
+
+    cp ${CONTENT}/_index.md ${DST}/static/epub
+
+    pandoc ${DST}/static/epub/*.md -o ${DST}/static/epub/${REPO}.epub
 }
 
 function create_docs {
@@ -49,6 +54,12 @@ if [ "$1" == '--pdf' ]; then
 
     cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGAUDIT_ANALYZE_VERSION}.pdf
 
+elif [ "$1" == '--epub' ]; then
+
+    create_epub
+
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGAUDIT_ANALYZE_VERSION}.epub
+
 elif [ "$1" == '--html' ]; then
 
     create_docs
@@ -57,11 +68,14 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    rm ${DST}/static/pdf/*.md
+    create_epub
+
+    rm ${DST}/static/pdf/*.md ${DST}/static/epub/*.md
 
     create_docs
 
     cp ${PGAUDIT_ANALYZE_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGAUDIT_ANALYZE_VERSION}.pdf
+    cp ${PGAUDIT_ANALYZE_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGAUDIT_ANALYZE_VERSION}.epub
 
 fi
 
