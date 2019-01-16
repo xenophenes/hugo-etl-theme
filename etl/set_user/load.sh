@@ -27,12 +27,17 @@ export SET_USER_DOCS="${DOCS}/${REPO}${REPO_MAJOR}/${SET_USER_VERSION}"
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
-    for f in $(find ${CONTENT} -name '*.md')
-    do
-      cp $f ${DST}/static/pdf
-    done
+    cp ${CONTENT}/*.md ${DST}/static/pdf
 
     pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/*.md -o ${DST}/static/pdf/${REPO}.pdf
+}
+
+function create_epub {
+    mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
+
+    cp ${CONTENT}/*.md ${DST}/static/epub
+
+    pandoc ${DST}/static/epub/*.md -o ${DST}/static/epub/${REPO}.epub
 }
 
 function create_docs {
@@ -49,6 +54,12 @@ if [ "$1" == '--pdf' ]; then
 
     cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${SET_USER_VERSION}.pdf
 
+elif [ "$1" == '--epub' ]; then
+
+    create_epub
+
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${SET_USER_VERSION}.epub
+
 elif [ "$1" == '--html' ]; then
 
     create_docs
@@ -57,11 +68,14 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    rm ${DST}/static/pdf/*.md
+    create_epub
+
+    rm ${DST}/static/pdf/*.md ${DST}/static/epub/*.md
 
     create_docs
 
     cp ${SET_USER_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${SET_USER_VERSION}.pdf
+    cp ${SET_USER_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${SET_USER_VERSION}.epub
 
 fi
 
