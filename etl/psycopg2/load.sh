@@ -34,6 +34,14 @@ function create_pdf {
     cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PSYCOPG2_VERSION}.pdf
 }
 
+function create_epub {
+    mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
+
+    pandoc ${BUILD}/doc/psycopg2.txt -o ${DST}/static/epub/${REPO}.epub
+
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PSYCOPG2_VERSION}.epub
+}
+
 function create_html {
     hugo --source=${DST} --destination=${PSYCOPG2_DOCS} --baseURL="/${REPO}/${PSYCOPG2_VERSION}"
 }
@@ -46,6 +54,10 @@ if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
+elif [ "$1" == '--epub' ]; then
+
+    create_epub
+
 elif [ "$1" == '--html' ]; then
 
     create_html
@@ -53,6 +65,8 @@ elif [ "$1" == '--html' ]; then
 elif [ "$1" == '--all' ]; then
 
     create_pdf
+
+    create_epub
 
     create_html
 

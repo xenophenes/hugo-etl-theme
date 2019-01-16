@@ -831,8 +831,6 @@ def cleanup_psycopg2(filename):
 
     pageTitle = soup.title.get_text()
 
-    soup.h1.decompose()
-
     for tag in soup.findAll("h3"):
         tag.name = "h4"
 
