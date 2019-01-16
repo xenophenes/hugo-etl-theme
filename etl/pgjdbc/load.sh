@@ -25,12 +25,28 @@ export PGJDBC_DOCS="${DOCS}/${REPO}/${PGJDBC_VERSION}"
 #===============================================
 
 function create_pdf {
-    mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
+    #mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
+
+    echo "No PDF functionality for this project at this time."
 
     # No PDF functionality (yet)
+
+    #rm ${DST}/static/pdf/*.md
+    #cp ${PGJDBC_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGJDBC_VERSION}.pdf
 }
 
-function create_docs {
+function create_epub {
+    #mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
+
+    echo "No EPUB functionality for this project at this time."
+
+    # No PDF functionality (yet)
+
+    #rm ${DST}/static/pdf/*.md
+    #cp ${PGJDBC_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGJDBC_VERSION}.pdf
+}
+
+function create_html {
     hugo --source=${DST} --destination=${PGJDBC_DOCS} --baseURL="/${REPO}/${PGJDBC_VERSION}"
 }
 
@@ -42,21 +58,19 @@ if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
-    #cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGJDBC_VERSION}.pdf
+elif [ "$1" == '--epub' ]; then
+
+    create_epub
 
 elif [ "$1" == '--html' ]; then
 
-    create_docs
+    create_html
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    #rm ${DST}/static/pdf/*.md
-
-    create_docs
-
-    #cp ${PGJDBC_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGJDBC_VERSION}.pdf
+    create_html
 
 fi
 

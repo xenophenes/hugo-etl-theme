@@ -36,6 +36,8 @@ function create_pdf {
 
     (cd ${BUILD_PDF}/pdfout && make all-pdf)
     cp ${BUILD_PDF}/pdfout/*.pdf ${DST}/static/pdf/${REPO}.pdf
+
+    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PATRONI_VERSION}.pdf
 }
 
 function create_epub {
@@ -50,9 +52,11 @@ function create_epub {
 
     pandoc ${BUILD_EPUB}/epubout/Patroni.tex -o ${BUILD_EPUB}/epubout/${REPO}.epub
     cp ${BUILD_EPUB}/epubout/*.epub ${DST}/static/epub/${REPO}.epub
+
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PATRONI_VERSION}.epub
 }
 
-function create_docs {
+function create_html {
     hugo --source=${DST} --destination=${PATRONI_DOCS} --baseURL="/${REPO}/${PATRONI_VERSION}"
 }
 
@@ -64,17 +68,13 @@ if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
-    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PATRONI_VERSION}.pdf
-
 elif [ "$1" == '--epub' ]; then
 
     create_epub
 
-    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PATRONI_VERSION}.epub
-
 elif [ "$1" == '--html' ]; then
 
-    create_docs
+    create_html
 
 elif [ "$1" == '--all' ]; then
 
@@ -82,13 +82,10 @@ elif [ "$1" == '--all' ]; then
 
     create_epub
 
-    create_docs
-
-    cp ${PATRONI_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PATRONI_VERSION}.pdf
-    cp ${PATRONI_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PATRONI_VERSION}.epub
+    create_html
 
 fi
 
-#rm -rf ${BUILD_ROOT} ${DST}
+rm -rf ${BUILD_ROOT} ${DST}
 
 echo_end ${REPO}

@@ -30,9 +30,11 @@ function create_pdf {
     (cd ${BUILD}/doc/src && make latex)
     (cd ${BUILD}/doc/src/_build/latex && make all-pdf)
     cp ${BUILD}/doc/src/_build/latex/*.pdf ${DST}/static/pdf/${REPO}.pdf
+
+    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PSYCOPG2_VERSION}.pdf
 }
 
-function create_docs {
+function create_html {
     hugo --source=${DST} --destination=${PSYCOPG2_DOCS} --baseURL="/${REPO}/${PSYCOPG2_VERSION}"
 }
 
@@ -44,19 +46,15 @@ if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
-    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PSYCOPG2_VERSION}.pdf
-
 elif [ "$1" == '--html' ]; then
 
-    create_docs
+    create_html
 
 elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    create_docs
-
-    cp ${PSYCOPG2_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PSYCOPG2_VERSION}.pdf
+    create_html
 
 fi
 

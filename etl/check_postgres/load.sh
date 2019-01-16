@@ -28,15 +28,19 @@ function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
     wkhtmltopdf toc ${CONTENT}/_index.html ${DST}/static/pdf/${REPO}.pdf
+
+    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${CHECK_POSTGRES_VERSION}.pdf
 }
 
 function create_epub {
     mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
 
     pandoc ${CONTENT}/_index.html -o ${DST}/static/epub/${REPO}.epub
+
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${CHECK_POSTGRES_VERSION}.epub
 }
 
-function create_docs {
+function create_html {
     hugo --source=${DST} --destination=${CHECK_POSTGRES_DOCS} --baseURL="/${REPO}/${CHECK_POSTGRES_VERSION}"
 }
 
@@ -48,17 +52,13 @@ if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
-    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${CHECK_POSTGRES_VERSION}.pdf
-
 elif [ "$1" == '--epub' ]; then
 
     create_epub
 
 elif [ "$1" == '--html' ]; then
 
-    create_docs
-
-    cp ${CHECK_POSTGRES_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${CHECK_POSTGRES_VERSION}.epub
+    create_html
 
 elif [ "$1" == '--all' ]; then
 
@@ -66,10 +66,7 @@ elif [ "$1" == '--all' ]; then
 
     create_epub
 
-    create_docs
-
-    cp ${CHECK_POSTGRES_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${CHECK_POSTGRES_VERSION}.pdf
-    cp ${CHECK_POSTGRES_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${CHECK_POSTGRES_VERSION}.epub
+    create_html
 
 fi
 

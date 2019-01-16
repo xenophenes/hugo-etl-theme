@@ -33,6 +33,10 @@ function create_pdf {
     sed -i '/\[\!\[Build Status\]/d' ${DST}/static/pdf/_index.md
 
     pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/_index.md -o ${DST}/static/pdf/${REPO}.pdf
+
+    rm ${DST}/static/pdf/*.md
+
+    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${AMCHECK_NEXT_VERSION}.pdf
 }
 
 function create_epub {
@@ -44,9 +48,13 @@ function create_epub {
     sed -i '/\[\!\[Build Status\]/d' ${DST}/static/epub/_index.md
 
     pandoc ${DST}/static/epub/_index.md -o ${DST}/static/epub/${REPO}.epub
+
+    rm ${DST}/static/epub/*.md
+
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${AMCHECK_NEXT_VERSION}.epub
 }
 
-function create_docs {
+function create_html {
     hugo --source=${DST} --destination=${AMCHECK_NEXT_DOCS} --baseURL="/${REPO}/${AMCHECK_NEXT_VERSION}"
 }
 
@@ -58,17 +66,13 @@ if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
-    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${AMCHECK_NEXT_VERSION}.pdf
-
 elif [ "$1" == '--epub' ]; then
 
     create_epub
 
-    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${AMCHECK_NEXT_VERSION}.epub
-
 elif [ "$1" == '--html' ]; then
 
-    create_docs
+    create_html
 
 elif [ "$1" == '--all' ]; then
 
@@ -76,12 +80,7 @@ elif [ "$1" == '--all' ]; then
 
     create_epub
 
-    rm ${DST}/static/pdf/*.md ${DST}/static/epub/*.md
-
-    create_docs
-
-    cp ${AMCHECK_NEXT_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${AMCHECK_NEXT_VERSION}.pdf
-    cp ${AMCHECK_NEXT_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${AMCHECK_NEXT_VERSION}.epub
+    create_html
 
 fi
 

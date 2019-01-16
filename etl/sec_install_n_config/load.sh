@@ -37,6 +37,8 @@ function create_pdf {
     pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/crunchy_certified_postgresql_96.md -o ${DST}/static/pdf/crunchy_certified_postgresql_96.pdf
     pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/crunchy_certified_postgresql_95.md -o ${DST}/static/pdf/crunchy_certified_postgresql_95.pdf
 
+    rm ${DST}/static/pdf/*.md
+
     cp ${DST}/static/pdf/crunchy_certified_postgresql_10.pdf ${ETL_PATH}/pdf/${REPO}/crunchy_certified_postgresql_10.pdf
     cp ${DST}/static/pdf/crunchy_certified_postgresql_96.pdf ${ETL_PATH}/pdf/${REPO}/crunchy_certified_postgresql_96.pdf
     cp ${DST}/static/pdf/crunchy_certified_postgresql_95.pdf ${ETL_PATH}/pdf/${REPO}/crunchy_certified_postgresql_95.pdf
@@ -55,12 +57,14 @@ function create_epub {
     pandoc ${DST}/static/epub/crunchy_certified_postgresql_96.md -o ${DST}/static/epub/crunchy_certified_postgresql_96.epub
     pandoc ${DST}/static/epub/crunchy_certified_postgresql_95.md -o ${DST}/static/epub/crunchy_certified_postgresql_95.epub
 
+    rm ${DST}/static/epub/*.md
+
     cp ${DST}/static/epub/crunchy_certified_postgresql_10.epub ${ETL_PATH}/epub/${REPO}/crunchy_certified_postgresql_10.epub
     cp ${DST}/static/epub/crunchy_certified_postgresql_96.epub ${ETL_PATH}/epub/${REPO}/crunchy_certified_postgresql_96.epub
     cp ${DST}/static/epub/crunchy_certified_postgresql_95.epub ${ETL_PATH}/epub/${REPO}/crunchy_certified_postgresql_95.epub
 }
 
-function create_docs {
+function create_html {
     hugo --source=${DST} --destination=${SEC_INSTALL_N_CONFIG_DOCS} --baseURL="/${REPO}/${SEC_INSTALL_N_CONFIG_VERSION}"
 }
 
@@ -78,7 +82,7 @@ elif [ "$1" == '--epub' ]; then
 
 elif [ "$1" == '--html' ]; then
 
-    create_docs
+    create_html
 
 elif [ "$1" == '--all' ]; then
 
@@ -86,10 +90,8 @@ elif [ "$1" == '--all' ]; then
 
     create_epub
 
-    rm -rf ${DST}/static/pdf/*.md ${DST}/static/epub/*.md
+    create_html
 
-    create_docs
-    
 fi
 
 rm -rf ${BUILD} ${DST} media

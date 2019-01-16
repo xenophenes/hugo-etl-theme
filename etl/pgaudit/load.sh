@@ -30,6 +30,10 @@ function create_pdf {
     cp ${CONTENT}/_index.md ${DST}/static/pdf
 
     pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/*.md -o ${DST}/static/pdf/${REPO}.pdf
+
+    rm ${DST}/static/pdf/*.md
+
+    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGAUDIT_VERSION}.pdf
 }
 
 function create_epub {
@@ -38,9 +42,13 @@ function create_epub {
     cp ${CONTENT}/_index.md ${DST}/static/epub
 
     pandoc ${DST}/static/epub/*.md -o ${DST}/static/epub/${REPO}.epub
+
+    rm ${DST}/static/epub/*.md
+
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGAUDIT_VERSION}.epub
 }
 
-function create_docs {
+function create_html {
     hugo --source=${DST} --destination=${PGAUDIT_DOCS} --baseURL="/${REPO}/${PGAUDIT_VERSION}"
 }
 
@@ -52,17 +60,13 @@ if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
-    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGAUDIT_VERSION}.pdf
-
 elif [ "$1" == '--epub' ]; then
 
     create_epub
 
-    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGAUDIT_VERSION}.epub
-
 elif [ "$1" == '--html' ]; then
 
-    create_docs
+    create_html
 
 elif [ "$1" == '--all' ]; then
 
@@ -70,12 +74,7 @@ elif [ "$1" == '--all' ]; then
 
     create_epub
 
-    rm ${DST}/static/pdf/*.md ${DST}/static/epub/*.md
-
-    create_docs
-
-    cp ${PGAUDIT_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGAUDIT_VERSION}.pdf
-    cp ${PGAUDIT_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGAUDIT_VERSION}.epub
+    create_html
 
 fi
 

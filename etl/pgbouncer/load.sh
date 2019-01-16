@@ -33,6 +33,8 @@ function create_pdf {
     mv ${BUILD_ROOT}/todo.rst.html ${BUILD_PDF}/4.html
 
     xvfb-run -a -s "-screen 0 640x480x16" wkhtmltopdf toc ${BUILD_PDF}/* ${DST}/static/pdf/${REPO}.pdf
+
+    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGBOUNCER_VERSION}.pdf
 }
 
 function create_epub {
@@ -44,9 +46,11 @@ function create_epub {
     mv ${BUILD_ROOT}/todo.rst.html ${BUILD_EPUB}/4.html
 
     pandoc ${BUILD_EPUB}/* -o ${DST}/static/epub/${REPO}.epub
+
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGBOUNCER_VERSION}.epub
 }
 
-function create_docs {
+function create_html {
     hugo --source=${DST} --destination=${PGBOUNCER_DOCS} --baseURL="/${REPO}/${PGBOUNCER_VERSION}"
 }
 
@@ -58,17 +62,13 @@ if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
-    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGBOUNCER_VERSION}.pdf
-
 elif [ "$1" == '--html' ]; then
 
     create_epub
 
-    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGBOUNCER_VERSION}.epub
-
 elif [ "$1" == '--html' ]; then
 
-    create_docs
+    create_html
 
 elif [ "$1" == '--all' ]; then
 
@@ -76,10 +76,7 @@ elif [ "$1" == '--all' ]; then
 
     create_epub
 
-    create_docs
-
-    cp ${PGBOUNCER_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGBOUNCER_VERSION}.pdf
-    cp ${PGBOUNCER_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGBOUNCER_VERSION}.epub
+    create_html
 
 fi
 

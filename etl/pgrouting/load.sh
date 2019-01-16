@@ -29,6 +29,8 @@ function create_pdf {
 
     (cd ${BUILD}/build && sphinx-build -b singlehtml doc singlehtml)
     (cd ${BUILD}/build/singlehtml && pandoc ${BUILD}/build/singlehtml/index.html -o ${DST}/static/pdf/${REPO}.pdf)
+
+    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
 }
 
 function create_epub {
@@ -36,9 +38,11 @@ function create_epub {
 
     (cd ${BUILD}/build && sphinx-build -b singlehtml doc singlehtml)
     (cd ${BUILD}/build/singlehtml && pandoc ${BUILD}/build/singlehtml/index.html -o ${DST}/static/epub/${REPO}.epub)
+
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGROUTING_VERSION}.epub
 }
 
-function create_docs {
+function create_html {
     hugo --source=${DST} --destination=${PGROUTING_DOCS} --baseURL="/${REPO}/${PGROUTING_VERSION}"
 }
 
@@ -50,17 +54,13 @@ if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
-    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
-
 elif [ "$1" == '--epub' ]; then
 
     create_epub
 
-    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGROUTING_VERSION}.epub
-
 elif [ "$1" == '--html' ]; then
 
-    create_docs
+    create_html
 
 elif [ "$1" == '--all' ]; then
 
@@ -68,10 +68,7 @@ elif [ "$1" == '--all' ]; then
 
     create_epub
 
-    create_docs
-
-    cp ${PGROUTING_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
-    cp ${PGROUTING_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGROUTING_VERSION}.epub
+    create_html
 
 fi
 
