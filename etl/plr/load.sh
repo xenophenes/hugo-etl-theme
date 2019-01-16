@@ -30,6 +30,12 @@ function create_pdf {
     pandoc --toc --latex-engine=xelatex ${CONTENT}/_index.md -o ${DST}/static/pdf/${REPO}.pdf
 }
 
+function create_epub {
+    mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
+
+    pandoc ${CONTENT}/_index.md -o ${DST}/static/epub/${REPO}.epub
+}
+
 function create_docs {
     hugo --source=${DST} --destination=${PLR_DOCS} --baseURL="/${REPO}/${PLR_VERSION}"
 }
@@ -44,6 +50,12 @@ if [ "$1" == '--pdf' ]; then
 
     cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PLR_VERSION}.pdf
 
+elif [ "$1" == '--epub' ]; then
+
+    create_epub
+
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PLR_VERSION}.epub
+
 elif [ "$1" == '--html' ]; then
 
     create_docs
@@ -52,9 +64,12 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
+    create_epub
+
     create_docs
 
     cp ${PLR_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PLR_VERSION}.pdf
+    cp ${PLR_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PLR_VERSION}.epub
 
 fi
 
