@@ -28,7 +28,14 @@ function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
     (cd ${BUILD}/build && sphinx-build -b singlehtml doc singlehtml)
-    wkhtmltopdf toc ${BUILD}/build/singlehtml/index.html ${DST}/static/pdf/${REPO}.pdf
+    (cd ${BUILD}/build/singlehtml && pandoc ${BUILD}/build/singlehtml/index.html -o ${DST}/static/pdf/${REPO}.pdf)
+}
+
+function create_epub {
+    mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
+
+    (cd ${BUILD}/build && sphinx-build -b singlehtml doc singlehtml)
+    (cd ${BUILD}/build/singlehtml && pandoc ${BUILD}/build/singlehtml/index.html -o ${DST}/static/epub/${REPO}.epub)
 }
 
 function create_docs {
@@ -45,6 +52,12 @@ if [ "$1" == '--pdf' ]; then
 
     cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
 
+elif [ "$1" == '--epub' ]; then
+
+    create_epub
+
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGROUTING_VERSION}.epub
+
 elif [ "$1" == '--html' ]; then
 
     create_docs
@@ -53,9 +66,12 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
+    create_epub
+
     create_docs
 
     cp ${PGROUTING_DOCS}/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
+    cp ${PGROUTING_DOCS}/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${PGROUTING_VERSION}.epub
 
 fi
 
