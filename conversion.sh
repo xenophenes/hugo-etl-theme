@@ -37,6 +37,7 @@ function usage {
     echo "   pgbouncer"
     echo "   pg_partman"
     echo "   pgjdbc"
+    echo "   pgmonitor"
     echo "   pgpool"
     echo "   pgrouting"
     echo "   pgstigcheck-inspec"
@@ -277,6 +278,21 @@ elif [ "$1" == 'pgjdbc' ]; then
 
     # Run the extract and transform scripts
     run_script ${4} ${PROJECT_NAME} ${PGJDBC_VERSION}
+
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
+    generate_docs ${3}
+
+elif [ "$1" == 'pgmonitor' ]; then
+
+    # Parameter setup
+    export PROJECT_NAME=$1
+    export PGMONITOR_VERSION=$(echo $2 | sed 's/\./_/g')
+
+    # Clean up build artifacts
+    remove_project ${PROJECT_NAME} ${PGMONITOR_VERSION}
+
+    # Run the extract and transform scripts
+    run_script ${4} ${PROJECT_NAME} ${PGMONITOR_VERSION}
 
     # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}

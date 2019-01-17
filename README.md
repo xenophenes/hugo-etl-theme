@@ -14,6 +14,7 @@ on the following projects:
 * pgbadger
 * pgbouncer
 * pgjdbc
+* pgmonitor
 * pg_partman
 * pgpool
 * pgrouting
@@ -151,6 +152,7 @@ Available project names:
    pgbouncer
    pg_partman
    pgjdbc
+   pgmonitor
    pgpool
    pgrouting
    pgstigcheck-inspec
