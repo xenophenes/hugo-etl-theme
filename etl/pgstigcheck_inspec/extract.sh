@@ -23,8 +23,8 @@ source pgstigcheck_inspec_var.sh
 
 mkdir -p ${DST}
 
-export REPO=$(echo $2 | sed 's/\_/-/g')
+export REPO=$(echo $REPO | sed 's/\_/-/g')
 
 (cd ${SRC}/${REPO} && git checkout hugo && cp -r ${SRC}/${REPO}/* ${DST})
 
-export REPO=$(echo $2 | sed 's/\-/_/g')
+export REPO=$(echo $REPO | sed 's/\-/_/g')
