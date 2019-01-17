@@ -171,7 +171,7 @@ Available flags:
    --html
    --all
 
-If baseURL is not specified, the default is used.
+ If baseURL is not specified, the default of \$PROJECT_NAME/\$PROJECT_VERSION is used.
 
 ```
 
