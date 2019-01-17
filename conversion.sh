@@ -73,12 +73,14 @@ function remove_project {
 
 function run_script {
     # Check if baseURL is specified; if so, set it in load.sh for that project
-    if [ -n ${1} ]; then
-        export PROJECT_BASEURL=$(echo ${2}\_BASEURL)
-        export ${PROJECT_BASEURL^^}=${1}/${2}/${3}
+    if [ -v ${1} ]; then
+        export PROJECT_BASEURL=$(echo ${2^^}\_BASEURL)
+        export ${PROJECT_BASEURL}=${1}/${2}/${3}
     else
-        export ${PROJECT_BASEURL^^}=/${2}/${3}
+        export PROJECT_BASEURL=$(echo ${1^^}\_BASEURL)
+        export ${PROJECT_BASEURL}=/${1}/${2}
     fi
+
 
     # Run the conversion script
     mkdir -p ${ETL_PATH}/docs
