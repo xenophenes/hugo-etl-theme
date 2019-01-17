@@ -17,6 +17,7 @@ on the following projects:
 * pg_partman
 * pgpool
 * pgrouting
+* pgstigcheck-inspec
 * plr
 * postgis
 * postgresql
@@ -152,6 +153,7 @@ Available project names:
    pgjdbc
    pgpool
    pgrouting
+   pgstigcheck-inspec
    plr
    postgis
    postgresql

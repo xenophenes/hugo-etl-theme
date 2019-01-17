@@ -39,6 +39,7 @@ function usage {
     echo "   pgjdbc"
     echo "   pgpool"
     echo "   pgrouting"
+    echo "   pgstigcheck-inspec"
     echo "   plr"
     echo "   postgis"
     echo "   postgresql"
@@ -304,6 +305,21 @@ elif [ "$1" == 'pgrouting' ]; then
 
     # Run the extract and transform scripts
     run_script ${4} ${PROJECT_NAME} ${PGROUTING_VERSION}
+
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
+    generate_docs ${3}
+
+elif [ "$1" == 'pgstigcheck-inspec' ]; then
+
+    # Parameter setup
+    export PROJECT_NAME=$(echo $1 | sed 's/\-/_/g')
+    export PGSTIGCHECK_INSPEC_VERSION=$(echo $2 | sed 's/\./_/g')
+
+    # Clean up build artifacts
+    remove_project ${PROJECT_NAME} ${PGSTIGCHECK_INSPEC_VERSION}
+
+    # Run the extract and transform scripts
+    run_script ${4} ${PROJECT_NAME} ${PGSTIGCHECK_INSPEC_VERSION}
 
     # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
