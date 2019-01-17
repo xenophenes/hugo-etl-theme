@@ -65,7 +65,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${SEC_INSTALL_N_CONFIG_DOCS} --baseURL="/${REPO}/${SEC_INSTALL_N_CONFIG_VERSION}"
+    hugo --source=${DST} --destination=${SEC_INSTALL_N_CONFIG_DOCS} --baseURL=${SEC_INSTALL_N_CONFIG_BASEURL}
 }
 
 #===============================================

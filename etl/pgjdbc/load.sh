@@ -47,7 +47,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${PGJDBC_DOCS} --baseURL="/${REPO}/${PGJDBC_VERSION}"
+    hugo --source=${DST} --destination=${PGJDBC_DOCS} --baseURL=${PGJDBC_BASEURL}
 }
 
 #===============================================

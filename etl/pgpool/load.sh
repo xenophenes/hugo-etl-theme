@@ -43,7 +43,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${PGPOOL_DOCS} --baseURL="/${REPO}/${PGPOOL_VERSION}"
+    hugo --source=${DST} --destination=${PGPOOL_DOCS} --baseURL=${PGPOOL_BASEURL}
 }
 
 #===============================================

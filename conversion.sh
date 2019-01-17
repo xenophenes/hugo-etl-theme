@@ -26,7 +26,11 @@ function remove_project {
 
 function usage {
     echo ""
-    echo "Usage: $ ./conversion.sh [project_name] [project_version] [flags]"
+    echo "Usage: $ ./conversion.sh [project_name] [project_version] [flags] (baseURL)"
+    echo ""
+    echo "Example of a command:"
+    echo ""
+    echo "./conversion.sh pgaudit 1.3.0 --all /examplesite/project"
     echo ""
     echo "Available project names:"
     echo ""
@@ -61,10 +65,20 @@ function usage {
     echo "   --html"
     echo "   --all"
     echo ""
+    echo "If baseURL is not specified, the default is used."
+    echo ""
     exit 1
 }
 
 function run_script {
+    # Check if baseURL is specified; if so, set it in load.sh for that project
+    if [ -n ${1} ]; then
+        export PROJECT_BASEURL=$(echo ${PROJECT_NAME}\_BASEURL)
+        export ${PROJECT_BASEURL^^}=${1}
+    else
+        export ${PROJECT_BASEURL^^}='""'
+    fi
+
     # Run the conversion script
     mkdir -p ${ETL_PATH}/docs
     cd ${ETL}/${PROJECT_NAME} && ./run.sh
@@ -79,7 +93,7 @@ function generate_docs {
 # 2) Install projects
 #====================
 
-if [ "$#" -ne 3 ]; then
+if [ "$#" -lt 3 ]; then
     echo_err "Invalid number of flags."
     usage
 fi
@@ -94,9 +108,9 @@ if [ "$1" == 'amcheck_next' ]; then
     remove_project ${PROJECT_NAME} ${AMCHECK_NEXT_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'backrest' ]; then
@@ -109,9 +123,9 @@ elif [ "$1" == 'backrest' ]; then
     remove_project ${PROJECT_NAME} ${BACKREST_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'check_postgres' ]; then
@@ -124,9 +138,9 @@ elif [ "$1" == 'check_postgres' ]; then
     remove_project ${PROJECT_NAME} ${CHECK_POSTGRES_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'patroni' ]; then
@@ -139,9 +153,9 @@ elif [ "$1" == 'patroni' ]; then
     remove_project ${PROJECT_NAME} ${PATRONI_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'pg_cron' ]; then
@@ -154,9 +168,9 @@ elif [ "$1" == 'pg_cron' ]; then
     remove_project ${PROJECT_NAME} ${PG_CRON_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'pgadmin4' ]; then
@@ -169,9 +183,9 @@ elif [ "$1" == 'pgadmin4' ]; then
     remove_project ${PROJECT_NAME} ${PGADMIN4_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'pgaudit' ]; then
@@ -184,9 +198,9 @@ elif [ "$1" == 'pgaudit' ]; then
     remove_project ${PROJECT_NAME} ${PGAUDIT_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'pgaudit_analyze' ]; then
@@ -199,9 +213,9 @@ elif [ "$1" == 'pgaudit_analyze' ]; then
     remove_project ${PROJECT_NAME} ${PGAUDIT_ANALYZE_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'pgbadger' ]; then
@@ -214,9 +228,9 @@ elif [ "$1" == 'pgbadger' ]; then
     remove_project ${PROJECT_NAME} ${PGBADGER_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'pgbouncer' ]; then
@@ -229,9 +243,9 @@ elif [ "$1" == 'pgbouncer' ]; then
     remove_project ${PROJECT_NAME} ${PGBOUNCER_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'pg_partman' ]; then
@@ -244,9 +258,9 @@ elif [ "$1" == 'pg_partman' ]; then
     remove_project ${PROJECT_NAME} ${PG_PARTMAN_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'pgjdbc' ]; then
@@ -259,9 +273,9 @@ elif [ "$1" == 'pgjdbc' ]; then
     remove_project ${PROJECT_NAME} ${PGJDBC_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'pgpool' ]; then
@@ -274,9 +288,9 @@ elif [ "$1" == 'pgpool' ]; then
     remove_project ${PROJECT_NAME} ${PGPOOL_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'pgrouting' ]; then
@@ -289,9 +303,9 @@ elif [ "$1" == 'pgrouting' ]; then
     remove_project ${PROJECT_NAME} ${PGROUTING_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'plr' ]; then
@@ -304,9 +318,9 @@ elif [ "$1" == 'plr' ]; then
     remove_project ${PROJECT_NAME} ${PLR_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'postgis' ]; then
@@ -319,9 +333,9 @@ elif [ "$1" == 'postgis' ]; then
     remove_project ${PROJECT_NAME} ${POSTGIS_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'postgresql' ]; then
@@ -334,9 +348,9 @@ elif [ "$1" == 'postgresql' ]; then
     remove_project ${PROJECT_NAME} ${POSTGRESQL_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'psycopg2' ]; then
@@ -349,9 +363,9 @@ elif [ "$1" == 'psycopg2' ]; then
     remove_project ${PROJECT_NAME} ${PSYCOPG2_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'sec_install_n_config' ]; then
@@ -364,9 +378,9 @@ elif [ "$1" == 'sec_install_n_config' ]; then
     remove_project ${PROJECT_NAME} ${SEC_INSTALL_N_CONFIG_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 elif [ "$1" == 'set_user' ]; then
@@ -379,9 +393,9 @@ elif [ "$1" == 'set_user' ]; then
     remove_project ${PROJECT_NAME} ${SET_USER_VERSION}
 
     # Run the extract and transform scripts
-    run_script
+    run_script ${4}
 
-    # Generate the documentation, choosing whether HTML, PDF, or both should be generated
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
     generate_docs ${3}
 
 else

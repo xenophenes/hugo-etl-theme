@@ -45,7 +45,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${PGBADGER_DOCS} --baseURL="/${REPO}/${PGBADGER_VERSION}"
+    hugo --source=${DST} --destination=${PGBADGER_DOCS} --baseURL=${PGBADGER_BASEURL}
 }
 
 #===============================================

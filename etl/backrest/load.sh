@@ -51,7 +51,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${BACKREST_DOCS} --baseURL="/${REPO}/${BACKREST_VERSION}"
+    hugo --source=${DST} --destination=${BACKREST_DOCS} --baseURL=${BACKREST_BASEURL}
 }
 
 #===============================================

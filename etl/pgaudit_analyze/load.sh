@@ -49,7 +49,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${PGAUDIT_ANALYZE_DOCS} --baseURL="/${REPO}/${PGAUDIT_ANALYZE_VERSION}"
+    hugo --source=${DST} --destination=${PGAUDIT_ANALYZE_DOCS} --baseURL=${PGAUDIT_ANALYZE_BASEURL}
 }
 
 #===============================================

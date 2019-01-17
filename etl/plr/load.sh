@@ -41,7 +41,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${PLR_DOCS} --baseURL="/${REPO}/${PLR_VERSION}"
+    hugo --source=${DST} --destination=${PLR_DOCS} --baseURL=${PLR_BASEURL}
 }
 
 #===============================================

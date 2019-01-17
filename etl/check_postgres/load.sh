@@ -41,7 +41,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${CHECK_POSTGRES_DOCS} --baseURL="/${REPO}/${CHECK_POSTGRES_VERSION}"
+    hugo --source=${DST} --destination=${CHECK_POSTGRES_DOCS} --baseURL=${CHECK_POSTGRES_BASEURL}
 }
 
 #===============================================

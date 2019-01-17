@@ -57,7 +57,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${PATRONI_DOCS} --baseURL="/${REPO}/${PATRONI_VERSION}"
+    hugo --source=${DST} --destination=${PATRONI_DOCS} --baseURL=${PATRONI_BASEURL}
 }
 
 #===============================================

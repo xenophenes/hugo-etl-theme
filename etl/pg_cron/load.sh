@@ -49,7 +49,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${PG_CRON_DOCS} --baseURL="/${REPO}/${PG_CRON_VERSION}"
+    hugo --source=${DST} --destination=${PG_CRON_DOCS} --baseURL=${PG_CRON_BASEURL}
 }
 
 #===============================================

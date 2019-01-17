@@ -43,7 +43,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${POSTGIS_DOCS} --baseURL="/${REPO}/${POSTGIS_VERSION}"
+    hugo --source=${DST} --destination=${POSTGIS_DOCS} --baseURL=${POSTGIS_BASEURL}
 }
 
 #===============================================

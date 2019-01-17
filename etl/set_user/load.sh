@@ -49,7 +49,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${SET_USER_DOCS} --baseURL="/${REPO}/${SET_USER_VERSION}"
+    hugo --source=${DST} --destination=${SET_USER_DOCS} --baseURL=${SET_USER_BASEURL}
 }
 
 #===============================================

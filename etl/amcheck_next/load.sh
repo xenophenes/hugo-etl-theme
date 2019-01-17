@@ -55,7 +55,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${AMCHECK_NEXT_DOCS} --baseURL="/${REPO}/${AMCHECK_NEXT_VERSION}"
+    hugo --source=${DST} --destination=${AMCHECK_NEXT_DOCS} --baseURL=${AMCHECK_NEXT_BASEURL}
 }
 
 #===============================================

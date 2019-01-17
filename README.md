@@ -132,23 +132,24 @@ contained in the root directory.
 Usage of the script:
 
 ```sh
-$ ./conversion.sh
+Usage: $ ./conversion.sh [project_name] [project_version] [flags] (baseURL)
 
-Usage: $ ./conversion.sh [project_name] [project_version] [flags]
+Example of a command:
+
+./conversion.sh pgaudit 1.3.0 --all /examplesite/project
 
 Available project names:
 
    amcheck_next
    backrest
-   check_postgres
    patroni
-   pg_cron
    pgadmin4
    pgaudit
    pgaudit_analyze
    pgbadger
    pgbouncer
    pg_partman
+   pgjdbc
    pgpool
    pgrouting
    plr
@@ -166,8 +167,11 @@ Available project versions:
 Available flags:
 
    --pdf
+   --epub
    --html
    --all
+
+If baseURL is not specified, the default is used.
 
 ```
 

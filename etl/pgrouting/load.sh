@@ -43,7 +43,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${PGROUTING_DOCS} --baseURL="/${REPO}/${PGROUTING_VERSION}"
+    hugo --source=${DST} --destination=${PGROUTING_DOCS} --baseURL=${PGROUTING_BASEURL}
 }
 
 #===============================================

@@ -51,7 +51,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${PGBOUNCER_DOCS} --baseURL="/${REPO}/${PGBOUNCER_VERSION}"
+    hugo --source=${DST} --destination=${PGBOUNCER_DOCS} --baseURL=${PGBOUNCER_BASEURL}
 }
 
 #===============================================

@@ -44,7 +44,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${POSTGRESQL_DOCS} --baseURL="/${REPO}${REPO_MAJOR}/${POSTGRESQL_VERSION}"
+    hugo --source=${DST} --destination=${POSTGRESQL_DOCS} --baseURL=${POSTGRESQL_BASEURL}
 }
 
 #===============================================

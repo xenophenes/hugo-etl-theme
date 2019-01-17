@@ -43,7 +43,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${PSYCOPG2_DOCS} --baseURL="/${REPO}/${PSYCOPG2_VERSION}"
+    hugo --source=${DST} --destination=${PSYCOPG2_DOCS} --baseURL=${PSYCOPG2_BASEURL}
 }
 
 #===============================================
