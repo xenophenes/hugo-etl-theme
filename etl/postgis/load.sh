@@ -36,6 +36,8 @@ function create_pdf {
 function create_epub {
     mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
 
+    cp -r ${TMP}/doc/images ${TMP}/doc
+
     (cd ${TMP}/doc && make epub)
 
     cp ${TMP}/doc/postgi*.epub ${DST}/static/epub/${REPO}.epub
