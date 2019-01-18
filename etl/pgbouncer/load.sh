@@ -62,7 +62,7 @@ if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
-elif [ "$1" == '--html' ]; then
+elif [ "$1" == '--epub' ]; then
 
     create_epub
 
