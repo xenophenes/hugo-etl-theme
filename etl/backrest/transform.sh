@@ -23,6 +23,8 @@ source backrest_var.sh
 
 cp -r ${TEMPLATE} ${DST}
 yes | cp -f ${DIR}/config.toml ${DST}
+cp ${TEMPLATE}/layouts/google-analytics.html ${DST}/themes/crunchy-hugo-theme/layouts/partials/google-analytics.html
+cp ${TEMPLATE}/static/fonts/Fort-* ${DST}/themes/crunchy-hugo-theme/static/fonts/
 
 #===============================================
 # Move files to destination directory
