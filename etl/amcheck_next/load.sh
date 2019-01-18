@@ -17,8 +17,9 @@
 source ${ETL_PATH}/etl/common/common.sh
 source amcheck_next_var.sh
 
+export REPO_DOCS=$(echo ${REPO} | sed 's/_/-/g')
 export AMCHECK_NEXT_VERSION=$(echo ${AMCHECK_NEXT_VERSION} | sed 's/_/./g')
-export AMCHECK_NEXT_DOCS="${DOCS}/${REPO}/${AMCHECK_NEXT_VERSION}"
+export AMCHECK_NEXT_DOCS="${DOCS}/${REPO_DOCS}/${AMCHECK_NEXT_VERSION}"
 
 #===============================================
 # 1) Functions

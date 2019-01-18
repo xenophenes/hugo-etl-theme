@@ -17,8 +17,9 @@
 source ${ETL_PATH}/etl/common/common.sh
 source check_postgres_var.sh
 
+export REPO_DOCS=$(echo ${REPO} | sed 's/_/-/g')
 export CHECK_POSTGRES_VERSION=$(echo ${CHECK_POSTGRES_VERSION} | sed 's/_/./g')
-export CHECK_POSTGRES_DOCS="${DOCS}/${REPO}/${CHECK_POSTGRES_VERSION}"
+export CHECK_POSTGRES_DOCS="${DOCS}/${REPO_DOCS}/${CHECK_POSTGRES_VERSION}"
 
 #===============================================
 # 1) Functions

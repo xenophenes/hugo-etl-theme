@@ -17,9 +17,9 @@
 source ${ETL_PATH}/etl/common/common.sh
 source pgstigcheck_inspec_var.sh
 
+export REPO_DOCS=$(echo ${REPO} | sed 's/_/-/g')
 export PGSTIGCHECK_INSPEC_VERSION=$(echo ${PGSTIGCHECK_INSPEC_VERSION} | sed 's/_/./g')
-export PGSTIGCHECK_INSPEC_DOCS="${DOCS}/${REPO}/${PGSTIGCHECK_INSPEC_VERSION}"
-export REPO_ORIGINAL=$(echo $REPO | sed 's/\_/-/g')
+export PGSTIGCHECK_INSPEC_DOCS="${DOCS}/${REPO_DOCS}/${PGSTIGCHECK_INSPEC_VERSION}"
 
 #===============================================
 # 1) Functions
@@ -28,17 +28,17 @@ export REPO_ORIGINAL=$(echo $REPO | sed 's/\_/-/g')
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
-    pandoc --toc --latex-engine=xelatex ${CONTENT}/_index.md -o ${DST}/static/pdf/${REPO_ORIGINAL}.pdf
+    pandoc --toc --latex-engine=xelatex ${CONTENT}/_index.md -o ${DST}/static/pdf/${REPO}.pdf
 
-    cp ${DST}/static/pdf/${REPO_ORIGINAL}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO_ORIGINAL}.pdf
+    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}.pdf
 }
 
 function create_epub {
     mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
 
-    pandoc ${CONTENT}/_index.md -o ${DST}/static/epub/${REPO_ORIGINAL}.epub
+    pandoc ${CONTENT}/_index.md -o ${DST}/static/epub/${REPO}.epub
 
-    cp ${DST}/static/epub/${REPO_ORIGINAL}.epub ${ETL_PATH}/epub/${REPO}/${REPO_ORIGINAL}.epub
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}.epub
 }
 
 function create_html {

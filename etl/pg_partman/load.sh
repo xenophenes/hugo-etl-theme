@@ -17,8 +17,9 @@
 source ${ETL_PATH}/etl/common/common.sh
 source pg_partman_var.sh
 
+export REPO_DOCS=$(echo ${REPO} | sed 's/_/-/g')
 export PG_PARTMAN_VERSION=$(echo ${PG_PARTMAN_VERSION} | sed 's/_/./g')
-export PG_PARTMAN_DOCS=${DOCS}/${REPO}/${PG_PARTMAN_VERSION}
+export PG_PARTMAN_DOCS=${DOCS}/${REPO_DOCS}/${PG_PARTMAN_VERSION}
 
 #===============================================
 # 1) Functions
