@@ -76,10 +76,12 @@ function run_script {
     # Check if baseURL is specified; if so, set it in load.sh for that project
     if [ -v ${1} ]; then
         export PROJECT_BASEURL=$(echo ${2^^}\_BASEURL)
-        export ${PROJECT_BASEURL}=${1}/${2}/${3}
+        export PROJECT_VERSION=$(echo ${3} | sed 's/_/./g')
+        export ${PROJECT_BASEURL}=${1}/${2}/${PROJECT_VERSION}
     else
         export PROJECT_BASEURL=$(echo ${1^^}\_BASEURL)
-        export ${PROJECT_BASEURL}=/${1}/${2}
+        export PROJECT_VERSION=$(echo ${2} | sed 's/_/./g')
+        export ${PROJECT_BASEURL}=/${1}/${PROJECT_VERSION}
     fi
 
 
