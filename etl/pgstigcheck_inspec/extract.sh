@@ -25,9 +25,11 @@ mkdir -p ${DST}
 
 export REPO=$(echo $REPO | sed 's/\_/-/g')
 
-(cd ${SRC}/${REPO} && git checkout hugo && cp -r ${SRC}/${REPO}/* ${DST})
+(cd ${SRC}/${REPO} && git checkout hugo)
+
+cp -r ${TEMPLATE}/* ${DST}
+cp -r ${SRC}/${REPO}/content ${DST}
+cp -r ${SRC}/${REPO}/static/* ${DST}/static/
+yes | cp -f ${SRC}/${REPO}/config.toml ${DST}
 
 export REPO=$(echo $REPO | sed 's/\-/_/g')
-
-rm -rf ${DST}/themes/crunchy-hugo-theme
-cp -r ${TEMPLATE}/themes/crunchy-hugo-theme ${DST}/themes/

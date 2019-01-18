@@ -18,5 +18,8 @@ source ${ETL_PATH}/etl/common/common.sh
 source pgstigcheck_inspec_var.sh
 
 #===============================================
-# Nothing to do
+# Set up the destination structure
 #===============================================
+
+cp ${TEMPLATE}/layouts/google-analytics.html ${DST}/themes/crunchy-hugo-theme/layouts/partials/google-analytics.html
+cp ${TEMPLATE}/static/fonts/Fort-* ${DST}/themes/crunchy-hugo-theme/static/fonts/

@@ -22,6 +22,8 @@ source sec_install_n_config_var.sh
 #===============================================
 
 mkdir -p ${DST}
-(cd ${SRC}/${REPO} && git checkout hugo && cp -r ${SRC}/${REPO}/* ${DST})
-rm -rf ${DST}/themes/crunchy-hugo-theme
-cp -r ${TEMPLATE}/themes/crunchy-hugo-theme ${DST}/themes/
+cp -r ${TEMPLATE} ${DST}
+(cd ${SRC}/${REPO} && git checkout hugo)
+cp -r ${SRC}/${REPO}/content ${DST}
+cp -r ${SRC}/${REPO}/static/* ${DST}/static/
+yes | cp -f ${SRC}/${REPO}/config.toml ${DST}

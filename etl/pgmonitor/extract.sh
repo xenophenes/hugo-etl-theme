@@ -22,7 +22,7 @@ source pgmonitor_var.sh
 #===============================================
 
 mkdir -p ${DST}
-(cp -r ${SRC}/${REPO}/hugo/* ${DST})
-
-rm -rf ${DST}/themes/crunchy-hugo-theme
-cp -r ${TEMPLATE}/themes/crunchy-hugo-theme ${DST}/themes/
+cp -r ${TEMPLATE}/* ${DST}
+cp -r ${SRC}/${REPO}/hugo/content ${DST}
+cp -r ${SRC}/${REPO}/hugo/static/* ${DST}/static/
+yes | cp -f ${SRC}/${REPO}/hugo/config.toml ${DST}
