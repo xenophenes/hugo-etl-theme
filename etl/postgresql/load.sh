@@ -39,8 +39,8 @@ function create_epub {
 
     (cd ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/ && make postgres.epub)
 
-    cp ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/postgres.epub ${DST}/static/epub/${REPO}.epub
-    cp ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/postgres.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${POSTGRESQL_VERSION}.epub
+    cp ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/postgre*.epub ${DST}/static/epub/${REPO}.epub
+    cp ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/postgre*.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${POSTGRESQL_VERSION}.epub
 }
 
 function create_html {
