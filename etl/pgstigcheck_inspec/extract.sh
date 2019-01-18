@@ -28,3 +28,6 @@ export REPO=$(echo $REPO | sed 's/\_/-/g')
 (cd ${SRC}/${REPO} && git checkout hugo && cp -r ${SRC}/${REPO}/* ${DST})
 
 export REPO=$(echo $REPO | sed 's/\-/_/g')
+
+rm -rf ${DST}/themes/crunchy-hugo-theme
+cp -r ${TEMPLATE}/themes/crunchy-hugo-theme ${DST}/themes/

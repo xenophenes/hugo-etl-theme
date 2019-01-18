@@ -23,3 +23,6 @@ source pgmonitor_var.sh
 
 mkdir -p ${DST}
 (cp -r ${SRC}/${REPO}/hugo/* ${DST})
+
+rm -rf ${DST}/themes/crunchy-hugo-theme
+cp -r ${TEMPLATE}/themes/crunchy-hugo-theme ${DST}/themes/
