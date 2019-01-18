@@ -18,7 +18,7 @@ source ${ETL_PATH}/etl/common/common.sh
 source sec_install_n_config_var.sh
 
 export SEC_INSTALL_N_CONFIG_VERSION=$(echo ${SEC_INSTALL_N_CONFIG_VERSION} | sed 's/_/./g')
-export SEC_INSTALL_N_CONFIG_DOCS="${DOCS}/${REPO}/${SEC_INSTALL_N_CONFIG_VERSION}"
+export SEC_INSTALL_N_CONFIG_DOCS="${DOCS}/postgresql-security-guide/${SEC_INSTALL_N_CONFIG_VERSION}"
 
 #===============================================
 # 1) Functions
