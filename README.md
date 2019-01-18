@@ -110,21 +110,27 @@ additionally applies to ensuring the `dblatex` package is installed for PDF gene
 
 ### Patroni
 
+```sh
 sudo yum -y install python-sphinx pdflatex texlive-framed texlive-threeparttable texlive-wrapfig
+```
 
 ### pgPool
 
+```sh
 sudo yum -y install openjade
 sudo yum -y install docbook-dtds docbook-style-dsssl docbook-xsl
 sudo yum -y install libxslt
+```
 
 ### pgAdmin4
 
+```sh
 sudo yum -y install mesa-libGL-devel gcc-c++ qt5-qtbase-devel
 sudo yum -y install qt-devel qtwebkit-devel
 sudo yum -y install python34 python34-libs python34-devel python-rpm-macros python-srpm-macros python3-rpm-macros python-devel
 sudo yum -y install python-jinja2
 sudo yum -y install python2-pytest pytest python-docutils python-py python-pygments python-sphinx
+```
 
 ## Conversion Script
 
