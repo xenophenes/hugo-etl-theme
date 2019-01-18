@@ -79,13 +79,13 @@ function run_script {
       export PROJECT_DOCS=$(echo ${2} | sed 's/_/-/g')
       export PROJECT_VERSION=$(echo ${3} | sed 's/_/./g')
       export ${PROJECT_BASEURL}=${1}/${PROJECT_DOCS}/${PROJECT_VERSION}
-    else
+    elif [ "$#" -eq 2 ]; then
       export PROJECT_BASEURL=$(echo ${1^^}\_BASEURL)
       export PROJECT_DOCS=$(echo ${1} | sed 's/_/-/g')
       export PROJECT_VERSION=$(echo ${2} | sed 's/_/./g')
       export ${PROJECT_BASEURL}=/${PROJECT_DOCS}/${PROJECT_VERSION}
     fi
-    
+
     # Run the conversion script
     mkdir -p ${ETL_PATH}/docs
     cd ${ETL}/${PROJECT_NAME} && ./run.sh
