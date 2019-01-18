@@ -88,6 +88,6 @@ elif [ "$1" == '--all' ]; then
 
 fi
 
-#rm -rf ${BUILD} ${DST} images
+rm -rf ${BUILD} ${DST}
 
 echo_end ${REPO}
