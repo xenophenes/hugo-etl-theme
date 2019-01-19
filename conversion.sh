@@ -1,4 +1,18 @@
 #!/bin/bash
+#=========================================================================
+# Copyright 2019 Crunchy Data Solutions, Inc.
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#=========================================================================
 
 #==============
 # 0) Sources
@@ -66,14 +80,17 @@ function usage {
 }
 
 function remove_project {
+    # Clean up any and all leftover build artifacts from incomplete builds
+
     if [[ -d ${ETL}/${1}/build ]] || [[ -d ${ETL}/${1}/dst ]]
     then
         rm -rf ${ETL}/${1}/build ${ETL}/${1}/dst && echo_info "Deleted the build artifacts from the data directory." || echo_err "The build artifacts were not successfully deleted from the data directory."
     fi
 }
 
-function run_script {
+function extract_transform {
     # Check if baseURL is specified; if so, set it in load.sh for that project
+
     if [ "$#" -eq 3 ]; then
       export PROJECT_BASEURL=$(echo ${2^^}\_BASEURL)
       export PROJECT_DOCS=$(echo ${2} | sed 's/_/-/g')
@@ -87,357 +104,62 @@ function run_script {
     fi
 
     # Run the conversion script
+
     mkdir -p ${ETL_PATH}/docs
     cd ${ETL}/${PROJECT_NAME} && ./run.sh
 }
 
-function generate_docs {
+function load {
     # Run load.sh for that project and pass in the flag
+
     cd ${ETL}/${PROJECT_NAME} && ./load.sh ${1}
+}
+
+function etl {
+    # Parameter setup
+
+    export PROJECT_NAME=$1
+    export PROJECT_VERSION=$(echo ${PROJECT_NAME^^}\_VERSION)
+    export ${PROJECT_VERSION}=$(echo $2 | sed 's/\./_/g')
+
+    # Clean up build artifacts
+
+    remove_project ${PROJECT_NAME} ${PROJECT_VERSION}
+
+    # Run the extract and transform scripts
+
+    extract_transform ${4} ${PROJECT_NAME} ${PROJECT_VERSION}
+
+    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
+
+    load ${3}
+
+    exit
 }
 
 #====================
 # 2) Install projects
 #====================
 
-if [ "$#" -lt 3 ]; then
+# A user needs a minimum of 3 flags and shouldn't have more than 4
+
+if [ "$#" -lt 3 && "$#" -gt 4 ]; then
     echo_err "Invalid number of flags."
     usage
 fi
 
-if [ "$1" == 'amcheck_next' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export AMCHECK_NEXT_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${AMCHECK_NEXT_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${AMCHECK_NEXT_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'backrest' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export BACKREST_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${BACKREST_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${BACKREST_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'check_postgres' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export CHECK_POSTGRES_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${CHECK_POSTGRES_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${CHECK_POSTGRES_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'patroni' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export PATRONI_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PATRONI_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${PATRONI_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'pg_cron' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export PG_CRON_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PG_CRON_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${PG_CRON_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'pgadmin4' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export PGADMIN4_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PGADMIN4_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${PGADMIN4_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'pgaudit' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export PGAUDIT_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PGAUDIT_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${PGAUDIT_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'pgaudit_analyze' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export PGAUDIT_ANALYZE_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PGAUDIT_ANALYZE_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${PGAUDIT_ANALYZE_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'pgbadger' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export PGBADGER_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PGBADGER_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${PGBADGER_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'pgbouncer' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export PGBOUNCER_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PGBOUNCER_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${PGBOUNCER_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'pg_partman' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export PG_PARTMAN_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PG_PARTMAN_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${PG_PARTMAN_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'pgjdbc' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export PGJDBC_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PGJDBC_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${PGJDBC_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'pgmonitor' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export PGMONITOR_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PGMONITOR_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${PGMONITOR_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'pgpool' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export PGPOOL_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PGPOOL_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${PGPOOL_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'pgrouting' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export PGROUTING_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PGROUTING_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${PGROUTING_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'pgstigcheck-inspec' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$(echo $1 | sed 's/\-/_/g')
-    export PGSTIGCHECK_INSPEC_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PGSTIGCHECK_INSPEC_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${PGSTIGCHECK_INSPEC_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'plr' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export PLR_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PLR_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${PLR_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'postgis' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export POSTGIS_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${POSTGIS_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${POSTGIS_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'postgresql' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export POSTGRESQL_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${POSTGRESQL_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${POSTGRESQL_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'psycopg2' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export PSYCOPG2_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${PSYCOPG2_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${PSYCOPG2_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'sec_install_n_config' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export SEC_INSTALL_N_CONFIG_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${SEC_INSTALL_N_CONFIG_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${SEC_INSTALL_N_CONFIG_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-elif [ "$1" == 'set_user' ]; then
-
-    # Parameter setup
-    export PROJECT_NAME=$1
-    export SET_USER_VERSION=$(echo $2 | sed 's/\./_/g')
-
-    # Clean up build artifacts
-    remove_project ${PROJECT_NAME} ${SET_USER_VERSION}
-
-    # Run the extract and transform scripts
-    run_script ${4} ${PROJECT_NAME} ${SET_USER_VERSION}
-
-    # Generate the documentation, choosing whether HTML, PDF, EPUB, or all should be generated
-    generate_docs ${3}
-
-else
-    usage
-fi
+# Find all project directories under /etl
+# If it exists, run the script; if not, run command guide
+
+AllProjects=( $( find etl -maxdepth 1 -type d ! -name 'common' ! -name 'template' ! -name 'etl' | cut -d "/" -f 2 ) )
+
+for project in "${AllProjects[@]}"; do
+    if [[ " ${AllProjects[@]} " =~ " ${1} " ]]; then
+        etl $1 $2 $3 $4
+    else
+        usage
+    fi
+done
 
 #====================
 # 3) Closing remarks
