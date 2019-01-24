@@ -21,6 +21,7 @@ on the following projects:
 * pgstigcheck-inspec
 * plr
 * postgis
+* postgres_operator
 * postgresql
 * psycopg2
 * sec_install_n_config
@@ -164,6 +165,7 @@ Available project names:
    pgstigcheck-inspec
    plr
    postgis
+   postgres-operator
    postgresql
    psycopg2
    sec_install_n_config

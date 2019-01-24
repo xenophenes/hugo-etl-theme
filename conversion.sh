@@ -57,6 +57,7 @@ function usage {
     echo "   pgstigcheck-inspec"
     echo "   plr"
     echo "   postgis"
+    echo "   postgres_operator"
     echo "   postgresql"
     echo "   psycopg2"
     echo "   sec_install_n_config"
@@ -93,20 +94,22 @@ function extract_transform {
 
     if [ "$#" -eq 3 ]; then
       export PROJECT_BASEURL=$(echo ${2^^}\_BASEURL)
-      export PROJECT_DOCS=$(echo ${2} | sed 's/_/-/g')
-      export PROJECT_VERSION=$(echo ${3} | sed 's/_/./g')
+      export PROJECT_NAME=$2
+      export PROJECT_DOCS=$(echo ${PROJECT_NAME} | sed 's/_/-/g')
+      export PROJECT_VERSION=$3
       export ${PROJECT_BASEURL}=${1}/${PROJECT_DOCS}/${PROJECT_VERSION}
     elif [ "$#" -eq 2 ]; then
       export PROJECT_BASEURL=$(echo ${1^^}\_BASEURL)
-      export PROJECT_DOCS=$(echo ${1} | sed 's/_/-/g')
-      export PROJECT_VERSION=$(echo ${2} | sed 's/_/./g')
-      export ${PROJECT_BASEURL}=/${PROJECT_DOCS}/${PROJECT_VERSION}
+      export PROJECT_NAME=$1
+      export PROJECT_DOCS=$(echo ${PROJECT_NAME} | sed 's/_/-/g')
+      export PROJECT_VERSION=$2
+      export ${PROJECT_BASEURL}=${ETL_PATH}/docs/${PROJECT_DOCS}/${PROJECT_VERSION}
     fi
 
     # Run the conversion script
-
+    export ${PROJECT_NAME}_VERSION=$(echo $PROJECT_VERSION | sed 's/\./_/g')
     mkdir -p ${ETL_PATH}/docs
-    cd ${ETL}/${PROJECT_NAME} && ./run.sh
+    cd ${ETL}/${PROJECT_NAME} && ./run.sh ${PROJECT_NAME}_VERSION
 }
 
 function load {
@@ -119,8 +122,7 @@ function etl {
     # Parameter setup
 
     export PROJECT_NAME=$1
-    export PROJECT_VERSION=$(echo ${PROJECT_NAME^^}\_VERSION)
-    export ${PROJECT_VERSION}=$(echo $2 | sed 's/\./_/g')
+    export PROJECT_VERSION=$2
 
     # Clean up build artifacts
 
@@ -143,7 +145,7 @@ function etl {
 
 # A user needs a minimum of 3 flags and shouldn't have more than 4
 
-if [ "$#" -lt 3 && "$#" -gt 4 ]; then
+if [[ "$#" -lt 3 && "$#" -gt 4 ]]; then
     echo_err "Invalid number of flags."
     usage
 fi
