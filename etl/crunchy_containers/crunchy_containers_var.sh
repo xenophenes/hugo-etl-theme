@@ -14,25 +14,7 @@
 # limitations under the License.
 #=========================================================================
 
-source ${ETL_PATH}/etl/common/common.sh
-source postgres_operator_var.sh
-
-#===============================================
-# Extract the files from /src/
-#===============================================
-
-export POSTGRES_OPERATOR_VERSION=$(echo ${POSTGRES_OPERATOR_VERSION} | sed 's/_/./g')
-
-export REPO=$(echo $REPO | sed 's/\_/-/g')
-
-(cd ${SRC}/${REPO} && git checkout tags/${POSTGRES_OPERATOR_VERSION})
-
-mkdir ${DST}
-
-cp -r ${TEMPLATE}/* ${DST}
-cp -r ${SRC}/${REPO}/hugo/content ${DST}
-cp ${SRC}/${REPO}/hugo/static/* ${DST}/static/
-
-yes | cp -f config.toml ${DST}
-
-export REPO=$(echo $REPO | sed 's/\-/_/g')
+REPO="crunchy_containers"
+DIR="${ETL}/${REPO}"
+DST="${DIR}/dst"
+CONTENT="${DST}/content"

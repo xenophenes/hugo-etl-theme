@@ -27,6 +27,9 @@ export POSTGRES_OPERATOR_DOCS="${DOCS}/${REPO_DOCS}/${POSTGRES_OPERATOR_VERSION}
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
+    # Pandoc will default to gathering up all Markdown files alphabetically,
+    # and we want to make sure these files are organized.
+
     cp ${CONTENT}/_index.md ${DST}/static/pdf/1.md
     cp ${CONTENT}/Installation/_index.md ${DST}/static/pdf/2.md
     cp ${CONTENT}/Configuration/configuration.md ${DST}/static/pdf/3.md
@@ -39,6 +42,9 @@ function create_pdf {
 
     sed -Ei 's/\/(.*?).png/..\/\1.png/g' ${DST}/static/pdf/*.md
 
+    # Including listings-setup to expand the margins and make sure code blocks are
+    # not cut off.
+
     (cd ${DST}/static/pdf && \
     pandoc --listings -H ${ETL}/${REPO}/listings-setup.tex \
     --toc --latex-engine=xelatex *.md -o ${REPO}.pdf)
@@ -50,6 +56,9 @@ function create_pdf {
 
 function create_epub {
     mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
+
+    # Pandoc will default to gathering up all Markdown files alphabetically,
+    # and we want to make sure these files are organized.
 
     cp ${CONTENT}/_index.md ${DST}/static/epub/1.md
     cp ${CONTENT}/Installation/_index.md ${DST}/static/epub/2.md

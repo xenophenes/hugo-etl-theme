@@ -15,24 +15,13 @@
 #=========================================================================
 
 source ${ETL_PATH}/etl/common/common.sh
-source postgres_operator_var.sh
+source crunchy_containers_var.sh
 
 #===============================================
-# Extract the files from /src/
+# Extract & transform the files
 #===============================================
 
-export POSTGRES_OPERATOR_VERSION=$(echo ${POSTGRES_OPERATOR_VERSION} | sed 's/_/./g')
+echo_begin ${REPO}
 
-export REPO=$(echo $REPO | sed 's/\_/-/g')
-
-(cd ${SRC}/${REPO} && git checkout tags/${POSTGRES_OPERATOR_VERSION})
-
-mkdir ${DST}
-
-cp -r ${TEMPLATE}/* ${DST}
-cp -r ${SRC}/${REPO}/hugo/content ${DST}
-cp ${SRC}/${REPO}/hugo/static/* ${DST}/static/
-
-yes | cp -f config.toml ${DST}
-
-export REPO=$(echo $REPO | sed 's/\-/_/g')
+source ${DIR}/extract.sh
+source ${DIR}/transform.sh

@@ -107,9 +107,11 @@ function extract_transform {
     fi
 
     # Run the conversion script
-    export ${PROJECT_NAME}_VERSION=$(echo $PROJECT_VERSION | sed 's/\./_/g')
+    SET_PROJECT_VERSION=${PROJECT_NAME^^}_VERSION
+    export ${SET_PROJECT_VERSION}=$(echo $PROJECT_VERSION | sed 's/\./_/g')
+
     mkdir -p ${ETL_PATH}/docs
-    cd ${ETL}/${PROJECT_NAME} && ./run.sh ${PROJECT_NAME}_VERSION
+    cd ${ETL}/${PROJECT_NAME} && ./run.sh
 }
 
 function load {

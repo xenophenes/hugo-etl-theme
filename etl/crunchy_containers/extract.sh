@@ -15,17 +15,19 @@
 #=========================================================================
 
 source ${ETL_PATH}/etl/common/common.sh
-source postgres_operator_var.sh
+source crunchy_containers_var.sh
 
 #===============================================
 # Extract the files from /src/
 #===============================================
 
-export POSTGRES_OPERATOR_VERSION=$(echo ${POSTGRES_OPERATOR_VERSION} | sed 's/_/./g')
+export CRUNCHY_CONTAINERS_VERSION=$(echo ${CRUNCHY_CONTAINERS_VERSION} | sed 's/_/./g')
 
 export REPO=$(echo $REPO | sed 's/\_/-/g')
 
-(cd ${SRC}/${REPO} && git checkout tags/${POSTGRES_OPERATOR_VERSION})
+(cd ${SRC}/${REPO} && git checkout tags/${CRUNCHY_CONTAINERS_VERSION})
+
+export CRUNCHY_CONTAINERS_VERSION=$(echo ${CRUNCHY_CONTAINERS_VERSION} | sed 's/./_/g')
 
 mkdir ${DST}
 
