@@ -22,7 +22,7 @@ source sec_install_n_config_var.sh
 #===============================================
 
 mkdir -p ${DST}
-cp -r ${TEMPLATE} ${DST}
+cp -r ${TEMPLATE}/* ${DST}
 (cd ${SRC}/${REPO} && git checkout hugo)
 cp -r ${SRC}/${REPO}/content ${DST}
 cp -r ${SRC}/${REPO}/static/* ${DST}/static/
