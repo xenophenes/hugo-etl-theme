@@ -29,9 +29,7 @@ export REPO=$(echo $REPO | sed 's/\_/-/g')
 
 export CRUNCHY_CONTAINERS_VERSION=$(echo ${CRUNCHY_CONTAINERS_VERSION} | sed 's/./_/g')
 
-mkdir ${DST}
-
-cp -r ${TEMPLATE}/* ${DST}
+cp -r ${TEMPLATE} ${DST}
 cp -r ${SRC}/${REPO}/hugo/content ${DST}
 cp ${SRC}/${REPO}/hugo/static/* ${DST}/static/
 

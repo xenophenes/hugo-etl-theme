@@ -21,8 +21,7 @@ source pgmonitor_var.sh
 # Extract the files from /src/
 #===============================================
 
-mkdir -p ${DST}
-cp -r ${TEMPLATE}/* ${DST}
+cp -r ${TEMPLATE} ${DST}
 cp -r ${SRC}/${REPO}/hugo/content ${DST}
 cp -r ${SRC}/${REPO}/hugo/static/* ${DST}/static/
 yes | cp -f ${SRC}/${REPO}/hugo/config.toml ${DST}

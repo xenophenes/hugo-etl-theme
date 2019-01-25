@@ -21,13 +21,11 @@ source pgstigcheck_inspec_var.sh
 # Extract the files from /src/
 #===============================================
 
-mkdir -p ${DST}
-
 export REPO=$(echo $REPO | sed 's/\_/-/g')
 
 (cd ${SRC}/${REPO} && git checkout hugo)
 
-cp -r ${TEMPLATE}/* ${DST}
+cp -r ${TEMPLATE} ${DST}
 cp -r ${SRC}/${REPO}/content ${DST}
 cp -r ${SRC}/${REPO}/static/* ${DST}/static/
 yes | cp -f ${SRC}/${REPO}/config.toml ${DST}
