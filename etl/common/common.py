@@ -725,11 +725,12 @@ hidden: true
     soup.body.unwrap()
     soup.head.decompose()
 
-    for tag in soup.findAll(attrs={'class':'navheader'}):
-        tag.decompose()
+    if "index" in filename:
+        for tag in soup.findAll(attrs={'class':'navheader'}):
+            tag.decompose()
 
-    for tag in soup.findAll(attrs={'class':'navfooter'}):
-        tag.decompose()
+        for tag in soup.findAll(attrs={'class':'navfooter'}):
+            tag.decompose()
 
     f = open("/tmp/document.modified", "w")
     f.write(soup.prettify(formatter="html5"))
@@ -783,14 +784,12 @@ hidden: true
         if isinstance(tag, Doctype):
             tag.extract()
 
-    for tag in soup.findAll(attrs={'class':'navheader'}):
-        tag.decompose()
+    if "_index.html" in filename:
+        for tag in soup.findAll(attrs={'class':'navheader'}):
+            tag.decompose()
 
-    for tag in soup.findAll(attrs={'class':'navfooter'}):
-        tag.decompose()
-
-    for tag in soup.findAll(attrs={'class':'navfooter'}):
-        tag.decompose()
+        for tag in soup.findAll(attrs={'class':'navfooter'}):
+            tag.decompose()
 
     for tag in soup.findAll('h1'):
         tag.decompose()
@@ -799,7 +798,7 @@ hidden: true
         tag.decompose()
 
     for tag in soup.findAll('h3', {'class': 'title'}):
-        if tag.contents[0] != "Tip" and tag.contents[0] != "Caution" and tag.contents[0] != "Note":
+        if tag.contents[0] != "Tip" and tag.contents[0] != "Caution" and tag.contents[0] != "Note" and tag.contents[0] != "Warning":
             tag.name = "h2"
 
     f = open("/tmp/document.modified", "w")

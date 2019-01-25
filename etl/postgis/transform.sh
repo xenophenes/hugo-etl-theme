@@ -32,8 +32,9 @@ cp ${TEMPLATE}/static/css/Fort-* ${DST}/themes/crunchy-hugo-theme/static/css/
 #===============================================
 
 mkdir -p ${DST}/static/images
-cp ${BUILD}/images/* ${DST}/static/images/
-cp ${BUILD}/postgis.html ${CONTENT}/_index.html
+cp ${TMP}/doc/html/images/* ${DST}/static/images/
+cp ${TMP}/doc/html/index.html ${CONTENT}/_index.html
+find ${TMP}/doc/html ! -name *"index"* -exec cp -r {} ${CONTENT} \;
 
 #===============================================
 # Process the HTML files
@@ -51,16 +52,26 @@ done
 #===============================================
 
 printf "
-nav#TableOfContents div.h1 {
-    display: block !important;
+h1#TableOfContents0 {
+    display: none;
 }
 
-nav#TableOfContents div.h2, nav#TableOfContents div.h3, nav#TableOfContents div.h4 {
-    display: none !important;
+div#top-bar {
+    display: none;
 }
 
-nav#TableOfContents div.h1, aside b {
-    list-style: none;
-    margin: 0.5rem 0px 0.5rem 20px;
-    padding-left: 1rem;
-}" >> ${DST}/themes/crunchy-hugo-theme/static/css/custom.css
+div.note, div.warning, div.caution, div.tip {
+    margin: 2rem 0 !important;
+}
+
+div.note > table > tbody > tr > td > a > img,
+div.warning > table > tbody > tr > td > a > img,
+div.caution > table > tbody > tr > td > a > img,
+div.tip > table > tbody > tr > td > a > img,
+div.note > table > tbody > tr > th,
+div.warning > table > tbody > tr > th,
+div.caution > table > tbody > tr > th,
+div.tip > table > tbody > tr > th {
+    display: none;
+}
+" >> ${DST}/themes/crunchy-hugo-theme/static/css/custom.css

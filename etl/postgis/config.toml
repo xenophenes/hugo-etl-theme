@@ -4,6 +4,8 @@ canonifyurls = true
 DefaultContentLanguage = "current"
 languageCode = "en-us"
 relativeURLs = true
+uglyURLs = true
+disablePathToLower = true
 
 title = "PostGIS - Spatial and Geographic Objects for PostgreSQL"
 theme = "crunchy-hugo-theme"

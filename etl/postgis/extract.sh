@@ -30,11 +30,4 @@ tar -xzf ${SRC}/${REPO}/${REPO}_${POSTGIS_VERSION}.tar.gz -C /tmp/
 
 (cd ${TMP} && ./autogen.sh && ./configure --without-raster)
 
-# Create new definition in Makefile, to install directly to BUILD
-printf "
-postgis-install: html/postgis.html
-\tmkdir -p ${BUILD}/images
-\t/usr/bin/install -c -m 644 html/postgis.html ${BUILD}
-\t/usr/bin/install -c -m 644 html/images/* ${BUILD}/images/" >> ${TMP}/doc/Makefile
-
-(cd ${TMP}/doc && make postgis-install)
+(cd ${TMP}/doc && make chunked-html)
