@@ -29,7 +29,7 @@ export REPO=$(echo $REPO | sed 's/\_/-/g')
 
 cp -r ${TEMPLATE} ${DST}
 cp -r ${SRC}/${REPO}/hugo/content ${DST}
-cp ${SRC}/${REPO}/hugo/static/* ${DST}/static/
+find ${SRC}/${REPO}/hugo/static ! -path *"pdf"* -exec cp -r {} ${DST}/static \;
 
 yes | cp -f config.toml ${DST}
 

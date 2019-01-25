@@ -18,6 +18,7 @@ source ${ETL_PATH}/etl/common/common.sh
 source postgres_operator_var.sh
 
 export REPO_DOCS=$(echo ${REPO} | sed 's/_/-/g')
+export POSTGRES_OPERATOR_VERSION=$(echo ${POSTGRES_OPERATOR_VERSION} | sed 's/_/./g')
 export POSTGRES_OPERATOR_DOCS="${DOCS}/${REPO_DOCS}/${POSTGRES_OPERATOR_VERSION}"
 
 #===============================================
