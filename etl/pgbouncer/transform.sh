@@ -47,7 +47,7 @@ do
   rm $f && mv /tmp/document.modified $f
 
   # Save files for PDF processing
-  cp $f ${BUILD_ROOT}/
+  cp $f ${BUILD_ROOT}
 done
 
 #===============================================
