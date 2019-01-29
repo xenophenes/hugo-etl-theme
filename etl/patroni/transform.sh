@@ -31,7 +31,7 @@ cp ${TEMPLATE}/static/css/Fort-* ${DST}/themes/crunchy-hugo-theme/static/css/
 # Move files to destination directory
 #===============================================
 
-mkdir -p ${BUILD}${DST}/static/images
+mkdir -p ${BUILD} ${DST}/static/images
 
 cp ${BUILD_SRC}/*.png ${DST}/static/images
 cp -r ${BUILD_SRC} ${BUILD_ROOT}/src
