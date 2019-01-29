@@ -59,7 +59,7 @@ function create_pdf {
     # not cut off.
 
     (cd ${DST}/static/pdf && \
-    pandoc -s *.md --listings -H ${ETL}/${REPO}/listings-setup.tex --toc --toc-depth=1 \
+    pandoc -s *.md --listings -H ${ETL_PATH}/etl/common/common.tex --toc --toc-depth=1 \
     --latex-engine=xelatex -o ${REPO}.pdf)
 
     rm ${DST}/static/pdf/*.md

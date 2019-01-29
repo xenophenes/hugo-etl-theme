@@ -28,7 +28,9 @@ export PGSTIGCHECK_INSPEC_DOCS="${DOCS}/${REPO_DOCS}/${PGSTIGCHECK_INSPEC_VERSIO
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
-    pandoc --toc --latex-engine=xelatex ${CONTENT}/_index.md -o ${DST}/static/pdf/${REPO}.pdf
+    pandoc --toc --latex-engine=xelatex \
+    --listings -H ${ETL_PATH}/etl/common/common.tex \
+    ${CONTENT}/_index.md -o ${DST}/static/pdf/${REPO}.pdf
 
     cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}.pdf
 }

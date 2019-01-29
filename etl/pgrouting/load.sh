@@ -28,7 +28,10 @@ function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
     (cd ${BUILD}/build && sphinx-build -b singlehtml doc singlehtml)
-    (cd ${BUILD}/build/singlehtml && pandoc --toc --latex-engine=xelatex ${BUILD}/build/singlehtml/index.html -o ${DST}/static/pdf/${REPO}.pdf)
+    (cd ${BUILD}/build/singlehtml && \
+    pandoc --toc --latex-engine=xelatex \
+    --listings -H ${ETL_PATH}/etl/common/common.tex \
+    ${BUILD}/build/singlehtml/index.html -o ${DST}/static/pdf/${REPO}.pdf)
 
     cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
 }

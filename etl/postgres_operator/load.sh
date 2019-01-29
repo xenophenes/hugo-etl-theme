@@ -43,12 +43,10 @@ function create_pdf {
 
     sed -Ei 's/\/(.*?).png/..\/\1.png/g' ${DST}/static/pdf/*.md
 
-    # Including listings-setup to expand the margins and make sure code blocks are
-    # not cut off.
-
     (cd ${DST}/static/pdf && \
-    pandoc --listings -H ${ETL}/${REPO}/listings-setup.tex \
-    --toc --latex-engine=xelatex *.md -o ${REPO}.pdf)
+    pandoc --toc --latex-engine=xelatex \
+    --listings -H ${ETL_PATH}/etl/common/common.tex \
+    *.md -o ${REPO}.pdf)
 
     rm ${DST}/static/pdf/*.md
 

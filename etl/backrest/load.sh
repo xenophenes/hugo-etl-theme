@@ -32,7 +32,9 @@ function create_pdf {
     cp ${BUILD_ROOT}/configuration.html ${BUILD_PDF}/3.html
     cp ${BUILD_ROOT}/release.html ${BUILD_PDF}/4.html
 
-    pandoc --toc --latex-engine=xelatex ${BUILD_PDF}/* -o ${DST}/static/pdf/${REPO}.pdf
+    pandoc --toc --latex-engine=xelatex \
+    --listings -H ${ETL_PATH}/etl/common/common.tex \
+    ${BUILD_PDF}/* -o ${DST}/static/pdf/${REPO}.pdf
 
     cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${BACKREST_VERSION}.pdf
 }

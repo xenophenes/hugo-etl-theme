@@ -33,16 +33,16 @@ function create_pdf {
     cp ${TMP}/doc/postgis-*.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGIS_VERSION}.pdf
 }
 
-function create_epub {
-    mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
+#function create_epub {
+    #mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
 
-    cp -r ${TMP}/doc/images ${TMP}/doc
+    #cp -r ${TMP}/doc/images ${TMP}/doc
 
-    (cd ${TMP}/doc && make epub)
+    #(cd ${TMP}/doc && make epub)
 
-    cp ${TMP}/doc/postgi*.epub ${DST}/static/epub/${REPO}.epub
-    cp ${TMP}/doc/postgi*.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${POSTGIS_VERSION}.epub
-}
+    #cp ${TMP}/doc/postgi*.epub ${DST}/static/epub/${REPO}.epub
+    #cp ${TMP}/doc/postgi*.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${POSTGIS_VERSION}.epub
+#}
 
 function create_html {
     hugo --source=${DST} --destination=${POSTGIS_DOCS} --baseURL=${POSTGIS_BASEURL}
@@ -56,9 +56,9 @@ if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
-elif [ "$1" == '--epub' ]; then
+#elif [ "$1" == '--epub' ]; then
 
-    create_epub
+#    create_epub
 
 elif [ "$1" == '--html' ]; then
 
@@ -68,7 +68,7 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-    create_epub
+#    create_epub
 
     create_html
 

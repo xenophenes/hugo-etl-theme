@@ -33,9 +33,17 @@ function create_pdf {
 
     cp -r ${DST}/static/media .
 
-    pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/crunchy_certified_postgresql_10.md -o ${DST}/static/pdf/crunchy_certified_postgresql_10.pdf
-    pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/crunchy_certified_postgresql_96.md -o ${DST}/static/pdf/crunchy_certified_postgresql_96.pdf
-    pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/crunchy_certified_postgresql_95.md -o ${DST}/static/pdf/crunchy_certified_postgresql_95.pdf
+    pandoc --toc --latex-engine=xelatex \
+    --listings -H ${ETL_PATH}/etl/common/common.tex \
+    ${DST}/static/pdf/crunchy_certified_postgresql_10.md -o ${DST}/static/pdf/crunchy_certified_postgresql_10.pdf
+
+    pandoc --toc --latex-engine=xelatex \
+    --listings -H ${ETL_PATH}/etl/common/common.tex \
+    ${DST}/static/pdf/crunchy_certified_postgresql_96.md -o ${DST}/static/pdf/crunchy_certified_postgresql_96.pdf
+
+    pandoc --toc --latex-engine=xelatex \
+    --listings -H ${ETL_PATH}/etl/common/common.tex \
+    ${DST}/static/pdf/crunchy_certified_postgresql_95.md -o ${DST}/static/pdf/crunchy_certified_postgresql_95.pdf
 
     rm ${DST}/static/pdf/*.md
 

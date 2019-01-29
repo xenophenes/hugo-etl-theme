@@ -33,7 +33,9 @@ function create_pdf {
     cp ${CONTENT}/pg_partman_howto/_index.md ${BUILD_PDF}/3.md
     cp ${CONTENT}/migration_to_partman/_index.md ${BUILD_PDF}/4.md
 
-    pandoc --toc --latex-engine=xelatex ${BUILD_PDF}/* -o ${DST}/static/pdf/${REPO}.pdf
+    pandoc --toc --latex-engine=xelatex \
+    --listings -H ${ETL_PATH}/etl/common/common.tex \
+    ${BUILD_PDF}/* -o ${DST}/static/pdf/${REPO}.pdf
 
     cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PG_PARTMAN_VERSION}.pdf
 }

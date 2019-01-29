@@ -33,7 +33,9 @@ function create_pdf {
     sed -i '/### Test status/d' ${DST}/static/pdf/_index.md
     sed -i '/\[\!\[Build Status\]/d' ${DST}/static/pdf/_index.md
 
-    pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/_index.md -o ${DST}/static/pdf/${REPO}.pdf
+    pandoc --toc --latex-engine=xelatex \
+    --listings -H ${ETL_PATH}/etl/common/common.tex \
+    ${DST}/static/pdf/_index.md -o ${DST}/static/pdf/${REPO}.pdf
 
     rm ${DST}/static/pdf/*.md
 

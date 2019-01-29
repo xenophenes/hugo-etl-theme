@@ -34,7 +34,10 @@ function create_pdf {
     cp ${CONTENT}/grafana/_index.md ${DST}/static/pdf/4.md
     cp ${CONTENT}/changelog/_index.md ${DST}/static/pdf/5.md
 
-    (cd ${DST}/static/pdf && pandoc --toc --latex-engine=xelatex ${DST}/static/pdf/*.md -o ${DST}/static/pdf/${REPO}.pdf)
+    (cd ${DST}/static/pdf && \
+    pandoc --toc --latex-engine=xelatex \
+    --listings -H ${ETL_PATH}/etl/common/common.tex \
+    ${DST}/static/pdf/*.md -o ${DST}/static/pdf/${REPO}.pdf)
 
     rm ${DST}/static/pdf/*.md
 
