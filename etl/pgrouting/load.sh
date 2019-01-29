@@ -28,7 +28,7 @@ function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
     (cd ${BUILD}/build && sphinx-build -b singlehtml doc singlehtml)
-    (cd ${BUILD}/build/singlehtml && pandoc ${BUILD}/build/singlehtml/index.html -o ${DST}/static/pdf/${REPO}.pdf)
+    (cd ${BUILD}/build/singlehtml && pandoc --toc --latex-engine=xelatex ${BUILD}/build/singlehtml/index.html -o ${DST}/static/pdf/${REPO}.pdf)
 
     cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${PGROUTING_VERSION}.pdf
 }
@@ -72,6 +72,6 @@ elif [ "$1" == '--all' ]; then
 
 fi
 
-rm -rf ${BUILD_ROOT} ${DST}
+#rm -rf ${BUILD_ROOT} ${DST}
 
 echo_end ${REPO}
