@@ -21,6 +21,12 @@ source pgmonitor_var.sh
 # Extract the files from /src/
 #===============================================
 
+export PGMONITOR_VERSION=$(echo ${PGMONITOR_VERSION} | sed 's/_/./g')
+
+(cd ${SRC}/${REPO} && git checkout tags/${PGMONITOR_VERSION})
+
+export PGMONITOR_VERSION=$(echo ${PGMONITOR_VERSION} | sed 's/./_/g')
+
 cp -r ${TEMPLATE} ${DST}
 cp -r ${SRC}/${REPO}/hugo/content ${DST}
 cp -r ${SRC}/${REPO}/hugo/static/* ${DST}/static/
