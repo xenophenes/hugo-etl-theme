@@ -31,6 +31,10 @@ cp -r ${TEMPLATE} ${DST}
 cp -r ${SRC}/${REPO}/hugo/content ${DST}
 find ${SRC}/${REPO}/hugo/static ! -path *"pdf"* -exec cp -r {} ${DST}/static \;
 
-yes | cp -f config.toml ${DST}
+if [[ ${POSTGRES_OPERATOR_VERSION} < 3.5.0 ]]; then
+  yes | cp -f config_old.toml ${DST}/config.toml
+else
+  yes | cp -f config.toml ${DST}
+fi
 
 export REPO=$(echo $REPO | sed 's/\-/_/g')
