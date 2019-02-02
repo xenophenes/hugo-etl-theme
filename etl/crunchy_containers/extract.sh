@@ -33,6 +33,10 @@ cp -r ${TEMPLATE} ${DST}
 cp -r ${SRC}/${REPO}/hugo/content ${DST}
 cp ${SRC}/${REPO}/hugo/static/* ${DST}/static/
 
-yes | cp -f config.toml ${DST}
+if [[ ${CRUNCHY_CONTAINERS_VERSION} < 2.3.0 ]]; then
+  yes | cp -f config_old.toml ${DST}/config.toml
+else
+  yes | cp -f config.toml ${DST}
+fi
 
 export REPO=$(echo $REPO | sed 's/\-/_/g')
