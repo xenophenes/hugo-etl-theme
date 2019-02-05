@@ -24,7 +24,7 @@ source pgstigcheck_inspec_var.sh
 export REPO=$(echo $REPO | sed 's/\_/-/g')
 
 cp -r ${TEMPLATE} ${DST}
-cp -r ${SRC}/${REPO}/hugo/content ${DST}
+cp -r ${SRC}/${REPO}/hugo/content/* ${DST}/content
 cp -r ${SRC}/${REPO}/hugo/static/* ${DST}/static/
 yes | cp -f ${SRC}/${REPO}/hugo/config.toml ${DST}
 

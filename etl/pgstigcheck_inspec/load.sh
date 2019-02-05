@@ -30,17 +30,17 @@ function create_pdf {
 
     pandoc --toc --latex-engine=xelatex \
     --listings -H ${ETL_PATH}/etl/common/common.tex \
-    ${CONTENT}/_index.md -o ${DST}/static/pdf/${REPO}.pdf
+    ${CONTENT}/_index.md -o ${DST}/static/pdf/${REPO_DOCS}.pdf
 
-    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}.pdf
+    cp ${DST}/static/pdf/${REPO_DOCS}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO_DOCS}.pdf
 }
 
 function create_epub {
     mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
 
-    pandoc ${CONTENT}/_index.md -o ${DST}/static/epub/${REPO}.epub
+    pandoc ${CONTENT}/_index.md -o ${DST}/static/epub/${REPO_DOCS}.epub
 
-    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}.epub
+    cp ${DST}/static/epub/${REPO_DOCS}.epub ${ETL_PATH}/epub/${REPO}/${REPO_DOCS}.epub
 }
 
 function create_html {
