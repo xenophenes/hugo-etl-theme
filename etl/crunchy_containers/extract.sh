@@ -27,8 +27,6 @@ export REPO=$(echo $REPO | sed 's/\_/-/g')
 
 (cd ${SRC}/${REPO} && git checkout tags/${CRUNCHY_CONTAINERS_VERSION})
 
-export CRUNCHY_CONTAINERS_VERSION=$(echo ${CRUNCHY_CONTAINERS_VERSION} | sed 's/./_/g')
-
 cp -r ${TEMPLATE} ${DST}
 cp -r ${SRC}/${REPO}/hugo/content ${DST}
 cp ${SRC}/${REPO}/hugo/static/* ${DST}/static/
@@ -38,5 +36,7 @@ if [[ ${CRUNCHY_CONTAINERS_VERSION} < 2.3.0 ]]; then
 else
   yes | cp -f config.toml ${DST}
 fi
+
+export CRUNCHY_CONTAINERS_VERSION=$(echo ${CRUNCHY_CONTAINERS_VERSION} | sed 's/./_/g')
 
 export REPO=$(echo $REPO | sed 's/\-/_/g')

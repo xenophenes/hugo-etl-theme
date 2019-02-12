@@ -126,11 +126,13 @@ elif [ "$1" == '--html' ]; then
 
 elif [ "$1" == '--all' ]; then
 
-    create_pdf
-
-    create_epub
-
-    create_html
+    if [[ ${CRUNCHY_CONTAINERS_VERSION} < 2.3.0 ]]; then
+      create_html
+    else
+      create_pdf
+      create_epub
+      create_html
+    fi
 
 fi
 

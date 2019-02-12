@@ -37,4 +37,6 @@ else
   yes | cp -f config.toml ${DST}
 fi
 
+export POSTGRES_OPERATOR_VERSION=$(echo ${POSTGRES_OPERATOR_VERSION} | sed 's/./_/g')
+
 export REPO=$(echo $REPO | sed 's/\-/_/g')
