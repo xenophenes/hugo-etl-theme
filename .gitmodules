@@ -1,12 +1,12 @@
 [submodule "etl/template/themes/crunchy"]
 	path = etl/template/themes/crunchy
 	url = https://github.com/crunchydata/crunchy-hugo-theme
-[submodule "etl/template/themes/crunchy-hugo-theme"]
-	path = etl/template/themes/crunchy-hugo-theme
-	url = https://github.com/crunchydata/crunchy-hugo-theme
 [submodule "etl/pgbouncer/build/pgbouncer_1_9_0/lib/libusual"]
 	path = etl/pgbouncer/build/pgbouncer_1_9_0/lib/libusual
 	url = https://github.com/libusual/libusual
 [submodule "etl/pgbouncer/build/pgbouncer_1_9_0/doc/libusual"]
 	path = etl/pgbouncer/build/pgbouncer_1_9_0/doc/libusual
 	url = https://github.com/libusual/libusual
+[submodule "etl/template/themes/crunchy-hugo-theme"]
+	path = etl/template/themes/crunchy-hugo-theme
+	url = https://github.com/crunchydata/crunchy-hugo-theme
