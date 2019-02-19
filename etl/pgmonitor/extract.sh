@@ -23,7 +23,7 @@ source pgmonitor_var.sh
 
 export PGMONITOR_VERSION=$(echo ${PGMONITOR_VERSION} | sed 's/_/./g')
 
-(cd ${SRC}/${REPO} && git checkout tags/${PGMONITOR_VERSION})
+(cd ${SRC}/${REPO} && git checkout tags/v${PGMONITOR_VERSION})
 
 export PGMONITOR_VERSION=$(echo ${PGMONITOR_VERSION} | sed 's/./_/g')
 
