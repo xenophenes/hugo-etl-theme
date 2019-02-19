@@ -34,6 +34,8 @@ function create_pdf {
     cp ${CONTENT}/grafana/_index.md ${DST}/static/pdf/4.md
     cp ${CONTENT}/changelog/_index.md ${DST}/static/pdf/5.md
 
+    sed -i "s/\/images/images/g" ${DST}/static/pdf/*.md
+
     (cd ${DST}/static/pdf && \
     pandoc --toc --latex-engine=xelatex \
     --listings -H ${ETL_PATH}/etl/common/common.tex \
@@ -53,6 +55,8 @@ function create_epub {
     cp ${CONTENT}/prometheus/_index.md ${DST}/static/epub/3.md
     cp ${CONTENT}/grafana/_index.md ${DST}/static/epub/4.md
     cp ${CONTENT}/changelog/_index.md ${DST}/static/epub/5.md
+
+    sed -i "s/\/images/images/g" ${DST}/static/epub/*.md
 
     (cd ${DST}/static/epub && pandoc ${DST}/static/epub/*.md -o ${DST}/static/epub/${REPO}.epub)
 
@@ -91,6 +95,6 @@ elif [ "$1" == '--all' ]; then
 
 fi
 
-rm -rf ${BUILD} ${DST}
+#rm -rf ${BUILD} ${DST}
 
 echo_end ${REPO}
