@@ -32,10 +32,10 @@ cp ${TEMPLATE}/static/css/Fort-* ${DST}/themes/crunchy-hugo-theme/static/css/
 #===============================================
 
 mkdir -p ${DST}/static/images
-rm ${BUILD}/default.css ${BUILD}/index.html
-mv ${BUILD}/*.png ${DST}/static/images
+rm ${BUILD}/doc/output/html/default.css ${BUILD}/doc/output/html/index.html
+mv ${BUILD}/doc/output/html/*.png ${DST}/static/images
 mv ${ETL}/${REPO}/build/${REPO}_${BACKREST_VERSION}/README.md ${CONTENT}/_index.md
-cp -r ${BUILD}/* ${CONTENT}/
+cp -r ${BUILD}/doc/output/html/* ${CONTENT}/
 
 #===============================================
 # Process the HTML files

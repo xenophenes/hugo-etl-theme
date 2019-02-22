@@ -133,6 +133,36 @@ sudo yum -y install python-jinja2
 sudo yum -y install python2-pytest pytest python-docutils python-py python-pygments python-sphinx
 ```
 
+### pgBackRest
+
+First, make sure Docker is installed & set up - for later versions of pgBackRest, the documentation is built
+using the included Perl script `doc.pl` which calls a Docker container.
+
+```sh
+sudo yum -y install docker
+sudo groupadd docker
+sudo usermod -a -G docker <username>
+sudo systemctl enable docker.service
+sudo systemctl start docker.service
+```
+
+Then, install some Perl requirements:
+
+```sh
+sudo yum install -y yum cpanminus
+sudo yum groupinstall -y "Development Tools" "Additional Development"
+sudo cpanm install --force XML::Checker::Parser
+```
+
+As part of the output, the following may appear:
+
+```sh
+!  ==> Fatal error occurred, no output PDF file produced!
+```
+
+This is a known & expected error, and is produced as part of the `doc.pl` script. This does **not** affect PDF
+functionality for the purposes of the Access Portal.
+
 ## Conversion Script
 
 When you're ready to build out the documentation, the you'll want to use the `conversion.sh` script
