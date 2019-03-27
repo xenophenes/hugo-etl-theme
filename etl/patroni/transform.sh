@@ -39,6 +39,7 @@ cp -r ${BUILD_SRC} ${BUILD_ROOT}/src
 sphinx-build -Q -b html ${BUILD_SRC} ${BUILD}
 
 mv ${BUILD}/README.html ${CONTENT}/_index.html
+rm ${BUILD}/search.html
 cp ${BUILD}/*.html ${CONTENT}
 rm ${CONTENT}/index.html ${CONTENT}/genindex.html
 
@@ -56,6 +57,12 @@ do
   export VERS=$(echo ${PATRONI_VERSION} | sed 's/_/./g')
   sed -i '/<!--.*-->/d' $f
   sed -i 's/ - Patroni '${VERS}' documentation//g' $f
+
+  # Temporary bugfix
+  if [[ $f == *"replica_bootstrap"* ]]; then
+    sed -i 's/Replica imaging and bootstrap//2g' $f
+    sed -Ei 's/\{\{(.*)\}\}/\1/g' $f
+  fi
 done
 
 

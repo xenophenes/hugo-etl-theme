@@ -236,6 +236,12 @@ draft: false
     for tag in soup.findAll("cite"):
         tag.name = "code"
 
+    try:
+        if "_index.html" not in filename:
+            soup.h1.decompose()
+    except AttributeError:
+        pass
+
     f = open("/tmp/document.modified", "w")
     f.write(soup.prettify(formatter="html5"))
     f.close()
