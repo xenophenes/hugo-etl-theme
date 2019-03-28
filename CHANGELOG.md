@@ -14,6 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+## [2.2.1] - 2019-03-28
+
+### Fixed
+
+- Patroni had a bug that resulted in redundant \<h1> elements on all but the index page. This is now being parsed out by the common.py script.
+  
+- Patroni also had a bug where a blank "Search" page was being generated along with the rest of the documentation - removed.
+
 ## [2.2.0] - 2019-02-23
 
 ### Added
