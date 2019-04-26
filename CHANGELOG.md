@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+## [2.2.2] - 2019-04-26
+
+### Changed
+
+- Markdown files are gathered dynamically for the postgres_operator and crunchy_container repositories. [Heath Lord]
+
 ## [2.2.1] - 2019-03-28
 
 ### Fixed
