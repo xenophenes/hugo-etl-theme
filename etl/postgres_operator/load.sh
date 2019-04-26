@@ -46,8 +46,9 @@ function search_for_index() {
     fi
 
     for index_file in $(find ${1}/*/ -name _index.md -maxdepth 1 2>/dev/null | xargs grep -H weight: | sed 's/:weight://' | awk '{print $2, $1}' | sort -n | awk '{print $2}'); do
-        path=$(echo $index_file | sed 's/\/\/_index.md//')
-        search_for_index $path
+        path=$(echo $index_file | sed 's/_index.md//')
+        path_no_slash=$(echo $path | sed 's:/*$::')
+        search_for_index $path_no_slash
     done
 
 }
