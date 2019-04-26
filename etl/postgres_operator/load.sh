@@ -25,21 +25,48 @@ export POSTGRES_OPERATOR_DOCS="${DOCS}/${REPO_DOCS}/${POSTGRES_OPERATOR_VERSION}
 # 1) Functions
 #===============================================
 
+function search_for_index() {
+
+    # Print out the index file to the list
+    echo "${1}/_index.md" >> tmp_list
+
+    # Print out all the other md files in this directory sorted by weight if they have any
+    if [ $(find $1/*/ 2>/dev/null | grep .md | wc -l) != 0 ]  &&  [$(find $1/*/ 2>/dev/null | grep _index.md | wc -l ) == 0 ]; then
+        for md_file in $(find $1/*/ 2>/dev/null | grep .md | egrep -v _index.md | xargs grep -H weight: | sed 's/:weight://' | awk '{print $2, $1}' | sort -n | awk '{print $2}'); do
+            echo $md_file >> tmp_list
+        done
+    elif [ $(find $1 -maxdepth 1 | grep .md | egrep -v _index.md | xargs grep -H weight: | wc -l) == 0 ]; then
+        for md_file in $(find $1 -maxdepth 1 | grep .md | egrep -v _index.md); do
+            echo $md_file >> tmp_list
+        done
+    else
+        for sorted_md_file in $(find $1 -maxdepth 1 | grep .md | egrep -v _index.md | xargs grep -H weight: | sed 's/:weight://' | awk '{print $2, $1}' | sort -n | awk '{print $2}'); do
+            echo $sorted_md_file >> tmp_list
+        done
+    fi
+
+    for index_file in $(find ${1}/*/ -name _index.md -maxdepth 1 2>/dev/null | xargs grep -H weight: | sed 's/:weight://' | awk '{print $2, $1}' | sort -n | awk '{print $2}'); do
+        path=$(echo $index_file | sed 's/\/\/_index.md//')
+        search_for_index $path
+    done
+
+}
+
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
     # Pandoc will default to gathering up all Markdown files alphabetically,
     # and we want to make sure these files are organized.
 
-    cp ${CONTENT}/_index.md ${DST}/static/pdf/1.md
-    cp ${CONTENT}/Installation/_index.md ${DST}/static/pdf/2.md
-    cp ${CONTENT}/Configuration/configuration.md ${DST}/static/pdf/3.md
-    cp ${CONTENT}/Configuration/pgo-yaml-configuration.md ${DST}/static/pdf/4.md
-    cp ${CONTENT}/Operator*CLI/_index.md ${DST}/static/pdf/5.md
-    cp ${CONTENT}/Design/_index.md ${DST}/static/pdf/6.md
-    cp ${CONTENT}/Developer*Setup/_index.md ${DST}/static/pdf/7.md
-    cp ${CONTENT}/Security/_index.md ${DST}/static/pdf/8.md
-    cp ${CONTENT}/Upgrade/_index.md ${DST}/static/pdf/9.md
+    rm -rf tmp_list
+    search_for_index ${CONTENT}
+
+    count=0
+    while read md_file; do
+        count=$((count+1))
+        printf -v padded_count "%02d" $count
+        cp $md_file ${DST}/static/pdf/${padded_count}.md
+    done < tmp_list
 
     sed -Ei 's/\/(.*?).png/..\/\1.png/g' ${DST}/static/pdf/*.md
 
@@ -59,15 +86,17 @@ function create_epub {
     # Pandoc will default to gathering up all Markdown files alphabetically,
     # and we want to make sure these files are organized.
 
-    cp ${CONTENT}/_index.md ${DST}/static/epub/1.md
-    cp ${CONTENT}/Installation/_index.md ${DST}/static/epub/2.md
-    cp ${CONTENT}/Configuration/configuration.md ${DST}/static/epub/3.md
-    cp ${CONTENT}/Configuration/pgo-yaml-configuration.md ${DST}/static/epub/4.md
-    cp ${CONTENT}/Operator*CLI/_index.md ${DST}/static/epub/5.md
-    cp ${CONTENT}/Design/_index.md ${DST}/static/epub/6.md
-    cp ${CONTENT}/Developer*Setup/_index.md ${DST}/static/epub/7.md
-    cp ${CONTENT}/Security/_index.md ${DST}/static/epub/8.md
-    cp ${CONTENT}/Upgrade/_index.md ${DST}/static/epub/9.md
+    rm -rf tmp_list
+    search_for_index ${CONTENT}
+
+    count=0
+    while read md_file; do
+        count=$((count+1))
+        printf -v padded_count "%02d" $count
+        cp $md_file ${DST}/static/epub/${padded_count}.md
+    done < tmp_list
+
+    rm -rf tmp_list
 
     sed -Ei 's/\/(.*?).png/..\/\1.png/g' ${DST}/static/epub/*.md
 

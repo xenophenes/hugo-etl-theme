@@ -25,26 +25,48 @@ export CRUNCHY_CONTAINERS_DOCS="${DOCS}/${REPO_DOCS}/${CRUNCHY_CONTAINERS_VERSIO
 # 1) Functions
 #===============================================
 
+function search_for_index() {
+
+    # Print out the index file to the list
+    echo "${1}/_index.md" >> tmp_list
+
+    # Print out all the other md files in this directory sorted by weight if they have any
+    if [ $(find $1/*/ 2>/dev/null | grep .md | wc -l) != 0 ]  &&  [$(find $1/*/ 2>/dev/null | grep _index.md | wc -l ) == 0 ]; then
+        for md_file in $(find $1/*/ 2>/dev/null | grep .md | egrep -v _index.md | xargs grep -H weight: | sed 's/:weight://' | awk '{print $2, $1}' | sort -n | awk '{print $2}'); do
+            echo $md_file >> tmp_list
+        done
+    elif [ $(find $1 -maxdepth 1 | grep .md | egrep -v _index.md | xargs grep -H weight: | wc -l) == 0 ]; then
+        for md_file in $(find $1 -maxdepth 1 | grep .md | egrep -v _index.md); do
+            echo $md_file >> tmp_list
+        done
+    else
+        for sorted_md_file in $(find $1 -maxdepth 1 | grep .md | egrep -v _index.md | xargs grep -H weight: | sed 's/:weight://' | awk '{print $2, $1}' | sort -n | awk '{print $2}'); do
+            echo $sorted_md_file >> tmp_list
+        done
+    fi
+
+    for index_file in $(find ${1}/*/ -name _index.md -maxdepth 1 2>/dev/null | xargs grep -H weight: | sed 's/:weight://' | awk '{print $2, $1}' | sort -n | awk '{print $2}'); do
+        path=$(echo $index_file | sed 's/\/\/_index.md//')
+        search_for_index $path
+    done
+
+}
+
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
     # Pandoc will default to gathering up all Markdown files alphabetically,
     # and we want to make sure these files are at the top.
 
-    cp ${CONTENT}/_index.md ${DST}/static/pdf/0001.md
-    cp ${CONTENT}/overview/overview.md ${DST}/static/pdf/0002.md
-    cp ${CONTENT}/overview/supported.md ${DST}/static/pdf/0003.md
-    cp ${CONTENT}/client-user-guide/user-guide.md ${DST}/static/pdf/0004.md
-    cp ${CONTENT}/client-user-guide/usage.md ${DST}/static/pdf/0005.md
-    cp ${CONTENT}/troubleshooting/_index.md ${DST}/static/pdf/0006.md
+    rm -rf tmp_list
+    search_for_index ${CONTENT}
 
-    # The rest of the files are numbered and moved to the build location.
-
-    find ${CONTENT} -name '*.md' ! -name "_index.md" ! -path "${CONTENT}/overview/*" \
-    ! -path "${CONTENT}/troubleshooting/*" ! -path "${CONTENT}/client-user-guide/*" \
-    ! -path "${CONTENT}/contributing/*" |
-    gawk 'BEGIN{ a=7 }{ printf "cp %s '${DST}'/static/pdf/%04d.md\n", $0, a++ }' |
-    bash
+    count=0
+    while read md_file; do
+        count=$((count+1))
+        printf -v padded_count "%04d" $count
+        cp $md_file ${DST}/static/pdf/${padded_count}.md
+    done < tmp_list
 
     # Images need to be re-referenced to point to the correct location, so pandoc
     # finds them.
@@ -73,20 +95,17 @@ function create_epub {
     # Pandoc will default to gathering up all Markdown files alphabetically,
     # and we want to make sure these files are at the top.
 
-    cp ${CONTENT}/_index.md ${DST}/static/epub/0001.md
-    cp ${CONTENT}/overview/overview.md ${DST}/static/epub/0002.md
-    cp ${CONTENT}/overview/supported.md ${DST}/static/epub/0003.md
-    cp ${CONTENT}/client-user-guide/user-guide.md ${DST}/static/epub/0004.md
-    cp ${CONTENT}/client-user-guide/usage.md ${DST}/static/epub/0005.md
-    cp ${CONTENT}/troubleshooting/_index.md ${DST}/static/epub/0006.md
+    rm -rf tmp_list
+    search_for_index ${CONTENT}
 
-    # The rest of the files are numbered and moved to the build location.
+    count=0
+    while read md_file; do
+        count=$((count+1))
+        printf -v padded_count "%04d" $count
+        cp $md_file ${DST}/static/epub/${padded_count}.md
+    done < tmp_list
 
-    find ${CONTENT} -name '*.md' ! -name "_index.md" ! -path "${CONTENT}/overview/*" \
-    ! -path "${CONTENT}/troubleshooting/*" ! -path "${CONTENT}/client-user-guide/*" \
-    ! -path "${CONTENT}/contributing/*" |
-    gawk 'BEGIN{ a=7 }{ printf "cp %s '${DST}'/static/epub/%04d.md\n", $0, a++ }' |
-    bash
+    rm -rf tmp_list
 
     # Images need to be re-referenced to point to the correct location, so pandoc
     # finds them.
