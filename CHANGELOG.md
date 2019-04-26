@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+## [2.2.3] - 2019-04-26
+
+### Changed
+
+- Trailing slashes are stripped from the file path during the dynamic collection of .md files for the postgres_operator and crunchy_contanier repositories. [Heath Lord]
+
 ## [2.2.2] - 2019-04-26
 
 ### Changed
