@@ -31,7 +31,7 @@ function search_for_index() {
     echo "${1}/_index.md" >> tmp_list
 
     # Print out all the other md files in this directory sorted by weight if they have any
-    if [ $(find $1/*/ 2>/dev/null | grep .md | wc -l) != 0 ]  &&  [$(find $1/*/ 2>/dev/null | grep _index.md | wc -l ) == 0 ]; then
+    if [ $(find $1/*/ 2>/dev/null | grep .md | wc -l) != 0 ]  &&  [ $(find $1/*/ 2>/dev/null | grep _index.md | wc -l ) == 0 ]; then
         for md_file in $(find $1/*/ 2>/dev/null | grep .md | egrep -v _index.md | xargs grep -H weight: | sed 's/:weight://' | awk '{print $2, $1}' | sort -n | awk '{print $2}'); do
             echo $md_file >> tmp_list
         done
