@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+## [2.2.4] - 2019-05-16
+
+### Fixed
+
+- Bugfix: Removed redundant headers for the Patroni project.
+
 ## [2.2.3] - 2019-04-26
 
 ### Changed
