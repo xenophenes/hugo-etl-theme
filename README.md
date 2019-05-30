@@ -5,6 +5,7 @@ on the following projects:
 
 * amcheck_next
 * backrest
+* crunchy-pcf-doc
 * check_postgres
 * patroni
 * pg_cron

@@ -28,7 +28,7 @@ export CRUNCHY_POSTGRESQL_FOR_PCF_DOCS="${DOCS}/${REPO_DOCS}/${CRUNCHY_POSTGRESQ
 function create_pdf {
     mkdir -p ${DST}/static/pdf ${ETL_PATH}/pdf/${REPO}
 
-    pandoc --toc --latex-engine=xelatex \
+    pandoc --toc --pdf-engine=xelatex \
     --listings -H ${ETL_PATH}/etl/common/common.tex \
     ${CONTENT}/_index.md -o ${DST}/static/pdf/${REPO}.pdf
 
@@ -44,7 +44,7 @@ function create_epub {
 }
 
 function create_html {
-    hugo --source=${DST} --destination=${CRUNCHY_POSTGRESQL_FOR_PCF_DOCS} --baseURL=${CRUNCHY_POSTGRESQL_FOR_PCF_BASEURL}
+    hugo --source=${DST} --config=config.yml --destination=${CRUNCHY_POSTGRESQL_FOR_PCF_DOCS} --baseURL=${CRUNCHY_POSTGRESQL_FOR_PCF_BASEURL}
 }
 
 #===============================================

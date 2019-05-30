@@ -43,6 +43,7 @@ function usage {
     echo ""
     echo "   amcheck_next"
     echo "   backrest"
+    echo "   crunchy-pcf-doc"
     echo "   patroni"
     echo "   pgadmin4"
     echo "   pgaudit"
