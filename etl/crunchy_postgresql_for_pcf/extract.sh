@@ -29,6 +29,7 @@ export SRC_REPO="crunchy-pcf-doc"
 cp -r ${TEMPLATE} ${DST}
 cp -r ${SRC}/${SRC_REPO}/content ${DST}
 cp -r ${SRC}/${SRC_REPO}/static/* ${DST}/static/
-yes | cp -f ${SRC}/${SRC_REPO}/config.toml ${DST}
+cp -r ${SRC}/${SRC_REPO}/themes/crunchy-docs-theme ${DST}/themes/
+yes | cp -f ${SRC}/${SRC_REPO}/config.yml ${DST}
 
 export REPO=$(echo $REPO | sed 's/\-/_/g')
