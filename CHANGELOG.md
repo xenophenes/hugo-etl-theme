@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+## [2.2.5] - 2019-05-31
+
+### Added
+
+- Added support for `crunchy-pcf-docs`. [Tom Swartz]
+
 ## [2.2.4] - 2019-05-16
 
 ### Fixed
