@@ -32,7 +32,7 @@ function create_pdf {
     --listings -H ${ETL_PATH}/etl/common/common.tex \
     ${CONTENT}/_index.md -o ${DST}/static/pdf/${REPO}.pdf
 
-    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}.pdf
+    cp ${DST}/static/pdf/${REPO}.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${CRUNCHY_POSTGRESQL_FOR_PCF_VERSION}.pdf
 }
 
 function create_epub {
@@ -40,7 +40,7 @@ function create_epub {
 
     pandoc ${CONTENT}/_index.md -o ${DST}/static/epub/${REPO}.epub
 
-    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}.epub
+    cp ${DST}/static/epub/${REPO}.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${CRUNCHY_POSTGRESQL_FOR_PCF_VERSION}.epub
 }
 
 function create_html {

@@ -24,7 +24,9 @@ source crunchy_postgresql_for_pcf_var.sh
 export REPO=$(echo $REPO | sed 's/\_/-/g')
 export SRC_REPO="crunchy-pcf-doc"
 
-(cd ${SRC}/${SRC_REPO} && git pull --rebase origin master)
+export CRUNCHY_POSTGRESQL_FOR_PCF_VERSION=$(echo ${CRUNCHY_POSTGRESQL_FOR_PCF_VERSION} | sed 's/_/./g')
+
+(cd ${SRC}/${SRC_REPO} && git checkout ${CRUNCHY_POSTGRESQL_FOR_PCF_VERSION})
 
 cp -r ${TEMPLATE} ${DST}
 cp -r ${SRC}/${SRC_REPO}/content ${DST}
