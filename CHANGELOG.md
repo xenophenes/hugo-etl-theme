@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+## [2.2.5.1] - 2019-06-06
+
+### Added
+
+- Patch addition to 2.2.5 - Update `crunchy-pcf-docs` to work with GitHub tags & enable versions. [Joseph Ayers]
+
 ## [2.2.5] - 2019-05-31
 
 ### Added
