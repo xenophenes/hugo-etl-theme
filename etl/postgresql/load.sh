@@ -34,14 +34,14 @@ function create_pdf {
     cp ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/postgres-US.pdf ${ETL_PATH}/pdf/${REPO}/${REPO}_${POSTGRESQL_VERSION}.pdf
 }
 
-#function create_epub {
-#    mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
-#
-#    (cd ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/ && make postgres.epub)
-#
-#    cp ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/postgre*.epub ${DST}/static/epub/${REPO}.epub
-#    cp ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/postgre*.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${POSTGRESQL_VERSION}.epub
-#}
+function create_epub {
+    mkdir -p ${DST}/static/epub ${ETL_PATH}/epub/${REPO}
+
+    (cd ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/ && make postgres.epub)
+
+    cp ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/postgre*.epub ${DST}/static/epub/${REPO}.epub
+    cp ${TMP}/*_${OLD_POSTGRESQL_VERSION}/doc/src/sgml/postgre*.epub ${ETL_PATH}/epub/${REPO}/${REPO}_${POSTGRESQL_VERSION}.epub
+}
 
 function create_html {
     hugo --source=${DST} --destination=${POSTGRESQL_DOCS} --baseURL=${POSTGRESQL_BASEURL}
@@ -55,9 +55,9 @@ if [ "$1" == '--pdf' ]; then
 
     create_pdf
 
-#elif [ "$1" == '--epub' ]; then
+elif [ "$1" == '--epub' ]; then
 
-#    create_epub
+    create_epub
 
 elif [ "$1" == '--html' ]; then
 
@@ -67,7 +67,7 @@ elif [ "$1" == '--all' ]; then
 
     create_pdf
 
-#    create_epub
+    create_epub
 
     create_html
 
