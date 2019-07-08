@@ -14,6 +14,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+## [2.2.6] - 2019-07-08
+
+### Added
+
+- Added PostgreSQL EPUB functionality. [Joseph Ayers]
+
 ## [2.2.5.1] - 2019-06-06
 
 ### Added
